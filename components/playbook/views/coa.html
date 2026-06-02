@@ -1,0 +1,53 @@
+<div class="trc-pbc coa" data-bind="css: resolve(theme(), 'skin')">
+  <!-- ko if: resolve([theme()], 'html') -->
+  <div class="trc-pbce html" data-bind="html: resolved.html"></div>
+  <!-- /ko -->
+  <!-- ko if: resolve([theme()], 'title') -->
+  <div class="trc-pbce title">
+    <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+  </div>
+  <!-- /ko -->
+  <div class="trc-pbce content">
+    <ul data-bind="foreach: COACollection" class="coa-tabs">
+      <li data-bind="attr : { 'data-tab' : $index }, css : { inactive : $index() !== 0 }">
+        <a data-bind="text: title" href="#"></a>
+      </li>
+    </ul>
+
+    <div data-bind="foreach: COACollection" class="coa-container">
+      <div data-bind="attr : { 'data-content' : $index }, css : { inactive : $index() !== 0 }">
+        <div data-bind="html: content" class="coa-container-content"></div>
+        <div class="coa-container-predictions">
+          <div class="coa-selected">
+            <label data-bind="text: text"></label>
+            <input data-bind="attr : { 'data-coa' : id }" type="checkbox">
+          </div>
+          <div data-bind="foreach: predictions" class="coa-predictions">
+            <h2 data-bind="html: title"></h2>
+            <div data-bind="foreach: indicators" class="coa-indicators">
+              <div data-bind="css : style">
+                <div></div>
+                <p data-bind="html: title"></p>
+                <!-- ko if: style === 'radio' -->
+                <ul data-bind="foreach: levels" class="coa-levels">
+                  <li data-bind="html: text, attr : { 'data-id' : id, 'data-indicator' :  $parent.id }"></li>
+                </ul>
+                <!-- /ko -->
+                <!-- ko if: style === 'slider' -->
+                <div class="text-container">
+                  <div class="minText" data-bind="html: minText"></div>
+                  <div class="maxText" data-bind="html: maxText"></div>
+                </div>
+                <div class="coa-slider" data-bind="attr: { 'data-max' : levels.length, 'data-indicator' :  id }"></div>
+                <!-- /ko -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ko if: resolve([theme()], 'button') -->
+  <a href="" class="trc-pbce button" data-bind="event: { click: function(evt) { $root.onButtonClick($element, evt); } }"><span data-bind="html: resolved.button"></span></a>
+  <!-- /ko -->
+</div>

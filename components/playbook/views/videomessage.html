@@ -1,0 +1,29 @@
+﻿<div class="trc-pbc video-message" data-bind="css: resolve([message(), theme()], 'skin')">
+    <!-- ko if: resolve([message(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <div class="trc-pbce dialog">
+        <div class="trc-pbce title"><span class="trc-pbce text" data-bind="html: String.replace(resolve(message(),'title'), /\[from_name\]/gi, resolve(from(), 'name'))"></span>
+        </div>
+        <div class="trc-pbce video">
+            <!-- ko: if videoSource() -->
+            <video class="trc-pbce video" data-bind="attr: { controls: videoControls(), autoplay: videoAutoplay(), loop: videoLoop() }">
+                <source class="trc-pbce source" data-bind="attr: { src: videoSource(), type: resolve(video(), 'type') }" />
+                <embed class="trc-pbce embed" data-bind="attr: { src: videoSource(), controls: videoControls(), autostart: videoAutoplay(), loop: videoLoop()}"></embed>
+            </video>
+            <!-- /ko -->
+        </div>
+        <div class="trc-pbce from">
+            <!-- ko if: resolve([message(), theme()], 'fromHeader') --> <div class="trc-pbce header"><span class="trc-pbce text" data-bind="html: resolved.fromHeader"></span></div> <!-- /ko -->
+            <div class="trc-pbce name" data-bind="html: resolve(from(), 'name')"></div>
+            <div class="trc-pbce title" data-bind="html: resolve(from(), 'title')"></div>
+            <div class="trc-pbce company" data-bind="html: resolve(from(), 'company')"></div>
+            <div class="trc-pbce day" data-bind="html: resolve(message(), 'day')"></div>
+            <div class="trc-pbce time" data-bind="html: resolve(message(), 'time')"></div>
+            <div class="trc-pbce date" data-bind="html: resolve(message(), 'date')"></div>
+        </div>
+        <div class="trc-pbce transcript">
+            <!-- ko if: resolve([message(), theme()], 'transcriptHeader') --><div class="trc-pbce header"><span class="trc-pbce text" data-bind="html: resolved.transcriptHeader"></span></div> <!-- /ko -->
+            <div class="trc-pbce text" data-bind="html: resolve(message(), 'transcript')"></div>
+        </div>
+    </div>
+    <!-- ko if: resolve([message(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

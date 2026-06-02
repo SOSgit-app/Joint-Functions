@@ -1,0 +1,459 @@
+{
+  "format": "jnt601b-scenario-handoff",
+  "version": 4,
+  "exportedAt": "2026-05-29T17:00:00.000Z",
+  "scenarios": {
+    "scenario1": {
+      "theme": "Core Functions of the USAF (AFDP 3-0)",
+      "funct": {
+        "item": [
+          "Fires",
+          "Intelligence",
+          "Movement and Maneuver",
+          "Sustainment",
+          "Command and Control"
+        ]
+      },
+      "subtask": {
+        "item": [
+          "Gain and maintain the required degree of control of the air to allow friendly forces to operate without prohibitive interference.",
+          "Hold targets at risk globally by striking rapidly and persistently with a wide range of munitions.",
+          "Synchronize and integrate the planning and operation of sensors, assets, and PED systems to support current and future intelligence operations.",
+          "Provide the rapid movement of personnel and materiel to, from, or within a theater by air.",
+          "Exercise authority and direction by a properly designated commander over assigned and attached forces to accomplish a mission."
+        ]
+      },
+      "force": {
+        "first": [
+          "F-22A Raptor",
+          "B-2 Spirit",
+          "Distributed Common Ground System (DCGS)",
+          "C-17 Globemaster III",
+          "Air Operations Center (AOC)"
+        ],
+        "second": [
+          "F-35A Lightning II",
+          "B-1B Lancer",
+          "AOC ISR Division",
+          "C-5M Super Galaxy",
+          "Wing Operations Center (WOC)"
+        ]
+      },
+      "answers": [
+        {
+          "subtask": "Gain and maintain the required degree of control of the air to allow friendly forces to operate without prohibitive interference.",
+          "force": [
+            "F-22A Raptor",
+            "F-35A Lightning II"
+          ],
+          "funct": "Fires",
+          "concept": "Air Superiority"
+        },
+        {
+          "subtask": "Hold targets at risk globally by striking rapidly and persistently with a wide range of munitions.",
+          "force": [
+            "B-2 Spirit",
+            "B-1B Lancer"
+          ],
+          "funct": "Fires",
+          "concept": "Global Precision Attack"
+        },
+        {
+          "subtask": "Synchronize and integrate the planning and operation of sensors, assets, and PED systems to support current and future intelligence operations.",
+          "force": [
+            "Distributed Common Ground System (DCGS)",
+            "AOC ISR Division"
+          ],
+          "funct": "Intelligence",
+          "concept": "Global ISR"
+        },
+        {
+          "subtask": "Provide the rapid movement of personnel and materiel to, from, or within a theater by air.",
+          "force": [
+            "C-17 Globemaster III",
+            "C-5M Super Galaxy"
+          ],
+          "funct": "Movement and Maneuver",
+          "concept": "Rapid Global Mobility"
+        },
+        {
+          "subtask": "Exercise authority and direction by a properly designated commander over assigned and attached forces to accomplish a mission.",
+          "force": [
+            "Air Operations Center (AOC)",
+            "Wing Operations Center (WOC)"
+          ],
+          "funct": "Command and Control",
+          "concept": "Command and Control"
+        }
+      ]
+    },
+    "scenario2": {
+      "theme": "Tenets of Airpower (AFDP-1)",
+      "funct": {
+        "item": [
+          "Command and Control",
+          "Fires",
+          "Movement and Maneuver"
+        ]
+      },
+      "subtask": {
+        "item": [
+          "Focus airpower on the highest priority joint force objectives.",
+          "Exploit the speed, range, and flexibility of airpower to achieve massive effects.",
+          "Shift airpower's focus from one objective to another to exploit opportunities.",
+          "Maintain a continuous presence over an area to hold targets at risk or collect intelligence.",
+          "Concentrate overwhelming combat power at the decisive time and place.",
+          "Combine the effects of distinct air operations to achieve a greater overall effect."
+        ]
+      },
+      "force": {
+        "first": [
+          "Joint Force Air Component Commander (JFACC)",
+          "B-2 Spirit (Multiple Targets)",
+          "F-15E Strike Eagle (Swing Role)",
+          "MQ-9 Reaper (Loiter)",
+          "Air Operations Center (AOC)",
+          "SEAD & Strike Package Integration"
+        ],
+        "second": [
+          "Commander, Air Force Forces (COMAFFOR)",
+          "B-1B Lancer (Multiple Targets)",
+          "F-35A Lightning II (Swing Role)",
+          "RQ-4 Global Hawk (Loiter)",
+          "Carrier Strike Group (CSG) Air Wing",
+          "Cyber & Air Operations Integration"
+        ]
+      },
+      "answers": [
+        {
+          "subtask": "Focus airpower on the highest priority joint force objectives.",
+          "force": [
+            "Joint Force Air Component Commander (JFACC)",
+            "Commander, Air Force Forces (COMAFFOR)"
+          ],
+          "funct": "Command and Control",
+          "concept": "Priority"
+        },
+        {
+          "subtask": "Exploit the speed, range, and flexibility of airpower to achieve massive effects.",
+          "force": [
+            "B-2 Spirit (Multiple Targets)",
+            "B-1B Lancer (Multiple Targets)"
+          ],
+          "funct": "Fires",
+          "concept": "Mass & Maneuver"
+        },
+        {
+          "subtask": "Shift airpower's focus from one objective to another to exploit opportunities.",
+          "force": [
+            "F-15E Strike Eagle (Swing Role)",
+            "F-35A Lightning II (Swing Role)"
+          ],
+          "funct": "Movement and Maneuver",
+          "concept": "Flexibility/Versatility"
+        },
+        {
+          "subtask": "Maintain a continuous presence over an area to hold targets at risk or collect intelligence.",
+          "force": [
+            "MQ-9 Reaper (Loiter)",
+            "RQ-4 Global Hawk (Loiter)"
+          ],
+          "funct": "Fires",
+          "concept": "Persistence"
+        },
+        {
+          "subtask": "Concentrate overwhelming combat power at the decisive time and place.",
+          "force": [
+            "Air Operations Center (AOC)",
+            "Carrier Strike Group (CSG) Air Wing"
+          ],
+          "funct": "Command and Control",
+          "concept": "Concentration"
+        },
+        {
+          "subtask": "Combine the effects of distinct air operations to achieve a greater overall effect.",
+          "force": [
+            "SEAD & Strike Package Integration",
+            "Cyber & Air Operations Integration"
+          ],
+          "funct": "Command and Control",
+          "concept": "Synergistic Effects"
+        }
+      ]
+    },
+    "scenario3": {
+      "theme": "Principles of Mission Command (AFDP 1-1)",
+      "funct": {
+        "item": [
+          "Command and Control"
+        ]
+      },
+      "subtask": {
+        "item": [
+          "Provide a clear, concise expression of the operation's purpose and desired end state.",
+          "Act on the commander's behalf and within their intent without needing constant communication.",
+          "Willingly take calculated chances to seize, retain, and exploit the initiative.",
+          "Issue directives that specify what must be done, but not how it must be done.",
+          "Foster an environment where leaders and subordinates have confidence in and are willing to rely on one another.",
+          "Ensure all echelons have a common perspective of the operational environment and mission goals."
+        ]
+      },
+      "force": {
+        "first": [
+          "Commander's Intent Statement",
+          "Wing Commander in Degraded C2",
+          "Mission Commander retasking assets",
+          "Mission-Type Orders (MTOs)",
+          "Pre-mission Briefings and Debriefings",
+          "Common Operational Picture (COP)"
+        ],
+        "second": [
+          "Joint Force Commander's Guidance",
+          "Squadron Commander in the field",
+          "Flight Lead making tactical decision",
+          "Fragmentary Orders (FRAGOs)",
+          "Integrated Training Exercises",
+          "Shared Intelligence Portal"
+        ]
+      },
+      "answers": [
+        {
+          "subtask": "Provide a clear, concise expression of the operation's purpose and desired end state.",
+          "force": [
+            "Commander's Intent Statement",
+            "Joint Force Commander's Guidance"
+          ],
+          "funct": "Command and Control",
+          "concept": "Provide Clear Commander's Intent"
+        },
+        {
+          "subtask": "Act on the commander's behalf and within their intent without needing constant communication.",
+          "force": [
+            "Wing Commander in Degraded C2",
+            "Squadron Commander in the field"
+          ],
+          "funct": "Command and Control",
+          "concept": "Exercise Disciplined Initiative"
+        },
+        {
+          "subtask": "Willingly take calculated chances to seize, retain, and exploit the initiative.",
+          "force": [
+            "Mission Commander retasking assets",
+            "Flight Lead making tactical decision"
+          ],
+          "funct": "Command and Control",
+          "concept": "Accept Prudent Risk"
+        },
+        {
+          "subtask": "Issue directives that specify what must be done, but not how it must be done.",
+          "force": [
+            "Mission-Type Orders (MTOs)",
+            "Fragmentary Orders (FRAGOs)"
+          ],
+          "funct": "Command and Control",
+          "concept": "Use Mission-Type Orders"
+        },
+        {
+          "subtask": "Foster an environment where leaders and subordinates have confidence in and are willing to rely on one another.",
+          "force": [
+            "Pre-mission Briefings and Debriefings",
+            "Integrated Training Exercises"
+          ],
+          "funct": "Command and Control",
+          "concept": "Build Teams Through Mutual Trust"
+        },
+        {
+          "subtask": "Ensure all echelons have a common perspective of the operational environment and mission goals.",
+          "force": [
+            "Common Operational Picture (COP)",
+            "Shared Intelligence Portal"
+          ],
+          "funct": "Command and Control",
+          "concept": "Create Shared Understanding"
+        }
+      ]
+    },
+    "scenario4": {
+      "theme": "Agile Combat Employment (ACE) Concepts",
+      "funct": {
+        "item": [
+          "Movement and Maneuver",
+          "Sustainment",
+          "Command and Control",
+          "Protection"
+        ]
+      },
+      "subtask": {
+        "item": [
+          "Execute a proactive and reactive scheme of maneuver from main operating bases to dispersed locations to complicate enemy targeting.",
+          "Cross-utilize personnel to support aircraft generation and base operations outside their core AFSC.",
+          "Operate from dispersed, austere locations with limited pre-existing infrastructure, supported by a main base.",
+          "Maintain control of distributed combat forces during denied, degraded, or destroyed communications environments.",
+          "Defend dispersed forces against kinetic and non-kinetic threats at austere forward operating locations."
+        ]
+      },
+      "force": {
+        "first": [
+          "Contingency Response Group (CRG)",
+          "Multi-Capable Airmen (MCA)",
+          "C-130J Ops from a Spoke",
+          "Mission Commander with delegated authority",
+          "Base Defense Squadron (BDS)"
+        ],
+        "second": [
+          "Expeditionary Fighter Squadron",
+          "Cross-Functional Team (XFT)",
+          "F-35A Ops from a Spoke",
+          "Wing Operations Center (WOC) in distributed mode",
+          "Counter-sUAS Team"
+        ]
+      },
+      "answers": [
+        {
+          "subtask": "Execute a proactive and reactive scheme of maneuver from main operating bases to dispersed locations to complicate enemy targeting.",
+          "force": [
+            "Contingency Response Group (CRG)",
+            "Expeditionary Fighter Squadron"
+          ],
+          "funct": "Movement and Maneuver",
+          "concept": "ACE Dispersal/Maneuver"
+        },
+        {
+          "subtask": "Cross-utilize personnel to support aircraft generation and base operations outside their core AFSC.",
+          "force": [
+            "Multi-Capable Airmen (MCA)",
+            "Cross-Functional Team (XFT)"
+          ],
+          "funct": "Sustainment",
+          "concept": "Multi-Capable Airmen"
+        },
+        {
+          "subtask": "Operate from dispersed, austere locations with limited pre-existing infrastructure, supported by a main base.",
+          "force": [
+            "C-130J Ops from a Spoke",
+            "F-35A Ops from a Spoke"
+          ],
+          "funct": "Movement and Maneuver",
+          "concept": "Hub and Spoke Operations"
+        },
+        {
+          "subtask": "Maintain control of distributed combat forces during denied, degraded, or destroyed communications environments.",
+          "force": [
+            "Mission Commander with delegated authority",
+            "Wing Operations Center (WOC) in distributed mode"
+          ],
+          "funct": "Command and Control",
+          "concept": "Resilient C2"
+        },
+        {
+          "subtask": "Defend dispersed forces against kinetic and non-kinetic threats at austere forward operating locations.",
+          "force": [
+            "Base Defense Squadron (BDS)",
+            "Counter-sUAS Team"
+          ],
+          "funct": "Protection",
+          "concept": "Force Protection"
+        }
+      ]
+    },
+    "scenario5": {
+      "theme": "The C2 Process & Framework",
+      "funct": {
+        "item": [
+          "Command and Control"
+        ]
+      },
+      "subtask": {
+        "item": [
+          "Preserve unity of command by concentrating authority for air operations under a single Airman.",
+          "Delegate authorities for planning, coordination, and execution to dispersed echelons to maintain initiative.",
+          "Allow tactical decisions to be made by those closest to the fight, guided by commander's intent.",
+          "Conduct problem-framing and develop courses of action to achieve military objectives.",
+          "Conduct rehearsals, coordination, and inspections to transition from planning to execution.",
+          "Continuously evaluate operational effectiveness to drive adaptation."
+        ]
+      },
+      "force": {
+        "first": [
+          "Joint Force Air Component Commander (JFACC)",
+          "Wing Operations Center (WOC)",
+          "Flight Lead",
+          "AOC Strategy Plans Team (SPT)",
+          "Red Flag Exercise",
+          "Operational Assessment Team"
+        ],
+        "second": [
+          "Commander, Air Force Forces (COMAFFOR)",
+          "Tactical Operations Center (TOC)",
+          "Mission Commander",
+          "Joint Planning Group (JPG)",
+          "Mission Rehearsal",
+          "ISRD Assessment Cell"
+        ]
+      },
+      "answers": [
+        {
+          "subtask": "Preserve unity of command by concentrating authority for air operations under a single Airman.",
+          "force": [
+            "Joint Force Air Component Commander (JFACC)",
+            "Commander, Air Force Forces (COMAFFOR)"
+          ],
+          "funct": "Command and Control",
+          "concept": "Centralized Command"
+        },
+        {
+          "subtask": "Delegate authorities for planning, coordination, and execution to dispersed echelons to maintain initiative.",
+          "force": [
+            "Wing Operations Center (WOC)",
+            "Tactical Operations Center (TOC)"
+          ],
+          "funct": "Command and Control",
+          "concept": "Distributed Control"
+        },
+        {
+          "subtask": "Allow tactical decisions to be made by those closest to the fight, guided by commander's intent.",
+          "force": [
+            "Flight Lead",
+            "Mission Commander"
+          ],
+          "funct": "Command and Control",
+          "concept": "Decentralized Execution"
+        },
+        {
+          "subtask": "Conduct problem-framing and develop courses of action to achieve military objectives.",
+          "force": [
+            "AOC Strategy Plans Team (SPT)",
+            "Joint Planning Group (JPG)"
+          ],
+          "funct": "Command and Control",
+          "concept": "C2 Process: Planning"
+        },
+        {
+          "subtask": "Conduct rehearsals, coordination, and inspections to transition from planning to execution.",
+          "force": [
+            "Red Flag Exercise",
+            "Mission Rehearsal"
+          ],
+          "funct": "Command and Control",
+          "concept": "C2 Process: Preparing"
+        },
+        {
+          "subtask": "Continuously evaluate operational effectiveness to drive adaptation.",
+          "force": [
+            "Operational Assessment Team",
+            "ISRD Assessment Cell"
+          ],
+          "funct": "Command and Control",
+          "concept": "C2 Process: Assessing"
+        }
+      ]
+    }
+  },
+  "validation": {
+    "scenario1": [],
+    "scenario2": [],
+    "scenario3": [],
+    "scenario4": [],
+    "scenario5": []
+  }
+}

@@ -1,0 +1,25 @@
+﻿<div class="trc-pbc information" data-bind="css: resolve(theme(), 'skin')">
+    <!-- ko if: resolve([theme()], 'html') -->
+    <div class="trc-pbce html" data-bind="html: resolved.html"></div>
+    <!-- /ko -->
+    <!-- ko if: resolve([theme()], 'title') -->
+    <div class="trc-pbce title">
+        <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+    </div>
+    <!-- /ko -->
+    <div data-bind="css: cssprefix" class="trc-pbce content">
+        <div data-bind="foreach: sections">
+            <div data-bind="html: $data, css : $parent.cssprefix + '-section-' + $index()"></div>
+        </div>
+        <!-- ko if: hasAudio -->
+        <audio controls="controls">
+            <source src="/playbook/assets/audio/thermo.mp3" type="audio/mp3" />
+        </audio>
+        <!-- /ko -->
+    </div>
+    <!-- ko if: resolve([theme()], 'button') -->
+    <a href="" class="trc-pbce button" data-bind="event: { click: function (element,event) { $root.onButtonClick($element, event); } }">
+        <span data-bind="html: resolved.button"></span>
+    </a>
+    <!-- /ko -->
+</div>

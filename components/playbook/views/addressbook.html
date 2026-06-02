@@ -1,0 +1,14 @@
+﻿<div class="trc-pbc address-book" data-bind="css: resolve(theme(), 'skin'), attr: { 'data-trc': resolve(theme(), 'data-trc') }">
+    <!-- ko if: resolve(theme(), 'title') --><div class="title" data-bind="html: resolved.title"></div> <!-- /ko -->
+    <div class="list" data-bind="foreach: { data: contacts, afterRender: renderContact }">
+        <div class="contact">
+            <div class="small-photo" data-bind="css: Object.resolve($data, 'photo')"></div>
+            <div class="name" data-bind="html: Object.resolve($data, 'name')"></div>
+            <div class="company" data-bind="html: Object.resolve($data, 'company')"></div>
+            <div class="title" data-bind="html: Object.resolve($data, 'title')"></div>
+            <a class="checkbox" data-bind="attr: { checked: $root.isSelected($data) }, event: { click: function () { return $root.contactCheck($element, $data); } }"></a>
+        </div>
+    </div>
+    <!-- ko if: resolve(theme(), 'buttonCancel') --><a class="button cancel" data-bind="event: { click: cancelClick }"><span data-bind="html: resolved.buttonCancel"></span></a><!-- /ko -->
+    <!-- ko if: resolve(theme(), 'button')--><a class="button ok" data-bind="event: { click: buttonClick }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

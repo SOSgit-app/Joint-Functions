@@ -1,0 +1,21 @@
+﻿<div class="trc-pbc tasklist" data-bind="css: resolve(theme(), 'skin'), attr: { 'data-trc': resolve(theme(), 'data-trc') }">
+    <!-- ko if: resolve(theme(), 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <div class="trc-pbce dialog">
+        <div class="trc-pbce title"><span class="trc-pbce text" data-bind="html: roundTitle()"></span></div>
+        <div class="trc-pbce description" data-bind="html: roundDescription()"></div>
+        <div class="trc-pbce list">
+            <table class="trc-pbce tasks" cellpadding="0" cellspacing="0">
+                <tbody data-bind="foreach: { data: tasksList, afterRender: $root.taskListRendered }">
+                    <tr data-bind="attr: { complete: (Object.resolve($data, 'completed')?'completed':null) }">
+                        <td class="trc-pbce task" data-bind="text: name"></td>
+                        <td class="trc-pbce instructions" data-bind="html: Object.resolve($data, 'instructions')"></td>
+                        <td class="trc-pbce status">
+                            <a href="" data-bind="event: { click: $root.onTaskDoneClick }"><span data-bind="html: $root.getTaskListButtonText($data)"></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- ko if: resolve(theme(), 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

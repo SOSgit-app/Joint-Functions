@@ -1,0 +1,32 @@
+﻿<div class="trc-pbc meeting" data-bind="css: skin()">
+    <!-- ko if: resolve([meeting(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <div class="trc-pbce dialog">
+        <!-- ko if: resolve([meeting(), theme()], 'title') --><div class="trc-pbce title"><span class="trc-pbce text" data-bind="html: resolved.title"></span></div><!-- /ko -->
+        <div class="trc-pbce response-content" data-bind="visible: activeConversation, event:{click: $root.onResponseClick}">
+            <div class="trc-pbce response-contact">
+                <div class="trc-pbce response-photo" data-bind="css: 'photo meeting-medium-photo ' + contactPhoto()"></div>
+                <div class="trc-pbce response-name" data-bind="html: Object.resolve(contact(), 'name')"></div>
+                <div class="trc-pbce response-title" data-bind="html: Object.resolve(contact(), 'title')"></div>
+            </div>
+            <div class="trc-pbce response" data-bind="html: Object.resolve(currentQuestion(), 'text')"></div>
+            <div class="trc-pbce response-answer" data-bind="html: responseText"></div>
+        </div>
+        <div class="trc-pbce conversation-list" data-bind="foreach: { data: conversations, as: 'conversation', afterRender: renderConversation }, visible: !activeConversation() ">
+            <div class="trc-pbce conversation">
+                <div class="trc-pbce conversation-icon" data-bind="event:{ mouseover: $root.showCard, mouseout: $root.hideCard,  click: $root.onConversationClick}">
+                </div>
+                <div class="trc-pbce contact-card">
+                    <div class="trc-pbce contact-photo" data-bind="css: 'photo meeting-small-photo ' + $root.getContactPhoto(conversation.currentContact)"></div>
+                    <div class="trc-pbce contact-name" data-bind="html: Object.resolve($root.getContact(conversation.currentContact), 'name')"></div>
+                    <div class="trc-pbce contact-title" data-bind="html: Object.resolve($root.getContact(conversation.currentContact), 'title')"></div>
+                </div>
+            </div>
+        </div>
+        <div class="trc-pbce answer-content" data-bind="visible: responseState">
+            <div class="trc-pbce answers-title">Choose you response</div>
+            <div class="trc-pbce answer-list" data-bind="foreach: {data: answers, as:'answer'}">
+                <a class="trc-pbce answer" data-bind="html: answer.text, event: {click: $root.onAnswerClick }"></a>
+            </div>
+        </div>
+    </div>
+</div>

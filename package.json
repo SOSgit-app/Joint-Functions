@@ -1,0 +1,9 @@
+{
+  "name": "jnt601b-joint-functions",
+  "private": true,
+  "description": "Local testing for JNT601B SCORM course",
+  "scripts": {
+    "start": "node server.js",
+    "test:unit": "node server.js"
+  }
+}

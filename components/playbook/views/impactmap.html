@@ -1,0 +1,22 @@
+﻿<div class="trc-pbc impactmap" data-bind="css: resolve(theme(), 'skin')">
+  <!-- ko if: resolve([theme()], 'html') -->
+  <div class="trc-pbce html" data-bind="html: resolved.html"></div>
+  <!-- /ko -->
+  <!-- ko if: resolve([theme()], 'title') -->
+  <div class="trc-pbce title">
+    <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+  </div>
+  <!-- /ko -->
+  <div class="trc-pbce content">
+    <div class="trc-pbce impactmap" data-bind="foreach: nodes">
+      <div class="node" data-bind="css: 'node' + $data.id, attr : { 'data-id' : $data.id, title : $data.title }, event : { click : function(elem, evt) { $root.onNodeClick($element, event); }}"><span data-bind="html : $data.name"></span><i data-bind="css : $root.getImpact($data.id)"></i></div>
+    </div>   
+
+    <div class="trc-pbce node-description" data-bind="html: defaultText"></div>
+  </div>
+  <!-- ko if: resolve([theme()], 'button') -->
+  <a href="" class="trc-pbce button" data-bind="event: { click: function (element,event) { $root.onButtonClick($element, event); } }">
+    <span data-bind="html: resolved.button"></span>
+  </a>
+  <!-- /ko -->
+</div>

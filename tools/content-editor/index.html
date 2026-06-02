@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JNT601B Scenario Content Editor</title>
+  <link rel="stylesheet" href="editor.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Scenario Content Editor</h1>
+      <p>Edit function library, subtasks, element libraries, and answer keys. Add or remove scenarios as needed.</p>
+    </div>
+    <div class="toolbar">
+      <div class="scenario-picker">
+        <label>
+          Scenario
+          <select id="scenarioSelect"></select>
+        </label>
+        <button type="button" id="btnAddScenario" class="secondary" title="Add scenario">+</button>
+        <button type="button" id="btnRemoveScenario" class="danger" title="Remove scenario">−</button>
+      </div>
+      <button type="button" id="btnReload" class="secondary">Reload from disk</button>
+      <button type="button" id="btnSave" class="secondary">Save scenario</button>
+      <button type="button" id="btnSaveAll" class="primary">Save all to project</button>
+      <button type="button" id="btnDownload" class="secondary">Download .js file</button>
+      <button type="button" id="btnExportHandoff" class="secondary">Export handoff (.json)</button>
+      <button type="button" id="btnImportHandoff" class="secondary">Import handoff</button>
+      <input type="file" id="handoffFile" accept=".json,application/json" hidden />
+      <a id="linkCourse" href="/index-debug.html" class="link-course" target="_blank">Open course ↗</a>
+    </div>
+  </header>
+
+  <div id="status" class="status" role="status" hidden></div>
+  <div id="validation" class="validation" hidden></div>
+
+  <nav class="tabs" role="tablist">
+    <button type="button" class="tab active" data-tab="functions">Function library</button>
+    <button type="button" class="tab" data-tab="subtasks">Subtasks</button>
+    <button type="button" class="tab" data-tab="elements">Element library</button>
+    <button type="button" class="tab" data-tab="answers">Answer key</button>
+  </nav>
+
+  <main class="panels">
+    <section id="panel-functions" class="panel active">
+      <div class="panel-head">
+        <h2>Function library</h2>
+        <button type="button" class="add-btn" data-list="functions">+ Add function</button>
+      </div>
+      <p class="hint">Red drag-and-drop items in the course (core functions). Order here is display order in the left column.</p>
+      <div id="list-functions" class="item-list"></div>
+    </section>
+
+    <section id="panel-subtasks" class="panel">
+      <div class="panel-head">
+        <h2>Subtasks</h2>
+        <button type="button" class="add-btn" data-list="subtasks">+ Add subtask</button>
+      </div>
+      <p class="hint">Center column task descriptions. The course shuffles display order at runtime; answer keys must use exact text from this list.</p>
+      <div id="list-subtasks" class="item-list"></div>
+    </section>
+
+    <section id="panel-elements" class="panel">
+      <div class="panel-head">
+        <h2>Element library</h2>
+        <div class="panel-actions">
+          <button type="button" id="btnSyncElementCount" class="secondary">Match list lengths</button>
+          <button type="button" class="add-btn" data-list="elements-first">+ Add to both lists</button>
+        </div>
+      </div>
+      <p class="hint">Two parallel force lists: the course randomly uses <strong>first</strong> or <strong>second</strong> at startup. Keep the same number of rows in each column.</p>
+      <div class="element-grid">
+        <div>
+          <h3>force.first</h3>
+          <div id="list-elements-first" class="item-list"></div>
+        </div>
+        <div>
+          <h3>force.second</h3>
+          <div id="list-elements-second" class="item-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-answers" class="panel">
+      <div class="panel-head">
+        <h2>Answer key</h2>
+        <div class="panel-actions">
+          <button type="button" id="btnRebuildAnswers" class="secondary">Rebuild rows from subtasks</button>
+          <button type="button" class="add-btn" data-list="answers">+ Add answer row</button>
+        </div>
+      </div>
+      <p class="hint">Correct function and element for each subtask. <code>force[0]</code> applies when the first element list is active; <code>force[1]</code> for the second list.</p>
+      <div class="answers-wrap">
+        <table class="answers-table">
+          <thead>
+            <tr>
+              <th>Subtask</th>
+              <th>Function</th>
+              <th>Element (first list)</th>
+              <th>Element (second list)</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="answersBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

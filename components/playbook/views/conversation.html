@@ -1,0 +1,27 @@
+﻿<div class="trc-pbc conversation" data-bind="css: skin()">
+    <!-- ko if: resolve([conversation(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <div class="trc-pbce dialog">
+        <!-- ko if: resolve([conversation(), theme()], 'title') --><div class="trc-pbce title"><span class="trc-pbce text" data-bind="html: resolved.title"></span></div><!-- /ko -->
+        <div class="trc-pbce contact-group">
+            <div class="trc-pbce header"><span class="trc-pbce text" data-bind="html: Object.resolve(theme(), 'contactHeader')"></span></div>
+            <div class="trc-pbce photo" data-bind="css: contactPhoto()"></div>
+            <div class="trc-pbce name" data-bind="html: Object.resolve(contact(), 'name')"></div>
+            <div class="trc-pbce title" data-bind="html: Object.resolve(contact(), 'title')"></div>
+            <div class="trc-pbce company" data-bind="html: Object.resolve(contact(), 'company')"></div>
+        </div>
+        <div class="trc-pbce transcript-group">
+            <div class="trc-pbce header"><span class="trc-pbce text" data-bind="html: resolve([conversation(), theme()], 'transcriptHeader')"></span></div>
+            <div class="trc-pbce transcript" data-bind="foreach: { data: $root.transcript }, event: { mousedown: $root.onTranscriptMouseDown }">
+                <div class="trc-pbce statement" data-bind="css: $root.getTranscriptCSS($data), html: $root.getTranscriptText($data)"></div>
+            </div>
+        </div>
+        <div class="trc-pbce questions-group">
+            <div class="trc-pbce header"><span class="trc-pbce text" data-bind="html: resolve([conversation(), theme()], 'questionsHeader')"></span></div>
+            <div class="trc-pbce questions" data-bind="foreach: {data: $root.questions, as: 'question' }">
+                <a class="trc-pbce question" href="" data-bind="css: $root.getQuestionCSS(question), html: $root.formatQuestionText(question), attr: { statementId: question.id, disabled: (question.disabled ? 'disabled' : null) }, event: { click: $root.onQuestionClick }"></a>
+                <div class="trc-pbce gap"></div>
+            </div>
+        </div>
+    </div>
+    <!-- ko if: resolve([conversation(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

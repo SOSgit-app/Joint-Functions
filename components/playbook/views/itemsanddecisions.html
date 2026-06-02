@@ -1,0 +1,64 @@
+﻿<div class="trc-pbc itemsanddecisions" data-bind="css: resolve(theme(), 'skin'), click: openingDropdown ? clearDropdowns : function () { }">
+    <!-- ko if: resolve([module(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <!-- ko if: resolve([module(), theme()], 'title') -->
+    <div class="trc-pbce title">
+        <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+    </div>
+    <!-- /ko -->
+    <div class="trc-pbce content">
+        <div class="trc-pbce iadViewContainer">
+            <div class="trc-pbce header">
+                <div class="trc-pbce heading identified"><span data-bind="html: module().strings.identified"></span></div>
+                <div class="trc-pbce heading item" data-bind="html: module().strings.item"><span></span></div>
+                <div class="trc-pbce heading decision"><span data-bind="html: module().strings.decision"></span></div>
+                <div class="trc-pbce heading include"><span data-bind="html: module().strings.include"></span></div>
+            </div>
+            <div class="trc-pbce top-bar"></div>
+            <div class="trc-pbce iadContainer">
+                <div class="trc-pbce entries" data-bind="foreach: userAnswers">
+                    <div class="trc-pbce entry">
+                        <div class="trc-pbce entry-frame identified">
+                            <div class="trc-pbce dropdown-bar"></div>
+                            <div class="trc-pbce text-area identified">
+                                <div class="trc-pbce checkbox" data-bind="css: 'checkbox ' + (identified() ? 'checked' : ''), click: function () { $parent.toggleValue($index(), 'identified') }"></div>
+                            </div>
+                        </div>
+                        <div class="trc-pbce entry-frame item">
+                            <div class="trc-pbce dropdown-bar"></div>
+                            <div class="trc-pbce text-area item">
+                                <div class="trc-pbce text item" data-bind="text: $parent.module().items[item()].text"></div>
+                            </div>
+                        </div>
+                        <div class="trc-pbce entry-frame decision">
+                            <div class="trc-pbce dropdown-bar" data-bind="click: function () { $parent.openDropdown($index(), $element, 'decisions') }">
+                                <div class="trc-pbce gripper" data-bind="css: ('gripper ' + ($parent.isDropdownOpen() && $parent.answerIndex() == $index() ? 'active' : ''))"></div>
+                                <div class="trc-pbce select-text" data-bind="text: ($parent.userAnswers()[$index()].identified() ? (decision() != -1 ? $parent.module().strings.selectToEdit : $parent.module().strings.selectOne) : '')"></div>
+                            </div>
+                            <div class="trc-pbce text-area decision">
+                                <div class="trc-pbce text decision" data-bind="text: (decision() != -1 ? $parent.module().decisions[decision()].text : ''), css: 'text ' + (decision() != -1 ? 'selected' : ''), click: function () { $parent.openDropdown($index(), $element, 'decisions') }"></div>
+                            </div>
+                        </div>
+                        <div class="trc-pbce entry-frame include">
+                            <div class="trc-pbce dropdown-bar"></div>
+                            <div class="trc-pbce text-area include">
+                                <div class="trc-pbce checkbox" data-bind="css: 'checkbox ' + (include() ? 'checked ' : '') + (!identified() ? 'disabled ' : ''), click: function () { $parent.toggleValue($index(), 'include') }"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="trc-pbce bottom-bar"></div>
+        </div>
+        <!-- Decision Dropdown -->
+        <div class="dropdown trc-pbce decisions" data-bind="foreach: $root.module().decisions">
+            <!-- ko: if $root.userAnswers() -->
+            <div class="trc-pbce selection"
+                 onmouseover="$(this).addClass('highlighted');"
+                 onmouseout="$(this).removeClass('highlighted');"
+                 data-bind="text: text, css: 'selection ' + getCSS($parent.userAnswers()[$parent.answerIndex()].decision() >= 0 ? $parent.module().decisions[$parent.userAnswers()[$parent.answerIndex()].decision()].id : -1), click: function () { $parent.selectItem($index()); }">
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+    <!-- ko if: resolve([module(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

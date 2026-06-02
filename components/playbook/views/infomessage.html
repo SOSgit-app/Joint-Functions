@@ -1,0 +1,19 @@
+﻿<div class="trc-pbc info-message" data-bind="css: resolve([message(), theme()], 'skin')">
+    <!-- ko if: resolve([message(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <div class="trc-pbce dialog">
+        <!-- ko if: resolve([message(), theme()], 'title') --><div class="trc-pbce title"><span data-bind="html: resolved.title"></span></div><!-- /ko -->
+        <img class="trc-pbce logo" data-bind="attr: { src: resolve(message(), 'logo'), visible: !String.isEmpty(resolved.logo)}" />
+        <div class="trc-pbce images" data-bind="visible: images().length > 0, foreach: { data: images }"><img class="image" data-bind="css: resolve($data, 'css'), attr: { src: Object.resolve($data,'src') }" /></div>
+        <!-- ko if: resolve(message(), 'textTitle') --><div class="trc-pbce text-title"><span data-bind="html: resolved.textTitle"></span></div><!-- /ko -->
+        <!-- ko if: resolve(message(), 'text') --><div class="trc-pbce text" data-bind="html: resolved.text"></div><!-- /ko -->
+        <!-- ko if: audio() -->
+        <div class="trc-pbce audio" data-bind="title: resolve(audio(), 'src')">
+            <audio class="player player5" data-bind="attr: { controls: audioControls(), autoplay: audioAutoplay(), loop: audioLoop() }">
+                <source class="source" data-bind="attr: { src: resolved.src, type: resolve(audio(), 'type') }" />
+                <embed class="player4" data-bind="visible: audioControls(), attr: { src: resolved.src, autostart: audioAutoplay(), loop: audioLoop() }"></embed>
+            </audio>
+        </div><!-- /ko -->
+    </div>
+    <!-- ko if: resolve([message(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>
+

@@ -1,0 +1,22 @@
+<div class="trc-pbc cba" data-bind="css: resolve(theme(), 'skin')">
+  <!-- ko if: resolve([theme()], 'html') -->
+  <div class="trc-pbce html" data-bind="html: resolved.html"></div>
+  <!-- /ko -->
+  <!-- ko if: resolve([theme()], 'title') -->
+  <div class="trc-pbce title">
+    <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+  </div>
+  <!-- /ko -->
+  <div class="trc-pbce content cba-content">
+    <p class="trc-pbce cba-question" data-bind="html: Assessment.question"></p>
+    <ul class="trc-pbce cba-answers" data-bind="foreach: Assessment.answers">
+      <li data-bind="html: $data"></li>
+    </ul>
+    <form data-bind="foreach: Assessment.selections">
+      <div><label data-bind="attr: { for : 'selection' + value }, html: text"></label><input type="radio" name="selection" data-bind="attr: { id : 'selection' + value, value: value }" /></div>      
+    </form>
+  </div>
+  <!-- ko if: resolve([theme()], 'button') -->
+  <a href="" class="trc-pbce button" data-bind="event: { click: function(evt) { $root.onButtonClick($element, evt); } }"><span data-bind="html: resolved.button"></span></a>
+  <!-- /ko -->
+</div>

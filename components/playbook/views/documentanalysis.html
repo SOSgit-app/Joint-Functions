@@ -1,0 +1,23 @@
+﻿<div class="trc-pbc document-analysis" data-bind="css: resolve(theme(), 'skin')">
+    <!-- ko if: resolve([model(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <div class="trc-pbce menu">
+        <a data-bind="html: Object.resolve(theme(),'docListMenu'), css: (currentPanel() == 'list' ? 'selected' : ''), click: function () { currentPanel('list') }"></a>
+        <a data-bind="html: Object.resolve(currentDocument(), 'title'), css: (currentPanel() == 'doc' ? 'selected' : ''), visible: !Object.isNull(currentDocument()), click: function () { currentPanel('doc') }"></a>
+    </div>
+    <div class="trc-pbce dialog">
+        <div class="trc-pbce title" data-bind="visible: (currentPanel() == 'doc')"><span class="trc-pbce" data-bind="html:Object.resolve(currentDocument(), 'title')"></span></div>
+        <div class="trc-pbce document-list" data-bind="visible: (currentPanel() == 'list'), foreach: { data: Object.resolve(model(), 'documents'), afterRender: onDocItemAdded }">
+            <a href="" class="trc-pbce document" data-bind="css: ($data.visited() ? 'visited' : ''), click: function () { $root.selectDocument($data, $index); }">
+                <span class="trc-pbce title" data-bind="html: Object.resolve($data, 'title')"></span>
+                <!-- ko if: $root.resolve($data, 'description', 'description'+$index) --><span class="trc-pbce description" data-bind="html: $root.resolved['description'+$index]"></span><!-- /ko -->
+            </a>
+        </div>
+        <div class="trc-pbce document-view" data-bind="visible: (currentPanel() == 'doc')">
+            <div class="trc-pbce text" data-bind="css: Object.resolve(currentCategory(), 'css'), event: { click: function () { $root.onDocumentTextClick(event); } }"></div>
+        </div>
+        <div class="trc-pbce categories" data-bind="foreach: { data: categories }, visible: (currentPanel() == 'doc')">
+            <a class="trc-pbce category" data-bind="css: Object.resolve($data, 'css'), event: { click: function () { $parent.selectCategory($data, $element); } }"><span class="trc-pbce title" data-bind="text: title"></span></a>
+        </div>
+    </div>
+    <!-- ko if: resolve([model(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

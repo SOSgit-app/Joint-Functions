@@ -1,0 +1,66 @@
+﻿<div class="trc-pbc email" data-bind="css: skin()">
+    <div class="trc-pbce menu">
+        <a data-bind="css: getMenuItemStyle('inbox'), event: { click: $root.onInboxMenuClick }">INBOX</a>
+        <a data-bind="css: getMenuItemStyle('sent'), event: { click: $root.onSentMenuClick }">SENT MAIL</a>
+        <a data-bind="css: getMenuItemStyle('compose'), event: { click: $root.onComposeMenuClick }">COMPOSE</a>
+    </div>
+    <div class="trc-pbce dialog">
+        <div class="trc-pbce title" data-bind="visible: !String.isEmpty(title())"><span class="trc-pbce text" data-bind="html: title"></span></div>
+        <div class="pane inbox" data-bind="css: Object.resolve(theme(), 'inboxSkin')">
+            <div class="list" data-bind="foreach: { data: $root.inboxMessages, afterRender: renderInboxItem }">
+                <div class="message" data-bind="attr: { read: isRead, attachment: hasAttachments()}, event: { click: function (email, evt) { $parent.onInboxEmailClick(email, evt || event); } }">
+                    <div class="icon"></div>
+                    <div class="attachment"></div>
+                    <div class="photo" data-bind="css: 'photo small-photo ' + $parent.getFromPhoto($data, 'inbox')"></div>
+                    <div class="from">
+                        <div class="name" data-bind="html: $parent.getFromName($data, 'inbox')"></div>
+                        <div class="date" data-bind="html: receivedDate"></div>
+                    </div>
+                    <div class="description">
+                        <div class="subject" data-bind="html: subject"></div>
+                        <div class="body" data-bind="html: $root.resolveBrief($data, 1)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pane read" data-bind="css: Object.resolve(theme(), 'readSkin')">
+            <div class="photo" data-bind="css: 'photo med-photo ' + $root.getFromPhoto(currentRead(), 'read')"></div>
+            <div class="from" data-bind="html: $root.getFromName(currentRead(), 'read')"></div>
+            <div class="date" data-bind="html: Object.resolve(currentRead(), 'receivedDate')"></div>
+            <div class="subject" data-bind="html: Object.resolve(currentRead(), 'subject')"></div>
+            <div class="attachments">
+                <div class="list" data-bind="foreach: {data: Object.resolve(currentRead(), 'attachments')}">
+                    <a data-bind="css: String.ifEmpty($data.css, ''), attr: { title: String.ifEmpty($data.title, $data.file) }"><span data-bind="html: $data.file"></span></a>
+                </div>
+                <a class="save" data-bind="event: { click: $root.onSaveAttachmentClick }"><span data-bind="html: String.ifEmpty(Object.resolve(theme(), 'saveAttachmentsButton'), 'Save Attachments')"></span></a>
+            </div>
+            <div class="body" data-bind="html: $root.resolveEmailHtmlBody(currentRead())"></div>
+            <hr class="line3" />
+            <a class="reply" data-bind="visible: $root.canReply(currentRead()), event: { click: $root.onReplyClick }"><span data-bind="html: String.ifEmpty(Object.resolve(theme(), 'replyButton'), 'Reply')"></span></a>
+        </div>
+        <div class="pane sent" data-bind="css: Object.resolve(theme(), 'sentSkin')">
+            <div class="list" data-bind="foreach: { data: sentMessages, as: 'email', afterRender: renderSentboxItem }">
+                <div class="message" data-bind="event: { click: function (email, evt) { $parent.onSentEmailClick(email, evt || event); } }">
+                    <div class="icon"></div>
+                    <div class="to">
+                        <div class="photo" data-bind="css: 'photo small-photo ' + $root.getToPhoto(email)"></div>
+                        <div class="name" data-bind="html: $root.getToNames(email)"></div>
+                        <div class="date" data-bind="html: email.receivedDate"></div>
+                    </div>
+                    <div class="description">
+                        <div class="subject" data-bind="html: email.subject"></div>
+                        <div class="text" data-bind="html: $root.resolveBrief(email, 2)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pane compose" data-bind="css: Object.resolve(theme(), 'composeSkin')">
+            <div class="email-header">
+                <a class="to" data-bind="event: { click: $root.composeToClick }"><span data-bind="html: String.ifEmpty(Object.resolve(theme(), 'toButton'), 'TO')"></span></a><input type="text" class="to" readonly="readonly" data-bind="value: $root.getToNames(currentComposeEmail())" />
+                <span class="subject" data-bind="html: String.ifEmpty(Object.resolve(theme(), 'subjectLabel'), 'Subject :')"></span><input type="text" class="subject" data-bind="value: $root.resolveSubjectText(currentComposeEmail())" />
+            </div>
+            <div class="email-body" data-bind="compose: { model: $root.currentComposeView(), activationData: { parent: $root, parameters: { content: $root.currentComposeEmail() }}, binding: $root.composeBinging, cacheViews: false }"></div>
+            <a class="send" disabled="disabled" data-bind="event: { click: $root.composeSendClick }"><span data-bind="html: String.ifEmpty(Object.resolve(theme(), 'sendButton'), 'Send')"></span></a>
+        </div>
+    </div>
+</div>

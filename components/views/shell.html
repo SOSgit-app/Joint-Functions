@@ -1,0 +1,48 @@
+﻿<div data-bind="css : { loaded : $root.loaded }" class="shell">
+    <!-- ko if: tutorial.playing() -->
+    <div id="block-while-tutorial"></div>
+    <!--/ko-->
+    <div class="header">
+        <div data-bind="text:missionText" class="logo"></div>
+        <div class="bar"></div>
+        <div data-bind="click: tutorial.handleClick, css : { play :  !tutorial.playing(), skip :  tutorial.playing() }" class="tutorial play"></div>
+        <!-- ko ifnot: autoplay() -->
+        <input class="play-audio" type="button" value="PLAY AUDIO" id="" data-bind="click: playAudio">
+        <!-- /ko -->
+    </div>
+    <div class="view-stack" data-bind="foreach: { data: $root.viewStack() }">
+        <!-- ko compose: { model: $data.moduleId, activationData: $data, binding: $root.onViewComposed, cacheViews: false, transition: Object.resolve($data,'transition') } --><!-- /ko -->
+    </div>
+    <div class="modal-stack" data-bind="foreach: { data: $root.modalStack() }">
+        <!-- ko compose: { model: $data.moduleId, activationData: $data, binding: $root.onViewComposed, cacheViews: false, transition: Object.resolve($data,'transition') } --><!-- /ko -->
+    </div>
+    <div class="footer">
+        <div class="logo"></div>
+        <div class="bar-logo"></div>
+        <div class="bar"></div>
+    </div>
+    <div data-bind="toggleResources : resources.isOpen" class="resources" >
+        <div data-bind="click : resources.handleClick" class="handle" title="Activity Resources"></div>
+        <div data-bind="click : resources.handleClick" class="close"></div>
+
+        <div class="r-content">
+            <div class="list-wrapper">
+                <div class="active wrap res-link" data-bind="click:hideShowActivityList">
+                    <img id="resoursesArrow" src="assets/images/BTN_ResourceArrow_Down.png" />&nbsp;&nbsp;Joint Functions Activity
+                </div>
+                <ul id="activityList">
+
+                    <li class="wrap"><a class="blue-link" data-bind="click: startPlayVideoJF504_2(function(){})" href="#">SITREP Video</a></li>
+
+                    <li class="wrap"><a class="blue-link"href="assets/docs/Joint_Force_Capabilities_and_Limitations_transcript.pdf" target="_blank"> Activity Transcript</a></li>
+
+                    <li class="wrap"><a class="blue-link" data-bind="click: startPlayVideoJF504_7(false, function(){})" href="#">Activity Review Video</a></li>
+                </ul>
+                <div class="credits wrap"><a href="assets/docs/JF_Credits.pdf" target="_blank" class="resources-link">JF Credits</a></div>
+
+            </div>
+        </div>
+    </div>
+    <div class="stack-blanket-shell"></div>
+    <div class="bubble"></div>
+</div>

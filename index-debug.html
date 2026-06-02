@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta charset="utf-8" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <title>Joint Functions Activity – Local development</title>
+    <link type="text/css" rel="stylesheet" href="css/main.min.css" />
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div id="applicationHost" class="page"></div>
+    <!-- Local development: fake SCORM API (no LMS). Run via npm start, then open http://localhost:3000/index-debug.html -->
+
+    <script type="text/javascript" src="scripts/trc/trc.js" data-config="
+            scripts: [
+            'scripts/json2.js',
+            'scripts/jquery-2.0.2.js',
+            { 'src': 'scripts/trc/trc.scorm.js', 'data-config': '{ fakeScorm: true, debug: true }' }
+            ],
+            path: {
+            'lodash': '../../client/lodash.min'
+            },
+            requirejs: 'scripts/require.js',
+            main: 'scripts/trc/trc.main',
+            app: '../../components/app',
+            debug: true
+            "></script>
+</body>
+</html>

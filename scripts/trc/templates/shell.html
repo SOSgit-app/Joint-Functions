@@ -1,0 +1,6 @@
+﻿<div class="view-stack" data-bind="foreach: { data: $root.viewStack() }">
+    <!-- ko compose: { model: $data.moduleId, activationData: $data, binding: $root.onViewComposed, cacheViews: false, transition: Object.resolve($data,'transition') } --><!-- /ko -->
+</div>
+<div class="modal-stack" data-bind="foreach: { data: $root.modalStack() }">
+    <!-- ko compose: { model: $data.moduleId, activationData: $data, binding: $root.onViewComposed, cacheViews: false, transition: Object.resolve($data,'transition') } --><!-- /ko -->
+</div>

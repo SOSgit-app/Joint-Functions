@@ -1,0 +1,39 @@
+﻿<div class="trc-pbc im" data-bind="css: resolve(theme(), 'skin')">
+    <!-- ko if: resolve([content(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <!-- ko if: resolve([content(), theme()], 'title') --><div class="trc-pbce title" data-bind="html: resolved.title"></div><!-- /ko -->
+    <div class="trc-pbce content">
+        <div class="trc-pbce contacts">
+            <!-- ko if: resolve(theme(), 'contactListHeader') --><div class="trc-pbce header" data-bind="html: resolved.contactListHeader"></div><!-- /ko -->
+            <div class="trc-pbce list" data-bind="foreach: { data: $root.contactList, afterRender: $root.renderContactList }">
+                <div class="trc-pbce contact" data-bind="css: Object.resolve($data.contact, 'status')">
+                    <div class="trc-pbce photo" data-bind="css: Object.resolve($data, 'listPhoto')"></div>
+                    <div class="trc-pbce name" data-bind="html: Object.resolve($data.contact, 'name')"></div>
+                    <div class="trc-pbce title" data-bind="html: Object.resolve($data.contact, 'title')"></div>
+                    <div class="trc-pbce status" data-bind="css: $data.status(), html: $root.$formatStatusText($data.status())"></div>
+                </div>
+                <div class="trc-pbce gap"></div>
+            </div>
+        </div>
+        <div class="trc-pbce chat">
+            <!-- ko if: resolve(theme(), 'transcriptHeader') --><div class="trc-pbce header" data-bind="html: resolved.transcriptHeader"></div><!-- /ko -->
+            <div class="trc-pbce contact" data-bind="visible: !!$root.chat()">
+                <div class="trc-pbce photo med-photo"></div>
+                <div class="trc-pbce name"></div>
+                <div class="trc-pbce title"></div>
+                <div class="trc-pbce status" data-bind="css: ($root.chat() ? $root.chat().status() : null), html: ($root.chat() ? $root.$formatStatusText($root.chat().status()) : null)"></div>
+            </div>
+            <div class="trc-pbce transcript" data-bind="foreach: { data: $root.transcript, afterRender: $root.renderTranscript }">
+                <div class="trc-pbce message"></div>
+                <div class="trc-pbce gap"></div>
+            </div>
+        </div>
+        <div class="trc-pbce responses">
+            <!-- ko if: resolve(theme(), 'responseListHeader') --><div class="trc-pbce header" data-bind="html: resolved.responseListHeader"></div><!-- /ko -->
+            <div class="trc-pbce list" data-bind="foreach: { data: $root.responses, afterRender: $root.renderResponse }">
+                <a class="trc-pbce response" data-bind="css: { checked: $data.visited() }"></a>
+                <div class="trc-pbce gap"></div>
+            </div>
+        </div>
+    </div>
+    <!-- ko if: resolve([content(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function(evt) { $root.onButtonClick($element, evt); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

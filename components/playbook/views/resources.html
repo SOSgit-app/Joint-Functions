@@ -1,0 +1,23 @@
+﻿<div class="trc-pbc resources" data-bind="css: resolve([content(), theme()], 'skin')">
+    <!-- ko if: resolve([content(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <div class="trc-pbce dialog">
+        <div class="trc-pbce title" data-bind="visible: !!resolve(content(), 'title')"><span data-bind="html: resolved.title"></span></div>
+        <div class="trc-pbce scroller" data-bind="foreach: { data: $root.visibleFolders(), afterRender: $root.renderFolder($data, $element) }">
+            <div class="trc-pbce gap"></div>
+            <div class="trc-pbce folder" data-bind="css: (Boolean.parseBoolean($data.open, false) ? 'open' : '')">
+                <div class="trc-pbce title"><a href="" data-bind="html: $data.name, event: { click: function () { $root.onFolderClick($data, event) } }"></a></div>
+                <div class="trc-pbce links">
+                    <div class="trc-pbce" data-bind="foreach: { data: $root.getLeftLinks($data)}, css: ($root.hasRightLinks($data) ? 'left' : '')">
+                        <a class="trc-pbce link" href="" data-bind="css: Object.resolve($data, 'css'), html: Object.resolve($data, 'name'), attr: {'link-type': Object.resolve($data, 'linkType')}, event: { click: function () { $root.onLinkClick($data, event); } }"></a>
+                    </div>
+                    <!-- ko if: $root.hasRightLinks($data) -->
+                    <div class="trc-pbce right" data-bind="foreach: { data: $root.getRightLinks($data)}">
+                        <a class="trc-pbce link" href="" data-bind="css: Object.resolve($data, 'css'), html: Object.resolve($data, 'name'), attr: {'link-type': Object.resolve($data, 'linkType')}, event: { click: function () { $root.onLinkClick($data, event); } }"></a>
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ko if: resolve([content(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

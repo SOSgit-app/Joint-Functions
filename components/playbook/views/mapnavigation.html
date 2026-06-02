@@ -1,0 +1,49 @@
+﻿<div class="trc-pbc map-navigation" data-bind="css: resolve(theme(), 'skin')">
+    <!-- ko if: resolve([maps(), theme()], 'html') -->
+    <div class="trc-pbce html" data-bind="html: resolved.html"></div>
+    <!-- /ko -->
+    <!-- ko if: resolve([maps(), theme()], 'title') -->
+    <div class="trc-pbce title">
+        <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+    </div>
+    <!-- /ko -->
+    <div class="trc-pbce content">
+        <div class="trc-pbce container">
+            <div class="trc-pbce map" data-bind="css: (currentMap() ? currentMap().image + ' ' + currentMap().css : '')">
+                <!-- ko if: currentMap() -->
+                <!-- ko foreach: { data: currentMap().nodes, as: 'node', afterRender: onNodeRender } -->
+                <div class="node" data-bind="attr: { nodeID: id }, css: node.css + (node.enabled ? '' : 'disabled'), click: function() { if (node.enabled) { $root.onNodeClick(node) }}, visible: (node.visible && !$root.showMapSelection())"></div>
+                <!-- /ko -->
+                <div class="node-details" data-bind="visible: currentNode()">
+                    <!-- ko if: currentNode() -->
+                    <span data-bind="html: currentNode().name"></span>
+                    <div class="node-items" data-bind="foreach: { data: currentNode().items, as: 'item' }">
+                        <a class="node-item" data-bind="html: item.name, css: item.css + (item.enabled ? '' : 'disabled'), click: function() { if(item.enabled) { $root.onNodeItemClick(item, $root.currentNode()) } }"></a>
+                    </div>
+                    <!-- /ko -->
+                </div>
+                <!-- /ko -->
+                <!-- ko if: resolve([maps(), theme()], 'mapSelectButton') -->
+                <a class="map-select-button" data-bind="html: resolved.mapSelectButton, click: function() { $root.showMapSelection(true) }, visible: ((maps() && maps().allowMapSelection || (currentMap() && currentMap().allowMapSelection)))"></a>
+                <!-- /ko -->
+                <div class="coordinates" data-bind="visible: (currentMap() && currentMap().showCoordinates)"></div>
+                <div class="velocity-icon"></div>
+            </div>
+            <div class="map-selection" data-bind="visible: showMapSelection">
+                <!-- ko if: resolve([maps(), theme()], 'mapSelectionText') -->
+                <span class="selection-text" data-bind="html: resolved.mapSelectionText"></span>
+                <!-- /ko -->
+                <div class="maps" data-bind="foreach: { data: maps, as: 'map' }">
+                    <!-- ko if: map -->
+                    <a class="map" data-bind="html: map.name, css: (map.enabled ? '' : 'disabled'), click: function() { if (map.enabled) { $root.onMapSelect(map) } }, event: { mouseover: function() { if (map.enabled) { $root.showMap(map) } }, mouseout: function() { if (map.enabled) { $root.showMap(null) } } }, visible: map.visible"></a>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ko if: resolve([maps(), theme()], 'button') -->
+    <a href="" class="trc-pbce button" data-bind="event: { click: function (element,event) { $root.onButtonClick($element, event); } }">
+        <span data-bind="html: resolved.button"></span>
+    </a>
+    <!-- /ko -->
+</div>

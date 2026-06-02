@@ -1,0 +1,4 @@
+﻿<file type="html" url="components/views/shell"><!-- #include file="views/shell.html" --></file>
+<file type="javascript" url="components/views/shell"><!-- #include file="views/shell.js" --></file>
+<file type="html" url="components/views/welcome"><!-- #include file="views/welcome.html" --></file>
+<file type="javascript" url="components/views/welcome"><!-- #include file="views/welcome.js" --></file>

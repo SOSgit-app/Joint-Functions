@@ -1,0 +1,12 @@
+node_modules/
+*.zip
+
+# Local / editor
+.cursor/
+.vscode/
+*.log
+Thumbs.db
+Desktop.ini
+
+# OS temp
+*.tmp

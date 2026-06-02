@@ -1,0 +1,31 @@
+﻿<div class="trc-pbc doc-edit" data-bind="css: resolve(theme(), 'skin')">
+    <!-- ko if: resolve([document(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <!-- ko if: resolve([document(), theme()], 'title') --><div class="trc-pbce title"><span class="trc-pbce text" data-bind="html: resolved.title"></span></div><!-- /ko -->
+    <div class="trc-pbce content">
+        <!-- ko if: resolve([document(), theme()], 'header') --><div class="trc-pbce header"><span class="trc-pbce text" data-bind="html: resolved.header"></span></div><!-- /ko -->
+        <div class="trc-pbce sections" data-bind="foreach: { data: resolve(document(), 'sections'), as: 'section', afterRender: renderSection }">
+            <div class="trc-pbce section">
+                <!-- ko if: $root.resolve(section, 'header', 'header'+$index()) --><div class="trc-pbce header" data-bind="html: $root.resolved['header'+$index()]"></div><!-- /ko -->
+                <div class="trc-pbce options">
+                    <!-- ko if: $root.resolve([section, $root.theme()], 'selectedTitle', 'selectedTitle'+$index()) --><div class="trc-pbce selected title" data-bind="html: $root.resolved['selectedTitle'+$index()]"></div><!-- /ko -->
+                    <div class="trc-pbce list selected" data-bind="foreach: { data: section.resolve(section.selected()), afterRender: $root.renderSelected }">
+                        <a class="trc-pbce" data-bind="html: $data.label, css: { checked: $data.checked() }"></a>
+                        <div class="trc-pbce gap"></div>
+                    </div>
+                    <div class="trc-pbce buttons">
+                        <a class="trc-pbce add" data-bind="click: function () { $root.addItems(section, $element); }"></a>
+                        <a class="trc-pbce remove" data-bind="click: function () { $root.removeItems(section, $element); }"></a>
+                    </div>
+                    <!-- ko if: $root.resolve([section, $root.theme()], 'availableTitle', 'availableTitle'+$index()) --><div class="trc-pbce available title" data-bind="html: $root.resolved['availableTitle'+$index()]"></div><!-- /ko -->
+                    <div class="trc-pbce available list" data-bind="foreach: { data: section.resolve(section.available()), afterRender: $root.renderAvailable }">
+                        <a class="trc-pbce" data-bind="html: $data.label, css: { checked: $data.checked() }"></a>
+                        <div class="trc-pbce gap"></div>
+                    </div>
+                </div>
+                <!-- ko if: $root.resolve(section, 'footer', 'footer'+$index()) --><div class="trc-pbce footer" data-bind="html: $root.resolved['footer'+$index()]"></div><!-- /ko -->
+            </div>
+        </div>
+        <!-- ko if: resolve([document(), theme()], 'footer') --> <div class="trc-pbce footer" data-bind="html: $root.resolveHtml(resolved.footer)"></div> <!-- /ko -->
+    </div>
+    <!-- ko if: resolve([document(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

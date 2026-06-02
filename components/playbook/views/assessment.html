@@ -1,0 +1,27 @@
+﻿<div class="trc-pbc assessment" data-bind="css: resolve(theme(), 'skin')">
+    <!-- ko if: resolve([assessment(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <!-- ko if: resolve([assessment(), theme()], 'title') -->
+    <div class="trc-pbce title">
+        <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+    </div>
+    <!-- /ko -->
+    <div class="content">
+        <div class="question-area">
+            <div class="question-content" data-bind="html: questionText">
+            </div>
+            <div class="select">
+                <div data-bind="foreach: possibleAnswers">
+                    <a href="#" class="question-answer" data-bind="html: answerText, attr: { id: id }, click: $root.answerSelect"></a>
+                </div>
+            </div>
+
+        </div>
+        <div class="feedback-area">
+            <div class="correct"></div>
+            <div class="incorrect"></div>
+            <div class="question-feedback" data-bind="html: feedback"></div>
+        </div>
+        <a class="submit-button" href="" data-bind="click: onSubmitButtonClick"><span class="submit-text" data-bind="html: resolve([assessment(), theme()], 'submit')"></span></a>
+    </div>
+    <!-- ko if: resolve([assessment(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>

@@ -1,0 +1,26 @@
+﻿<div class="trc-pbc doc-builder" data-bind="css: resolve(theme(), 'skin')">
+  <!-- ko if: resolve([document(), theme()], 'html') -->
+  <div class="trc-pbce html" data-bind="html: resolved.html"></div>
+  <!-- /ko -->
+  <!-- ko if: resolve([document(), theme()], 'title') -->
+  <div class="trc-pbce title">
+    <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+  </div>
+  <!-- /ko -->
+  <div class="trc-pbce content">
+    <div class="trc-pbce doc-builder options">
+      <!-- ko if: resolve([document(), theme()], 'header') -->
+      <h2 data-bind="html: resolved.header"></h2>
+      <!-- /ko -->
+      <div id="0" class="doc-builder-main-container" data-section="0"></div>
+    </div>
+    <!-- ko if: resolve([document(), theme()], 'content') -->
+    <div class="trc-pbce content" data-bind="html: resolved.content"></div>
+    <!-- /ko -->
+  </div>
+  <!-- ko if: resolve([document(), theme()], 'button') -->
+  <a href="" class="trc-pbce button" data-bind="event: { click: function (element,event) { $root.onButtonClick($element, event); } }">
+    <span data-bind="html: resolved.button"></span>
+  </a>
+  <!-- /ko -->
+</div>

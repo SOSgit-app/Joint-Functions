@@ -1,0 +1,21 @@
+﻿<div class="trc-pbc tutorial" data-bind="css: skin()">
+    <div class="trc-pbce dialog">
+        <div class="trc-pbce scene">
+            <div class="trc-pbce close-tutorial" data-bind="event: {click: $root.closeTutorial }"></div>
+            <div class="trc-pbce bubble-list" data-bind="foreach: { data: bubbles, as: 'bubbleItem', afterRender: renderBubble }">
+                <div class="trc-pbce bubble" data-bind="attr: { id: Object.resolve(bubbleItem, 'id') }">
+                    <div class="trc-pbce title" data-bind="html: Object.resolve(bubbleItem, 'title')"></div>
+                    <div class="trc-pbce text" data-bind="html: Object.resolve(bubbleItem, 'text')"></div>
+                </div>
+            </div>
+            <!-- ko if: audio() -->
+            <div class="trc-pbce audio" data-bind="title: resolve(audio(), 'src')">
+                <audio class="player player5" data-bind="attr: { controls: audioControls(), autoplay: audioAutoplay(), loop: audioLoop() }">
+                    <source class="source" data-bind="attr: { src: resolved.src, type: resolve(audio(), 'type') }" />
+                    <embed class="player4" data-bind="visible: audioControls(), attr: { src: resolved.src, autostart: audioAutoplay(), loop: audioLoop() }"></embed>
+                </audio>
+            </div><!-- /ko -->
+            <div class="trc-pbce next-bubble" data-bind="html: buttonText(), event: {click: $root.nextBubble }, visible: buttonText()"></div>
+        </div>
+    </div>
+</div>

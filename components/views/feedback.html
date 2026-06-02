@@ -1,0 +1,16 @@
+﻿<div class="feedback-modal">
+    <div class="title" data-bind="text: title"></div>
+    <div class="text" data-bind="html:feedback">
+    </div>
+    <!-- ko ifnot:  end() -->
+    <!-- ko ifnot:  back() -->
+    <div class="continue-btn" data-bind="click: continueProcess"></div>
+    <!-- /ko -->
+    <!-- ko if:  back() -->
+    <div class="back-btn" data-bind="click: backProcess"></div>
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- ko if:  end() -->
+    <div class="end-btn" data-bind="click: endProcess"></div>
+    <!-- /ko -->
+</div>

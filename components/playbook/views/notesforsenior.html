@@ -1,0 +1,168 @@
+﻿<div class="trc-pbc seniornotes" data-bind="css: resolve(theme(), 'skin'), click: openingDropdown ? clearDropdowns : function () { }">
+    <!-- ko if: resolve([group(), theme()], 'html') --><div class="trc-pbce html" data-bind="html: resolved.html"></div><!-- /ko -->
+    <!-- ko if: resolve([group(), theme()], 'title') -->
+    <div class="trc-pbce title">
+        <span class="trc-pbce text" data-bind="html: resolved.title"></span>
+    </div>
+    <!-- /ko -->
+    <div class="trc-pbce content">
+        <div class="trc-pbce glass-background">
+            <!-- ko if: !hideCoachingNotes() -->
+            <div class="trc-pbce menu">
+                <a data-bind="css: currentView() == 'Review Notes' ? 'selected' : '', click: function () { changeView('Review Notes') }, html: group().strings.reviewNotes"></a>
+                <a data-bind="css: currentView() == 'Coaching Notes' ? 'selected' : '', click: function () { changeView('Coaching Notes') }, html: group().strings.coachingNotes"></a>
+            </div>
+            <!-- /ko -->
+            <div class="trc-pbce reviewViewContainer" data-bind="visible: (currentView() == 'Review Notes')">
+                <div class="trc-pbce header">
+                    <div class="heading workpaper"><span data-bind="html: group().strings.workpaper"></span></div>
+                    <div class="heading location"><span data-bind="html: group().strings.location"></span></div>
+                    <div class="heading note"><span data-bind="html: group().strings.note"></span></div>
+                    <div class="heading reason"><span data-bind="html: group().strings.reason"></span></div>
+                </div>
+                <div class="trc-pbce top-bar"></div>
+                <div class="trc-pbce reviewNotesContainer">
+                    <div class="trc-pbce notes" data-bind="foreach: reviewNotes">
+                        <div class="trc-pbce entry">
+                            <div class="trc-pbce delete-entry">
+                                <div class="trc-pbce delete-entry-button" data-bind="click: function () { $root.deleteReviewEntry($index()) }, css: ($root.reviewNotes().length <= 1 ? 'disabled' : '')"></div>
+                            </div>
+                            <div class="trc-pbce note-frame workpaper">
+                                <div class="trc-pbce dropdown-bar" data-bind="click: function () { $parent.openDropdown($index(), $element, 'workpapers') }">
+                                    <div class="trc-pbce gripper" data-bind="css: ('gripper ' + ($parent.isDropdownOpen() == 'workpapers' && $parent.reviewNotesIndex() == $index() ? 'active' : ''))"></div>
+                                    <div class="trc-pbce select-text" data-bind="html: $root.group().strings.selectToEdit"></div>
+                                </div>
+                                <div class="trc-pbce text-area workpaper" data-bind="click: function () { $parent.openDropdown($index(), $element, 'workpapers') }">
+                                    <div class="trc-pbce text" data-bind="text: workpaper().name, css: 'text ' + (workpaper().id != '' ? ' selected' : '')"></div>
+                                </div>
+                            </div>
+                            <div class="trc-pbce note-frame location">
+                                <div class="trc-pbce dropdown-bar" data-bind="click: function () { $parent.openDropdown($index(), $element, 'locations') }">
+                                    <div class="trc-pbce gripper" data-bind="css: ('gripper ' + ($parent.isDropdownOpen() == 'locations' && $parent.reviewNotesIndex() == $index() ? 'active' : ''))"></div>
+                                    <div class="trc-pbce select-text" data-bind="text: (location().id == 0 ? $root.group().strings.selectOne : $root.group().strings.selectToEdit)"></div>
+                                </div>
+                                <div class="trc-pbce text-area location" data-bind="click: function () { $parent.openDropdown($index(), $element, 'locations') }">
+                                    <div class="trc-pbce text" data-bind="text: location().name, css: 'text ' + (location().id != 0 ? ' selected' : '')"></div>
+                                </div>
+                            </div>
+                            <div class="trc-pbce note-frame note">
+                                <div class="trc-pbce dropdown-bar" data-bind="click: function () { $parent.openDropdown($index(), $element, 'notes') }">
+                                    <div class="trc-pbce gripper" data-bind="css: ('gripper ' + ($parent.isDropdownOpen() == 'notes' && $parent.reviewNotesIndex() == $index() ? 'active' : ''))"></div>
+                                    <div class="trc-pbce select-text" data-bind="text: (note().id == 0 ? $root.group().strings.selectOne : $root.group().strings.selectToEdit)"></div>
+                                </div>
+                                <div class="trc-pbce text-area note" data-bind="click: function () { $parent.openDropdown($index(), $element, 'notes') }">
+                                    <div class="trc-pbce text" data-bind="text: note().name, css: 'text ' + (note().id != 0 ? ' selected' : '')"></div>
+                                </div>
+                            </div>
+                            <div class="trc-pbce note-frame reason">
+                                <div class="trc-pbce dropdown-bar" data-bind="click: function () { $parent.openDropdown($index(), $element, 'reasons') }">
+                                    <div class="trc-pbce gripper" data-bind="css: ('gripper ' + ($parent.isDropdownOpen() == 'reasons' && $parent.reviewNotesIndex() == $index() ? 'active' : ''))"></div>
+                                    <div class="trc-pbce select-text" data-bind="text: (reason().id == 0 ? $root.group().strings.selectOne : $root.group().strings.selectToEdit)"></div>
+                                </div>
+                                <div class="trc-pbce text-area reason" data-bind="click: function () { $parent.openDropdown($index(), $element, 'reasons') }">
+                                    <div class="trc-pbce text" data-bind="text: reason().name, css: 'text ' + (reason().id != 0 ? ' selected' : '')"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="trc-pbce addEntry"
+                     data-bind="click: addReviewEntry"
+                     onmousedown="$(this).addClass('click');"
+                     onmouseup="$(this).removeClass('click');">
+                    <div class="text" data-bind="html: $root.group().strings.addNewEntry"></div>
+                </div>
+            </div>
+            <div class="trc-pbce coachingViewContainer" data-bind="visible: currentView() == 'Coaching Notes'">
+                <div class="header">
+                    <div class="heading workpaper"><span data-bind="html: group().strings.workpaper"></span></div>
+                    <div class="heading note"><span data-bind="html: group().strings.note"></span></div>
+                </div>
+                <div class="trc-pbce top-bar"></div>
+                <div class="trc-pbce coachingNotesContainer">
+                    <div class="trc-pbce notes" data-bind="foreach: coachingNotes()">
+                        <div class="trc-pbce entry">
+                            <div class="trc-pbce delete-entry">
+                                <div class="trc-pbce delete-entry-button" data-bind="click: function () { $root.deleteCoachingEntry($index()) }, css: ($root.coachingNotes().length <= 1 ? 'disabled' : '')"></div>
+                            </div>
+                            <div class="trc-pbce note-frame coaching workpaper">
+                                <div class="trc-pbce dropdown-bar" data-bind="click: function () { $parent.openDropdown($index(), $element, 'workpapers') }">
+                                    <div class="trc-pbce gripper" data-bind="css: ('gripper ' + ($parent.isDropdownOpen() == 'workpapers' && $parent.coachingNotesIndex() == $index() ? 'active' : ''))"></div>
+                                    <div class="trc-pbce select-text" data-bind="html: $root.group().strings.selectToEdit"></div>
+                                </div>
+                                <div class="trc-pbce text-area coaching workpaper" data-bind="click: function () { $parent.openDropdown($index(), $element, 'workpapers') }">
+                                    <div class="trc-pbce text" data-bind="text: workpaper().name, css: 'text ' + (workpaper().id != 0 ? ' selected' : '')"></div>
+                                </div>
+                            </div>
+                            <div class="trc-pbce note-frame coaching note">
+                                <div class="trc-pbce dropdown-bar" data-bind="click: function () { $parent.openDropdown($index(), $element, 'notes') }">
+                                    <div class="trc-pbce gripper" data-bind="css: ('gripper ' + ($parent.isDropdownOpen() == 'notes' && $parent.coachingNotesIndex() == $index() ? 'active' : ''))"></div>
+                                    <div class="trc-pbce select-text" data-bind="text: (note().id == 0 ? $root.group().strings.selectOne : $root.group().strings.selectToEdit)"></div>
+                                </div>
+                                <div class="trc-pbce text-area coaching note" data-bind="click: function () { $parent.openDropdown($index(), $element, 'notes') }">
+                                    <div class="trc-pbce text" data-bind="text: note().name, css: 'text ' + (note().id != 0 ? ' selected' : '')"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="trc-pbce addEntry"
+                     data-bind="click: addCoachingEntry"
+                     onmousedown="$(this).addClass('click');"
+                     onmouseup="$(this).removeClass('click');">
+                    <div class="text" data-bind="html: $root.group().strings.addNewEntry"></div>
+                </div>
+            </div>
+            <!-- Review Notes Dropdowns -->
+            <div class="trc-pbce dropdown reviewViewContainer workpapers" data-bind="foreach: workpapers">
+                <div class="trc-pbce selection"
+                     onmouseover="$(this).addClass('highlighted');"
+                     onmouseout="$(this).removeClass('highlighted');"
+                     data-bind="text: name, css: getCSS($root.reviewNotes()[$root.reviewNotesIndex()]), click: function () { $root.selectItem($index(), 'Review Notes Workpaper'); }">
+                </div>
+            </div>
+            <div class="trc-pbce dropdown reviewViewContainer locations" data-bind="foreach: workpapers()[workpapersIndex()].locations">
+                <div class="trc-pbce selection"
+                     onmouseover="$(this).addClass('highlighted');"
+                     onmouseout="$(this).removeClass('highlighted');"
+                     data-bind="text: name, css: getCSS('location', $index(), $root.reviewNotes()[$root.reviewNotesIndex()], $parent.selected()), click: function () { $root.selectItem($index(), 'Review Notes Location'); }">
+
+                </div>
+            </div>
+            <div class="trc-pbce dropdown reviewViewContainer notes" data-bind="foreach: workpapers()[workpapersIndex()].notes">
+                <div class="trc-pbce selection"
+                     onmouseover="$(this).addClass('highlighted');"
+                     onmouseout="$(this).removeClass('highlighted');"
+                     data-bind="text: name, css: getCSS('note', $index(), $root.reviewNotes()[$root.reviewNotesIndex()], $root.selected()), click: function () { $root.selectItem($index(), 'Review Notes Note'); }">
+                </div>
+            </div>
+            <div class="trc-pbce dropdown reviewViewContainer reasons" data-bind="foreach: workpapers()[workpapersIndex()].reasons">
+                <div class="trc-pbce selection"
+                     onmouseover="$(this).addClass('highlighted');"
+                     onmouseout="$(this).removeClass('highlighted');"
+                     data-bind="text: name, css: getCSS('reason', $index(), $root.reviewNotes()[$root.reviewNotesIndex()], $root.selected()), click: function () { $root.selectItem($index(), 'Review Notes Reason'); }">
+                </div>
+            </div>
+
+            <!-- Coaching Notes Dropdown -->
+            <div class="trc-pbce dropdown coachingViewContainer workpapers" data-bind="foreach: workpapers">
+                <!-- ko if: $root.notesCount($data.id) -->
+                <div class="trc-pbce selection"
+                     onmouseover="$(this).addClass('highlighted');"
+                     onmouseout="$(this).removeClass('highlighted');"
+                     data-bind="text: name, css: getCSS($root.coachingNotes()[$root.coachingNotesIndex()]), click: function () { $root.selectItem($index(), 'Coaching Notes Workpaper'); }">
+                </div>
+                <!-- /ko -->
+            </div>
+            <div class="trc-pbce dropdown coachingViewContainer notes" data-bind="foreach: coachingWorkpapers().notes">
+                <div class="trc-pbce selection"
+                     onmouseover="$(this).addClass('highlighted');"
+                     onmouseout="$(this).removeClass('highlighted');"
+                     data-bind="text: name, css: getCSS($index(), $root.coachingNotes()[$root.coachingNotesIndex()], $root.selected()), visible: ($root.coachingNotes()[$root.coachingNotesIndex()] && workpaperID == $root.coachingNotes()[$root.coachingNotesIndex()].workpaper().id), click: function () { $root.selectItem($index(), 'Coaching Notes Note'); }">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ko if: resolve([group(), theme()], 'button') --><a href="" class="trc-pbce button" data-bind="event: { click: function () { $root.onButtonClick($element, event); } }"><span data-bind="html: resolved.button"></span></a><!-- /ko -->
+</div>
+
