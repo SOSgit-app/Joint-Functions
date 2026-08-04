@@ -51,12 +51,39 @@
     position: relative;
 }
 
-.scenario .container {
-    background: url("../assets/images/bkgd_chart.png") no-repeat;
+.scenario .chart-board {
+    position: relative;
     top: 62px;
     width: 1024px;
     height: 692px;
+    overflow: hidden;
+}
+
+.scenario .chart-stage {
+    width: 1255px;
+    height: 848px;
     position: relative;
+    transform: scale(0.81594);
+    transform-origin: top left;
+}
+
+.scenario .chart-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1255px;
+    height: 848px;
+    background: url("../assets/images/bkgdchart2.png") no-repeat top left;
+    background-size: 1255px 815px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.scenario .chart-content {
+    position: relative;
+    z-index: 1;
+    width: 1255px;
+    height: 848px;
 }
 
 
@@ -76,13 +103,18 @@
     display: none;
 }
 
+@scenario-row-height: 118px;
+@scenario-row-slot-pad: 30px;
+@scenario-chart-rows: 5;
+@scenario-column-height: (@scenario-row-height * @scenario-chart-rows);
+
 .scenario .firstColumn {
     position: relative;
     color: white;
     font-size: 14px;
-    width: 120px;
-    top: 70px;
-    height: 320px;
+    width: 147px;
+    top: 86px;
+    height: 392px;
     float: left;
 }
 
@@ -91,8 +123,8 @@
     width: 114px;
     height: 41px;
     position: relative;
-    margin-top: 9px;
-    margin-left: 8px;
+    margin-top: 11px;
+    margin-left: 10px;
     text-align: center;
     line-height: 15px;
     padding-top: 5px;
@@ -111,87 +143,108 @@
     position: relative;
     color: #fff;
     font-size: 15px;
-    width: 130px;
-    top: 45px;
-    height: 410px;
+    width: 159px;
+    top: 55px;
+    height: @scenario-column-height;
     float: left;
-    left: 40px;
+    left: 49px;
 }
 
 .scenario .functionDrop .el {
-    background: url("../assets/images/dropzone_function.png") no-repeat;
+    background: url("../assets/images/dropzone_function.png") no-repeat 10px @scenario-row-slot-pad;
     width: 114px;
-    height: 41px;
-    margin-top: 9px;
-    margin-left: 8px;
+    height: @scenario-row-height;
+    margin: 0;
+    margin-left: 10px;
     text-align: center;
     line-height: 15px;
-    padding-top: 5px;
-    padding-right: 7px;
-    margin-bottom: 19px;
-    position: relative;
-    line-height: 15px;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    overflow: hidden;
     color: white;
     font-size: 14px;
+}
+
+.scenario .functionDrop .el .functionEl {
+    position: absolute !important;
+    top: @scenario-row-slot-pad !important;
+    left: 0 !important;
+    margin: 0 !important;
 }
 
 .scenario .secondColumn {
     position: relative;
     color: #fff;
     font-size: 14px;
-    width: 430px;
-    top: 50px;
-    height: 320px;
+    width: 527px;
+    top: 55px;
+    height: @scenario-column-height;
     float: left;
-    left: 50px;
-    height: 600px;
+    left: 61px;
     padding: 0px 10px;
     line-height: 18px;
 }
 
 
-.scenario .secondColumn div {
-    height: 60px;
+.scenario .secondColumn > div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: @scenario-row-height;
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 12px;
+    box-sizing: border-box;
 }
 
 .scenario .elementDrop {
     position: relative;
     color: #fff;
     font-size: 15px;
-    width: 130px;
-    top: 45px;
-    height: 410px;
+    width: 159px;
+    top: 55px;
+    height: @scenario-column-height;
     float: left;
-    left: 40px;
+    left: 49px;
 }
 
 .scenario .elementDrop .el {
-    position: relative;
-    background: url("../assets/images/dropzone_element.png") no-repeat;
+    position: absolute;
+    left: 0;
+    background: url("../assets/images/dropzone_element.png") no-repeat 10px @scenario-row-slot-pad;
     width: 114px;
-    height: 41px;
-    margin-top: 9px;
-    margin-left: 8px;
+    height: @scenario-row-height;
+    margin: 0;
+    margin-left: 10px;
     text-align: center;
     line-height: 15px;
-    padding-top: 5px;
-    padding-right: 7px;
-    margin-bottom: 19px;
-    position: relative;
+    padding: 0;
+    overflow: hidden;
 }
-
-
 
 .scenario .thirdColumn {
     position: relative;
     width: 150px;
-    top: 70px;
-    height: 460px;
-    float: left;
-    left: 80px;
-    overflow-y: auto;
-    padding-bottom: 10px;
-    overflow-x:hidden;
+    overflow: visible;
+}
+
+.scenario .joint-library {
+    position: absolute;
+    right: 8px;
+    top: 90px;
+    width: 150px;
+    z-index: 2;
+}
+
+.scenario .thirdColumn .library-element {
+    cursor: default;
+}
+
+.scenario .thirdColumn .element {
+    top: 0 !important;
+    margin-top: 11px !important;
+    margin-left: 8px !important;
 }
 
 .scenario .element {
@@ -199,8 +252,8 @@
     width: 114px;
     height: 41px;
     position: relative;
-    margin-top: 9px;
-    margin-left: 8px;
+    margin-top: 11px;
+    margin-left: 10px;
     text-align: center;
     line-height: 15px;
     padding-top: 5px;
@@ -211,46 +264,35 @@
     z-index:1;
 }
 
-.scenario .element:hover {
-    background: url("../assets/images/btn_element_hover.png") no-repeat;
+
+.scenario .elementDrop .el .element {
+    position: absolute !important;
+    top: @scenario-row-slot-pad !important;
+    left: 0 !important;
+    margin: 0 !important;
+    cursor: default;
+    z-index: 1;
 }
 
-
-.scenario .up-btn {
-    background: url("../assets/images/ScrollArrow_up_idle.png") no-repeat;
-    width: 131px;
-    height: 15px;
-    position: relative;
-    float: left;
-    top: 65px;
-    left: 82px;
-    cursor: pointer;
+.scenario .elementDrop .el .element:hover {
+    background: url("../assets/images/btn_element_idle.png") no-repeat;
 }
 
-.scenario .up-btn:hover {
-    background: url("../assets/images/ScrollArrow_up_hover.png") no-repeat;
+.scenario .functionEl.ui-draggable-helper {
+    margin: 0 !important;
+    z-index: 1000;
 }
 
-.scenario .down-btn {
-    background: url("../assets/images/ScrollArrow_down_idle.png") no-repeat;
-    width: 131px;
-    height: 15px;
-    position: relative;
-    float: left;
-    top: 70px;
-    left: 210px;
-    cursor: pointer;
+.chart-row-tops(@n, @i: 1) when (@i =< @n) {
+    .scenario .functionDrop .el:nth-child(@{i}),
+    .scenario .elementDrop .el:nth-child(@{i}),
+    .scenario .secondColumn > div:nth-child(@{i}) {
+        top: (@i - 1) * @scenario-row-height;
+    }
+    .chart-row-tops(@n, (@i + 1));
 }
 
-.scenario .down-btn:hover {
-    background: url("../assets/images/ScrollArrow_down_hover.png") no-repeat;
-}
-
-.scenario .thirdColumn .element {
-    top: 0px !important;
-    margin-top: 9px !important;
-    margin-left: 8px !important;
-}
+.chart-row-tops(@scenario-chart-rows);
 
 .scenario .reset {
     background: url("../assets/images/BTN_Reset_Idle.png") no-repeat;

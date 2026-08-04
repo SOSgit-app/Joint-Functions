@@ -3,91 +3,56 @@ define([], function () {
 	return {
 		    "funct": {
 		        "item": [
+		            "Air Superiority",
+		            "Global Strike",
+		            "Rapid Global Mobility",
+		            "Global Integrated ISR",
 		            "Command and Control"
 		        ]
 		    },
 		    "subtask": {
 		        "item": [
-		            "Provide a clear, concise expression of the operation's purpose and desired end state.",
-		            "Act on the commander's behalf and within their intent without needing constant communication.",
-		            "Willingly take calculated chances to seize, retain, and exploit the initiative.",
-		            "Issue directives that specify what must be done, but not how it must be done.",
-		            "Foster an environment where leaders and subordinates have confidence in and are willing to rely on one another.",
-		            "Ensure all echelons have a common perspective of the operational environment and mission goals."
+		            "To blind the enemy's air defense network, OCA penetrate A2AD into hostile territory to kinetically destroy enemy Surface-to-Air Missile (SAM) radar and launch vehicles. Task: Which Air Force capability involves this Suppression of Enemy Air Defenses (SEAD)?",
+		            "Command wants to send a strong deterrent message to an aggressive nation. A pair of B-52 bombers conduct a highly publicized, low-level flight over allied territory just outside the adversary's borders. Task: Which Air Force capability is being leveraged for this strategic signaling and deterrence?",
+		            "Following a mass-casualty event at a forward operating base, heavily wounded service members require immediate surgery that cannot be provided locally. A specialized medical team boards a C-130 to stabilize and transport the patients to a major hospital in Germany. Task: Which Air Force capability encompasses this Aeromedical Evacuation?",
+		            "Analysts at the Distributed Common Ground System (DCGS) review full-motion video feeds, cross-reference them with cyber intelligence, and identify the exact location of a hidden enemy weapons cache, sending the coordinates to the joint commander. Task: Which Air Force capability encompasses this Processing, Exploitation, and Dissemination (PED)?",
+		            "highly contested airspace requires dynamic routing. A Control and Reporting Center (CRC) monitors ground radars and dynamically guides returning strike aircraft through a safe corridor to avoid newly popped-up enemy air defenses. Task: Which Air Force capability ensures the safe passage and tactical control of these assets?"
 		        ]
 		    },
 		    "force": {
-		        "first": [
-		            "Commander's Intent Statement",
-		            "Wing Commander in Degraded C2",
-		            "Mission Commander retasking assets",
-		            "Mission-Type Orders (MTOs)",
-		            "Pre-mission Briefings and Debriefings",
-		            "Common Operational Picture (COP)"
-		        ],
-		        "second": [
-		            "Joint Force Commander's Guidance",
-		            "Squadron Commander in the field",
-		            "Flight Lead making tactical decision",
-		            "Fragmentary Orders (FRAGOs)",
-		            "Integrated Training Exercises",
-		            "Shared Intelligence Portal"
+		        "item": [
+		            "Fires",
+		            "Information",
+		            "Sustainment",
+		            "Intelligence",
+		            "Movement & Maneuver"
 		        ]
 		    },
 		    "answers": [
 		        {
-		            "subtask": "Provide a clear, concise expression of the operation's purpose and desired end state.",
-		            "force": [
-		                "Commander's Intent Statement",
-		                "Joint Force Commander's Guidance"
-		            ],
-		            "funct": "Command and Control",
-		            "concept": "Provide Clear Commander's Intent"
+		            "subtask": "To blind the enemy's air defense network, OCA penetrate A2AD into hostile territory to kinetically destroy enemy Surface-to-Air Missile (SAM) radar and launch vehicles. Task: Which Air Force capability involves this Suppression of Enemy Air Defenses (SEAD)?",
+		            "funct": "Air Superiority",
+		            "force": "Fires"
 		        },
 		        {
-		            "subtask": "Act on the commander's behalf and within their intent without needing constant communication.",
-		            "force": [
-		                "Wing Commander in Degraded C2",
-		                "Squadron Commander in the field"
-		            ],
-		            "funct": "Command and Control",
-		            "concept": "Exercise Disciplined Initiative"
+		            "subtask": "Command wants to send a strong deterrent message to an aggressive nation. A pair of B-52 bombers conduct a highly publicized, low-level flight over allied territory just outside the adversary's borders. Task: Which Air Force capability is being leveraged for this strategic signaling and deterrence?",
+		            "funct": "Global Strike",
+		            "force": "Information"
 		        },
 		        {
-		            "subtask": "Willingly take calculated chances to seize, retain, and exploit the initiative.",
-		            "force": [
-		                "Mission Commander retasking assets",
-		                "Flight Lead making tactical decision"
-		            ],
-		            "funct": "Command and Control",
-		            "concept": "Accept Prudent Risk"
+		            "subtask": "Following a mass-casualty event at a forward operating base, heavily wounded service members require immediate surgery that cannot be provided locally. A specialized medical team boards a C-130 to stabilize and transport the patients to a major hospital in Germany. Task: Which Air Force capability encompasses this Aeromedical Evacuation?",
+		            "funct": "Rapid Global Mobility",
+		            "force": "Sustainment"
 		        },
 		        {
-		            "subtask": "Issue directives that specify what must be done, but not how it must be done.",
-		            "force": [
-		                "Mission-Type Orders (MTOs)",
-		                "Fragmentary Orders (FRAGOs)"
-		            ],
-		            "funct": "Command and Control",
-		            "concept": "Use Mission-Type Orders"
+		            "subtask": "Analysts at the Distributed Common Ground System (DCGS) review full-motion video feeds, cross-reference them with cyber intelligence, and identify the exact location of a hidden enemy weapons cache, sending the coordinates to the joint commander. Task: Which Air Force capability encompasses this Processing, Exploitation, and Dissemination (PED)?",
+		            "funct": "Global Integrated ISR",
+		            "force": "Intelligence"
 		        },
 		        {
-		            "subtask": "Foster an environment where leaders and subordinates have confidence in and are willing to rely on one another.",
-		            "force": [
-		                "Pre-mission Briefings and Debriefings",
-		                "Integrated Training Exercises"
-		            ],
+		            "subtask": "highly contested airspace requires dynamic routing. A Control and Reporting Center (CRC) monitors ground radars and dynamically guides returning strike aircraft through a safe corridor to avoid newly popped-up enemy air defenses. Task: Which Air Force capability ensures the safe passage and tactical control of these assets?",
 		            "funct": "Command and Control",
-		            "concept": "Build Teams Through Mutual Trust"
-		        },
-		        {
-		            "subtask": "Ensure all echelons have a common perspective of the operational environment and mission goals.",
-		            "force": [
-		                "Common Operational Picture (COP)",
-		                "Shared Intelligence Portal"
-		            ],
-		            "funct": "Command and Control",
-		            "concept": "Create Shared Understanding"
+		            "force": "Movement & Maneuver"
 		        }
 		    ]
 		}

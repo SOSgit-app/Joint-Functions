@@ -1,4 +1,4 @@
-﻿<div data-bind="css : { active : $root.isActive, inactive : !$root.isActive }" class="scenario">
+<div data-bind="css : { active : $root.isActive, inactive : !$root.isActive }" class="scenario">
     <div class="description" data-bind="css: {hideElement : isContinueClicked}">
         <div class="instructor">
             <div class="photo">
@@ -10,7 +10,10 @@
         <div class="explanation" data-bind="text:explanation"></div>
     </div>
     <div class="continue-btn" data-bind="click:submit, css: {hideElement : isContinueClicked}"></div>
-    <div class="container" data-bind="scenarioUp: isContinueClicked">
+    <div class="chart-board" data-bind="scenarioUp: isContinueClicked">
+        <div class="chart-stage">
+            <div class="chart-background" aria-hidden="true"></div>
+            <div class="chart-content">
         <div class="firstColumn" data-bind="foreach:functionLibrary">
             <div class="functionEl" data-bind="text: $data"></div>
         </div>
@@ -23,13 +26,13 @@
         <div class="elementDrop" data-bind="foreach:subtasks">
             <div class="el"></div>
         </div>
-        <div class="up-btn" data-bind="click: scrollUp"></div>
-        <div class="thirdColumn" data-bind="foreach:elementLibrary">
-            <div class="element more_info" data-bind="truncatedText: $data,  maxTextLength: 17, attr: {title: $data}">
-                
+            </div>
+            <div class="joint-library">
+                <div class="thirdColumn" data-bind="foreach: elementLibrary">
+                    <div class="element library-element more_info" data-bind="truncatedText: $data, maxTextLength: 17, attr: { title: $data }"></div>
+                </div>
             </div>
         </div>
-        <div class="down-btn" data-bind="click: scrollDown"></div>
     </div>
     <div class="reset" data-bind="click: reset"></div>
     <div class="evaluate" data-bind="click: evaluate"></div>

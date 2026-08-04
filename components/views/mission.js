@@ -1,4 +1,4 @@
-﻿define(["knockout", "trc/trc.spa", "client/lodash.min.js", "scripts/jquery.ui.touch-punch.js"],
+define(["knockout", "trc/trc.spa", "client/lodash.min.js", "scripts/jquery.ui.touch-punch.js"],
   function (ko, SPA, _, touchPunch) {
 
       return function () {
@@ -24,7 +24,7 @@
               window.setTimeout(function () {
                   shell.tutorial.hasPlayed(false);
                   var closed = self.close();
-                  shell.startPlayVideo('JF504_2', function () { window.openView("scenario"); });
+                  window.openView("scenario");
               });
 
           };

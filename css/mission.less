@@ -1,9 +1,11 @@
-﻿.mission {
+.mission {
     width: 1024px;
     height: 625px;
     position: absolute;
     top: 72px;
-    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .mission .description {
@@ -11,8 +13,6 @@
     background: url("../assets/images/BkgdMentor.png") no-repeat center;
     width: 897px;
     height: 155px;
-    left: 60px;
-    top: 20px;
 }
 
 .mission .instructor {
@@ -51,24 +51,12 @@
     position: relative;
 }
 
-.mission .container {
-    background: url("../assets/images/map.png") no-repeat;
-    left: 140px;
-    top: 62px;
-    width: 968px;
-    height: 463px;
-    position: relative;
-}
-
-
-
 .mission .continue-btn {
-    position: relative;
+    position: absolute;
     background: url("../assets/images/BTN_Continue_Idle.png") no-repeat;
     width: 113px;
     height: 24px;
-    float: right;
-    right: 80px;
-    top: -2px;
+    right: 20px;
+    bottom: 8px;
     cursor: pointer;
 }

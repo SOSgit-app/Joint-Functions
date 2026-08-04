@@ -3,93 +3,56 @@ define([], function () {
 	return {
 		    "funct": {
 		        "item": [
-		            "Command and Control",
-		            "Fires",
-		            "Movement and Maneuver"
+		            "Air Superiority",
+		            "Global Strike",
+		            "Rapid Global Mobility",
+		            "Global Integrated ISR",
+		            "Command and Control"
 		        ]
 		    },
 		    "subtask": {
 		        "item": [
-		            "Focus airpower on the highest priority joint force objectives.",
-		            "Exploit the speed, range, and flexibility of airpower to achieve massive effects.",
-		            "Shift airpower's focus from one objective to another to exploit opportunities.",
-		            "Maintain a continuous presence over an area to hold targets at risk or collect intelligence.",
-		            "Concentrate overwhelming combat power at the decisive time and place.",
-		            "Combine the effects of distinct air operations to achieve a greater overall effect."
+		            "Before Army airborne forces can safely parachute into a contested drop zone. OCA must sweep the airspace to clear out enemy fighter patrols and establish a safe corridor. Task: Which Air Force capability enables freedom of movement through the air domain?",
+		            "Strategic planners identify a heavily fortified, deeply buried enemy command bunker orchestrating theater-wide attacks. B-2 Spirit bombers launch from the continental US to penetrate the airspace and destroy it with bunker-busting munitions. Task: Which Air Force capability is responsible for this long-range, deep-penetration strike?",
+		            "A strike package of fighter jets must fly non-stop from a base in the Middle East to the Indo-Pacific theater. KC-135 Stratotankers meet them mid-flight over the ocean to provide the necessary fuel. Task: Which Air Force capability extends the range of these joint air assets?",
+		            "An RC-135 Rivet Joint flies along a hostile border, passively listening to and recording enemy radio transmissions and radar frequencies to map out their communication networks. Task: Which Air Force capability involves collecting this Signals Intelligence (SIGINT)?",
+		            "In the middle of an air battle, an E-3 AWACS detects a previously unseen flight of enemy bombers. The onboard controllers immediately radio friendly F-35s, giving them the vector and altitude to intercept the new threat. Task: Which Air Force capability is executing this tactical battle management?"
 		        ]
 		    },
 		    "force": {
-		        "first": [
-		            "Joint Force Air Component Commander (JFACC)",
-		            "B-2 Spirit (Multiple Targets)",
-		            "F-15E Strike Eagle (Swing Role)",
-		            "MQ-9 Reaper (Loiter)",
-		            "Air Operations Center (AOC)",
-		            "SEAD & Strike Package Integration"
-		        ],
-		        "second": [
-		            "Commander, Air Force Forces (COMAFFOR)",
-		            "B-1B Lancer (Multiple Targets)",
-		            "F-35A Lightning II (Swing Role)",
-		            "RQ-4 Global Hawk (Loiter)",
-		            "Carrier Strike Group (CSG) Air Wing",
-		            "Cyber & Air Operations Integration"
+		        "item": [
+		            "Movement & Maneuver Command and Control",
+		            "Fires",
+		            "Sustainment",
+		            "Intelligence",
+		            "Command & Control"
 		        ]
 		    },
 		    "answers": [
 		        {
-		            "subtask": "Focus airpower on the highest priority joint force objectives.",
-		            "force": [
-		                "Joint Force Air Component Commander (JFACC)",
-		                "Commander, Air Force Forces (COMAFFOR)"
-		            ],
+		            "subtask": "Before Army airborne forces can safely parachute into a contested drop zone. OCA must sweep the airspace to clear out enemy fighter patrols and establish a safe corridor. Task: Which Air Force capability enables freedom of movement through the air domain?",
+		            "funct": "Air Superiority",
+		            "force": "Movement & Maneuver Command and Control"
+		        },
+		        {
+		            "subtask": "Strategic planners identify a heavily fortified, deeply buried enemy command bunker orchestrating theater-wide attacks. B-2 Spirit bombers launch from the continental US to penetrate the airspace and destroy it with bunker-busting munitions. Task: Which Air Force capability is responsible for this long-range, deep-penetration strike?",
+		            "funct": "Global Strike",
+		            "force": "Fires"
+		        },
+		        {
+		            "subtask": "A strike package of fighter jets must fly non-stop from a base in the Middle East to the Indo-Pacific theater. KC-135 Stratotankers meet them mid-flight over the ocean to provide the necessary fuel. Task: Which Air Force capability extends the range of these joint air assets?",
+		            "funct": "Rapid Global Mobility",
+		            "force": "Sustainment"
+		        },
+		        {
+		            "subtask": "An RC-135 Rivet Joint flies along a hostile border, passively listening to and recording enemy radio transmissions and radar frequencies to map out their communication networks. Task: Which Air Force capability involves collecting this Signals Intelligence (SIGINT)?",
+		            "funct": "Global Integrated ISR",
+		            "force": "Intelligence"
+		        },
+		        {
+		            "subtask": "In the middle of an air battle, an E-3 AWACS detects a previously unseen flight of enemy bombers. The onboard controllers immediately radio friendly F-35s, giving them the vector and altitude to intercept the new threat. Task: Which Air Force capability is executing this tactical battle management?",
 		            "funct": "Command and Control",
-		            "concept": "Priority"
-		        },
-		        {
-		            "subtask": "Exploit the speed, range, and flexibility of airpower to achieve massive effects.",
-		            "force": [
-		                "B-2 Spirit (Multiple Targets)",
-		                "B-1B Lancer (Multiple Targets)"
-		            ],
-		            "funct": "Fires",
-		            "concept": "Mass & Maneuver"
-		        },
-		        {
-		            "subtask": "Shift airpower's focus from one objective to another to exploit opportunities.",
-		            "force": [
-		                "F-15E Strike Eagle (Swing Role)",
-		                "F-35A Lightning II (Swing Role)"
-		            ],
-		            "funct": "Movement and Maneuver",
-		            "concept": "Flexibility/Versatility"
-		        },
-		        {
-		            "subtask": "Maintain a continuous presence over an area to hold targets at risk or collect intelligence.",
-		            "force": [
-		                "MQ-9 Reaper (Loiter)",
-		                "RQ-4 Global Hawk (Loiter)"
-		            ],
-		            "funct": "Fires",
-		            "concept": "Persistence"
-		        },
-		        {
-		            "subtask": "Concentrate overwhelming combat power at the decisive time and place.",
-		            "force": [
-		                "Air Operations Center (AOC)",
-		                "Carrier Strike Group (CSG) Air Wing"
-		            ],
-		            "funct": "Command and Control",
-		            "concept": "Concentration"
-		        },
-		        {
-		            "subtask": "Combine the effects of distinct air operations to achieve a greater overall effect.",
-		            "force": [
-		                "SEAD & Strike Package Integration",
-		                "Cyber & Air Operations Integration"
-		            ],
-		            "funct": "Command and Control",
-		            "concept": "Synergistic Effects"
+		            "force": "Command & Control"
 		        }
 		    ]
 		}

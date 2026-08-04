@@ -14,9 +14,9 @@
 	</metadata>
   <organizations default="acsc">
     <organization identifier="acsc">
-      <title>Joint Functions Activity</title>
+      <title>Joint Functions Map</title>
       <item identifier="m1" identifierref="m1_sco">
-        <title>Joint Functions Activity</title>
+        <title>Joint Functions Map</title>
       </item>
     </organization>
   </organizations>

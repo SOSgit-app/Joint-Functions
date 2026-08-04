@@ -1,4 +1,4 @@
-﻿<div data-bind="css : { loaded : $root.loaded }" class="shell">
+<div data-bind="css : { loaded : $root.loaded }" class="shell">
     <!-- ko if: tutorial.playing() -->
     <div id="block-while-tutorial"></div>
     <!--/ko-->
@@ -27,17 +27,7 @@
 
         <div class="r-content">
             <div class="list-wrapper">
-                <div class="active wrap res-link" data-bind="click:hideShowActivityList">
-                    <img id="resoursesArrow" src="assets/images/BTN_ResourceArrow_Down.png" />&nbsp;&nbsp;Joint Functions Activity
-                </div>
-                <ul id="activityList">
-
-                    <li class="wrap"><a class="blue-link" data-bind="click: startPlayVideoJF504_2(function(){})" href="#">SITREP Video</a></li>
-
-                    <li class="wrap"><a class="blue-link"href="assets/docs/Joint_Force_Capabilities_and_Limitations_transcript.pdf" target="_blank"> Activity Transcript</a></li>
-
-                    <li class="wrap"><a class="blue-link" data-bind="click: startPlayVideoJF504_7(false, function(){})" href="#">Activity Review Video</a></li>
-                </ul>
+                <div class="wrap res-link">Joint Functions Map</div>
                 <div class="credits wrap"><a href="assets/docs/JF_Credits.pdf" target="_blank" class="resources-link">JF Credits</a></div>
 
             </div>

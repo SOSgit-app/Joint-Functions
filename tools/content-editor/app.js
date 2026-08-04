@@ -23,12 +23,38 @@
     validation: document.getElementById("validation"),
     listFunctions: document.getElementById("list-functions"),
     listSubtasks: document.getElementById("list-subtasks"),
-    listElementsFirst: document.getElementById("list-elements-first"),
-    listElementsSecond: document.getElementById("list-elements-second"),
+    listElements: document.getElementById("list-elements"),
     answersBody: document.getElementById("answersBody"),
-    btnSyncElementCount: document.getElementById("btnSyncElementCount"),
     btnRebuildAnswers: document.getElementById("btnRebuildAnswers"),
   };
+
+  function getForceItems(data) {
+    if (!data || !data.force) return [];
+    if (Array.isArray(data.force.item)) return data.force.item.slice();
+    if (Array.isArray(data.force.first)) return data.force.first.slice();
+    return [];
+  }
+
+  function getAnswerForce(answer) {
+    if (!answer) return "";
+    if (typeof answer.force === "string") return answer.force;
+    if (Array.isArray(answer.force)) return answer.force[0] || "";
+    return "";
+  }
+
+  function normalizeScenario(data) {
+    if (!data) return data;
+    data.force = { item: getForceItems(data) };
+    data.answers = (data.answers || []).map(function (a) {
+      return {
+        subtask: a.subtask,
+        funct: a.funct,
+        force: getAnswerForce(a),
+        concept: a.concept,
+      };
+    });
+    return data;
+  }
 
   function sortScenarioIds(ids) {
     return ids.slice().sort(function (a, b) {
@@ -86,35 +112,27 @@
     var p = idPrefix ? idPrefix + ": " : "";
     var functs = data.funct && data.funct.item ? data.funct.item : [];
     var subtasks = data.subtask && data.subtask.item ? data.subtask.item : [];
-    var first = data.force && data.force.first ? data.force.first : [];
-    var second = data.force && data.force.second ? data.force.second : [];
+    var elements = getForceItems(data);
     var answers = data.answers || [];
 
-    if (!functs.length) issues.push(p + "Function library is empty.");
-    if (!subtasks.length) issues.push(p + "Subtask list is empty.");
-    if (!first.length) issues.push(p + "Element library (first) is empty.");
-    if (!second.length) issues.push(p + "Element library (second) is empty.");
-    if (first.length !== second.length) {
-      issues.push(p + "Element lists differ in length (" + first.length + " vs " + second.length + ").");
-    }
+    if (!functs.length) issues.push(p + "Air Force Core Functions library is empty.");
+    if (!subtasks.length) issues.push(p + "Scenario Based Task list is empty.");
+    if (!elements.length) issues.push(p + "Joint Functions library is empty.");
 
     answers.forEach(function (a, i) {
       var row = p + "Answer row " + (i + 1);
-      if (!a.subtask) issues.push(row + ": missing subtask.");
-      else if (subtasks.indexOf(a.subtask) === -1) issues.push(row + ': subtask "' + a.subtask + '" not in list.');
-      if (!a.funct) issues.push(row + ": missing function.");
-      else if (functs.indexOf(a.funct) === -1) issues.push(row + ': function "' + a.funct + '" not in library.');
-      if (!a.force || a.force.length !== 2) {
-        issues.push(row + ": force must be two element names.");
-      } else {
-        if (first.indexOf(a.force[0]) === -1) issues.push(row + ': element (first) "' + a.force[0] + '" invalid.');
-        if (second.indexOf(a.force[1]) === -1) issues.push(row + ': element (second) "' + a.force[1] + '" invalid.');
-      }
+      if (!a.subtask) issues.push(row + ": missing Scenario Based Task.");
+      else if (subtasks.indexOf(a.subtask) === -1) issues.push(row + ': Scenario Based Task "' + a.subtask + '" not in list.');
+      if (!a.funct) issues.push(row + ": missing Air Force Core Function.");
+      else if (functs.indexOf(a.funct) === -1) issues.push(row + ': Air Force Core Function "' + a.funct + '" not in library.');
+      var force = getAnswerForce(a);
+      if (!force) issues.push(row + ": missing joint function.");
+      else if (elements.indexOf(force) === -1) issues.push(row + ': joint function "' + force + '" invalid.');
     });
 
     subtasks.forEach(function (st) {
       if (!answers.some(function (a) { return a.subtask === st; })) {
-        issues.push(p + 'Subtask has no answer row: "' + st + '"');
+        issues.push(p + 'Scenario Based Task has no answer row: "' + st + '"');
       }
     });
 
@@ -177,6 +195,26 @@
       .replace(/"/g, "&quot;");
   }
 
+  function emptyScenarioTemplate() {
+    return normalizeScenario({
+      funct: { item: [""] },
+      subtask: { item: [""] },
+      force: { item: [""] },
+      answers: [{ subtask: "", funct: "", force: "" }],
+    });
+  }
+
+  function startBlankEditor() {
+    state.scenarios = { scenario1: emptyScenarioTemplate() };
+    state.scenarioIds = ["scenario1"];
+    state.currentId = "scenario1";
+    state.dirty = true;
+    renderScenarioSelect();
+    updateCourseLink();
+    render();
+    showValidationIssues(validateAllScenarios());
+  }
+
   function loadAll() {
     return fetch("/api/scenarios")
       .then(function (r) {
@@ -191,6 +229,9 @@
           state.scenarios = data;
           state.scenarioIds = sortScenarioIds(Object.keys(data));
         }
+        Object.keys(state.scenarios).forEach(function (id) {
+          state.scenarios[id] = normalizeScenario(state.scenarios[id]);
+        });
         if (!state.scenarios[state.currentId]) {
           state.currentId = getOrderedScenarioIds()[0] || "scenario1";
         }
@@ -206,7 +247,7 @@
   }
 
   function saveCurrent() {
-    var data = current();
+    var data = normalizeScenario(current());
     return fetch("/api/scenarios/" + state.currentId, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -348,6 +389,9 @@
       state.scenarioIds = body.scenarioIds
         ? sortScenarioIds(body.scenarioIds)
         : sortScenarioIds(Object.keys(body.scenarios));
+      Object.keys(state.scenarios).forEach(function (id) {
+        state.scenarios[id] = normalizeScenario(state.scenarios[id]);
+      });
       if (!state.scenarios[state.currentId]) {
         state.currentId = state.scenarioIds[0] || "scenario1";
       }
@@ -393,6 +437,7 @@
   function render() {
     var data = current();
     if (!data) return;
+    normalizeScenario(data);
 
     renderStringList(els.listFunctions, data.funct.item, function (items) {
       data.funct.item = items;
@@ -406,14 +451,8 @@
       renderAnswersTable();
     });
 
-    renderStringList(els.listElementsFirst, data.force.first, function (items) {
-      data.force.first = items;
-      markDirty();
-      renderAnswersTable();
-    });
-
-    renderStringList(els.listElementsSecond, data.force.second, function (items) {
-      data.force.second = items;
+    renderStringList(els.listElements, data.force.item, function (items) {
+      data.force.item = items;
       markDirty();
       renderAnswersTable();
     });
@@ -492,8 +531,7 @@
     var data = current();
     var functs = data.funct.item;
     var subtasks = data.subtask.item;
-    var first = data.force.first;
-    var second = data.force.second;
+    var elements = data.force.item;
 
     els.answersBody.innerHTML = "";
 
@@ -513,14 +551,8 @@
         })
       );
       tr.appendChild(
-        buildSelectCell(first, answer.force[0], function (v) {
-          answer.force[0] = v;
-          markDirty();
-        })
-      );
-      tr.appendChild(
-        buildSelectCell(second, answer.force[1], function (v) {
-          answer.force[1] = v;
+        buildSelectCell(elements, getAnswerForce(answer), function (v) {
+          answer.force = v;
           markDirty();
         })
       );
@@ -567,48 +599,37 @@
 
   function addToList(key) {
     var data = current();
-    var label = prompt("New item text:");
-    if (label === null) return;
-    label = label.trim();
-    if (!label) return;
 
     switch (key) {
       case "functions":
-        data.funct.item.push(label);
+        data.funct.item.push("");
         break;
       case "subtasks":
-        data.subtask.item.push(label);
+        data.subtask.item.push("");
         data.answers.push({
-          subtask: label,
+          subtask: "",
           funct: data.funct.item[0] || "",
-          force: [data.force.first[0] || "", data.force.second[0] || ""],
+          force: data.force.item[0] || "",
         });
         break;
-      case "elements-first":
-        data.force.first.push(label);
-        data.force.second.push(label);
+      case "elements":
+        data.force.item.push("");
         break;
       case "answers":
         data.answers.push({
           subtask: data.subtask.item[0] || "",
           funct: data.funct.item[0] || "",
-          force: [data.force.first[0] || "", data.force.second[0] || ""],
+          force: data.force.item[0] || "",
         });
         break;
     }
     markDirty();
     render();
-  }
-
-  function syncElementLengths() {
-    var data = current();
-    var a = data.force.first;
-    var b = data.force.second;
-    while (a.length < b.length) a.push("");
-    while (b.length < a.length) b.push("");
-    markDirty();
-    render();
-    setStatus("Padded shorter element list with empty rows.", "ok");
+    var panel = document.getElementById("panel-" + (key === "functions" ? "functions" : key === "subtasks" ? "subtasks" : key === "elements" ? "elements" : "answers"));
+    if (panel && key !== "answers") {
+      var inputs = panel.querySelectorAll(".item-list input");
+      if (inputs.length) inputs[inputs.length - 1].focus();
+    }
   }
 
   function rebuildAnswersFromSubtasks() {
@@ -616,7 +637,7 @@
     if (
       data.answers.length > 0 &&
       !confirm(
-        "Replace all answer rows with one row per subtask? Existing answer mappings will be lost."
+        "Replace all answer rows with one row per scenario based task? Existing answer mappings will be lost."
       )
     ) {
       return;
@@ -632,13 +653,13 @@
       return {
         subtask: st,
         funct: data.funct.item[0] || "",
-        force: [data.force.first[0] || "", data.force.second[0] || ""],
+        force: data.force.item[0] || "",
       };
     });
 
     markDirty();
     render();
-    setStatus("Answer rows rebuilt from subtask list.", "ok");
+    setStatus("Answer rows rebuilt from scenario based task list.", "ok");
   }
 
   document.querySelectorAll(".tab").forEach(function (tab) {
@@ -667,7 +688,7 @@
       idx = 0;
     }
     document.getElementById("linkCourse").href =
-      "/index-debug.html?scenario=" + idx + "&force=0";
+      "/index-debug.html?scenario=" + idx;
   }
 
   els.scenarioSelect.addEventListener("change", function () {
@@ -729,7 +750,6 @@
     );
     if (apply) importHandoff(file);
   });
-  els.btnSyncElementCount.addEventListener("click", syncElementLengths);
   els.btnRebuildAnswers.addEventListener("click", rebuildAnswersFromSubtasks);
 
   window.addEventListener("beforeunload", function (e) {
@@ -742,9 +762,11 @@
   updateCourseLink();
 
   loadAll().catch(function (err) {
+    startBlankEditor();
     setStatus(
-      err.message + " — Start the project server with: node server.js",
-      "err"
+      err.message +
+        " — Started a blank scenario. Edit and export handoff, or run: node server.js",
+      "ok"
     );
   });
 })();

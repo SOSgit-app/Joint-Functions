@@ -31,26 +31,23 @@
     .item-row input{flex:1;min-width:0}
     .item-row .move{display:flex;flex-direction:column;gap:1px}
     .item-row .move button{padding:.15rem .4rem;font-size:.65rem;background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
-    .element-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:1100px}
-    .element-grid h3{margin:0 0 .6rem;font-size:.95rem;color:var(--muted)}
     .answers-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
     .answers-table{width:100%;border-collapse:collapse;font-size:.875rem}
     .answers-table th,.answers-table td{padding:.5rem .6rem;border-bottom:1px solid var(--border);text-align:left}
     .answers-table th{background:var(--surface2);color:var(--muted)}.answers-table select{width:100%;min-width:10rem}
-    @media(max-width:900px){.element-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <p class="offline-banner"><strong>Offline mode</strong> — No Node.js or install required. Open this file in Edge or Chrome. Start with <strong>Import handoff</strong> (the .json file you received), then <strong>Export handoff</strong> when finished and send the new .json back.</p>
+  <p class="offline-banner"><strong>Offline mode</strong> — No Node.js or install required. Open this file in Edge or Chrome. Start editing right away, or use <strong>Import handoff</strong> to load an existing .json. <strong>Export handoff</strong> when finished.</p>
 
   <header class="topbar">
     <div class="brand">
       <h1>Scenario Content Editor</h1>
-      <p>Edit function library, subtasks, element libraries, and answer keys. Add or remove scenarios, then export handoff JSON.</p>
+      <p>Edit scenario based tasks, Air Force core functions, joint functions, and answer keys. Add or remove scenario sets, then export handoff JSON.</p>
     </div>
     <div class="toolbar">
       <label>Scenario <select id="scenarioSelect"></select></label>
-      <button type="button" id="btnAddScenario" class="secondary" title="Add scenario">+</button>
+      <button type="button" id="btnAddScenario" class="secondary" title="Add scenario">+ Scenario</button>
       <button type="button" id="btnRemoveScenario" class="secondary" title="Remove scenario">−</button>
       <button type="button" id="btnImport" class="primary">Import handoff (.json)</button>
       <button type="button" id="btnExport" class="primary">Export handoff (.json)</button>
@@ -62,40 +59,36 @@
   <div id="validation" class="validation" hidden></div>
 
   <nav class="tabs">
-    <button type="button" class="tab active" data-tab="functions">Function library</button>
-    <button type="button" class="tab" data-tab="subtasks">Subtasks</button>
-    <button type="button" class="tab" data-tab="elements">Element library</button>
+    <button type="button" class="tab active" data-tab="subtasks">Scenario Based Task</button>
+    <button type="button" class="tab" data-tab="functions">Air Force Core Functions</button>
+    <button type="button" class="tab" data-tab="elements">Joint Functions</button>
     <button type="button" class="tab" data-tab="answers">Answer key</button>
   </nav>
 
   <main class="panels">
-    <section id="panel-functions" class="panel active">
-      <div class="panel-head"><h2>Function library</h2><button type="button" class="secondary add-btn" data-list="functions">+ Add</button></div>
-      <div id="list-functions" class="item-list"></div>
-    </section>
-    <section id="panel-subtasks" class="panel">
-      <div class="panel-head"><h2>Subtasks</h2><button type="button" class="secondary add-btn" data-list="subtasks">+ Add</button></div>
-      <p class="hint">Answer key subtask text must match exactly.</p>
+    <section id="panel-subtasks" class="panel active">
+      <div class="panel-head"><h2>Scenario Based Task</h2><button type="button" class="secondary add-btn" data-list="subtasks">+ Add</button></div>
+      <p class="hint">Answer key scenario based task text must match exactly.</p>
       <div id="list-subtasks" class="item-list"></div>
     </section>
+    <section id="panel-functions" class="panel">
+      <div class="panel-head"><h2>Air Force Core Functions</h2><button type="button" class="secondary add-btn" data-list="functions">+ Add</button></div>
+      <p class="hint">Drag-and-drop items in the course (Air Force core functions).</p>
+      <div id="list-functions" class="item-list"></div>
+    </section>
     <section id="panel-elements" class="panel">
-      <div class="panel-head"><h2>Element library</h2>
-        <button type="button" id="btnSync" class="secondary">Match list lengths</button>
-        <button type="button" class="secondary add-btn" data-list="elements">+ Add to both</button>
-      </div>
-      <p class="hint"><strong>first</strong> / <strong>second</strong> = which element list the course shows at random (not two answers on one screen).</p>
-      <div class="element-grid">
-        <div><h3>force.first</h3><div id="list-first" class="item-list"></div></div>
-        <div><h3>force.second</h3><div id="list-second" class="item-list"></div></div>
-      </div>
+      <div class="panel-head"><h2>Joint Functions</h2><button type="button" class="secondary add-btn" data-list="elements">+ Add joint function</button></div>
+      <p class="hint">Joint functions autofilled in the course when a student places an Air Force core function on each scenario based task row.</p>
+      <div id="list-elements" class="item-list"></div>
     </section>
     <section id="panel-answers" class="panel">
       <div class="panel-head"><h2>Answer key</h2>
-        <button type="button" id="btnRebuild" class="secondary">Rebuild from subtasks</button>
+        <button type="button" id="btnRebuild" class="secondary">Rebuild from scenario based task list</button>
         <button type="button" class="secondary add-btn" data-list="answers">+ Add row</button>
       </div>
+      <p class="hint">One row per scenario based task: Air Force core function (scored) and joint function (autofilled in the course).</p>
       <div class="answers-wrap"><table class="answers-table"><thead><tr>
-        <th>Subtask</th><th>Function</th><th>Element (first)</th><th>Element (second)</th><th></th>
+        <th>Scenario Based Task</th><th>Air Force Core Function</th><th>Joint Function</th><th></th>
       </tr></thead><tbody id="answersBody"></tbody></table></div>
     </section>
   </main>
@@ -103,7 +96,7 @@
   <script>
 (function () {
   "use strict";
-  var state = { scenarios: {}, scenarioIds: [], currentId: "scenario1", dirty: false, loaded: false };
+  var state = { scenarios: {}, scenarioIds: [], currentId: "scenario1", dirty: false };
   var els = {
     scenarioSelect: document.getElementById("scenarioSelect"),
     btnAddScenario: document.getElementById("btnAddScenario"),
@@ -115,8 +108,7 @@
     validation: document.getElementById("validation"),
     listFunctions: document.getElementById("list-functions"),
     listSubtasks: document.getElementById("list-subtasks"),
-    listFirst: document.getElementById("list-first"),
-    listSecond: document.getElementById("list-second"),
+    listElements: document.getElementById("list-elements"),
     answersBody: document.getElementById("answersBody")
   };
 
@@ -131,14 +123,44 @@
   function scenarioLabel(id) {
     return "Scenario " + parseInt(id.replace(/^scenario/i, ""), 10);
   }
-  function emptyScenario() {
-    return {
-      funct: { item: ["Command and Control"] },
-      subtask: { item: ["New subtask — edit me"] },
-      force: { first: ["Element (first list)"], second: ["Element (second list)"] },
-      answers: [{ subtask: "New subtask — edit me", funct: "Command and Control", force: ["Element (first list)", "Element (second list)"] }]
-    };
+
+  function getForceItems(data) {
+    if (!data || !data.force) return [];
+    if (Array.isArray(data.force.item)) return data.force.item.slice();
+    if (Array.isArray(data.force.first)) return data.force.first.slice();
+    return [];
   }
+
+  function getAnswerForce(answer) {
+    if (!answer) return "";
+    if (typeof answer.force === "string") return answer.force;
+    if (Array.isArray(answer.force)) return answer.force[0] || "";
+    return "";
+  }
+
+  function normalizeScenario(data) {
+    if (!data) return data;
+    data.force = { item: getForceItems(data) };
+    data.answers = (data.answers || []).map(function (a) {
+      return {
+        subtask: a.subtask,
+        funct: a.funct,
+        force: getAnswerForce(a),
+        concept: a.concept
+      };
+    });
+    return data;
+  }
+
+  function emptyScenario() {
+    return normalizeScenario({
+      funct: { item: [""] },
+      subtask: { item: [""] },
+      force: { item: [""] },
+      answers: [{ subtask: "", funct: "", force: "" }]
+    });
+  }
+
   function nextScenarioId() {
     var max = 0;
     getOrderedIds().forEach(function (id) {
@@ -168,22 +190,26 @@
   }
 
   function validateScenario(data, id) {
-    var issues = [], functs = data.funct.item || [], subtasks = data.subtask.item || [];
-    var first = data.force.first || [], second = data.force.second || [], answers = data.answers || [];
+    var normalized = normalizeScenario(JSON.parse(JSON.stringify(data)));
+    var issues = [], functs = normalized.funct.item || [], subtasks = normalized.subtask.item || [];
+    var elements = getForceItems(normalized), answers = normalized.answers || [];
     var p = (id ? id + ": " : "");
-    if (!functs.length) issues.push(p + "Function library is empty.");
-    if (!subtasks.length) issues.push(p + "Subtask list is empty.");
-    if (first.length !== second.length) issues.push(p + "Element lists differ in length.");
+    if (!functs.length) issues.push(p + "Air Force Core Functions library is empty.");
+    if (!subtasks.length) issues.push(p + "Scenario Based Task list is empty.");
+    if (!elements.length) issues.push(p + "Joint Functions library is empty.");
     answers.forEach(function (a, i) {
       var row = p + "Answer row " + (i + 1);
-      if (!subtasks.includes(a.subtask)) issues.push(row + ": subtask not in list.");
-      if (!functs.includes(a.funct)) issues.push(row + ": function not in library.");
-      if (!first.includes(a.force[0])) issues.push(row + ": element (first) invalid.");
-      if (!second.includes(a.force[1])) issues.push(row + ": element (second) invalid.");
+      if (!a.subtask) issues.push(row + ": missing Scenario Based Task.");
+      else if (!subtasks.includes(a.subtask)) issues.push(row + ": Scenario Based Task not in list.");
+      if (!a.funct) issues.push(row + ": missing Air Force Core Function.");
+      else if (!functs.includes(a.funct)) issues.push(row + ": Air Force Core Function not in library.");
+      var force = getAnswerForce(a);
+      if (!force) issues.push(row + ": missing joint function.");
+      else if (!elements.includes(force)) issues.push(row + ": joint function invalid.");
     });
     subtasks.forEach(function (st) {
       if (!answers.some(function (a) { return a.subtask === st; }))
-        issues.push(p + 'No answer for subtask: "' + st + '"');
+        issues.push(p + 'No answer for Scenario Based Task: "' + st + '"');
     });
     return issues;
   }
@@ -200,12 +226,29 @@
 
   function markDirty() { state.dirty = true; validateAll(); }
 
+  function normalizeAllScenarios() {
+    Object.keys(state.scenarios).forEach(function (id) {
+      state.scenarios[id] = normalizeScenario(state.scenarios[id]);
+    });
+  }
+
+  function startBlank() {
+    state.scenarios = { scenario1: emptyScenario() };
+    state.scenarioIds = ["scenario1"];
+    state.currentId = "scenario1";
+    state.dirty = false;
+    renderScenarioSelect();
+    render();
+    validateAll();
+    setStatus("Blank scenario ready — edit tabs or import handoff to load existing content.", "ok");
+  }
+
   function loadHandoff(body) {
     if (!body || !body.scenarios) throw new Error("Invalid handoff file.");
     state.scenarios = body.scenarios;
     state.scenarioIds = body.scenarioIds ? sortScenarioIds(body.scenarioIds) : sortScenarioIds(Object.keys(body.scenarios));
+    normalizeAllScenarios();
     if (!state.scenarios[state.currentId]) state.currentId = state.scenarioIds[0] || "scenario1";
-    state.loaded = true;
     state.dirty = false;
     renderScenarioSelect();
     render();
@@ -214,6 +257,7 @@
   }
 
   function buildHandoff() {
+    normalizeAllScenarios();
     var ids = getOrderedIds();
     var validation = {};
     ids.forEach(function (id) {
@@ -230,7 +274,7 @@
   }
 
   function downloadJson() {
-    if (!state.loaded) { setStatus("Import a handoff file first.", "err"); return; }
+    if (!getOrderedIds().length) { setStatus("No scenarios to export.", "err"); return; }
     var name = "jnt601b-scenarios-edited-" + new Date().toISOString().slice(0, 10) + ".json";
     var blob = new Blob([JSON.stringify(buildHandoff(), null, 2)], { type: "application/json" });
     var a = document.createElement("a");
@@ -273,33 +317,35 @@
     });
   }
 
+  function buildSelectCell(options, value, onChange) {
+    var td = document.createElement("td");
+    var sel = document.createElement("select");
+    var empty = document.createElement("option");
+    empty.value = "";
+    empty.textContent = "— select —";
+    sel.appendChild(empty);
+    options.forEach(function (o) {
+      var op = document.createElement("option");
+      op.value = op.textContent = o;
+      if (o === value) op.selected = true;
+      sel.appendChild(op);
+    });
+    sel.onchange = function () { onChange(sel.value); markDirty(); };
+    td.appendChild(sel);
+    return td;
+  }
+
   function renderAnswersTable() {
     var data = current();
     if (!data) return;
+    normalizeScenario(data);
+    var elements = data.force.item;
     els.answersBody.innerHTML = "";
     data.answers.forEach(function (answer, rowIndex) {
       var tr = document.createElement("tr");
-      [data.subtask.item, data.funct.item, data.force.first, data.force.second].forEach(function (opts, col) {
-        var td = document.createElement("td");
-        var sel = document.createElement("select");
-        sel.appendChild(document.createElement("option"));
-        opts.forEach(function (o) {
-          var op = document.createElement("option");
-          op.value = op.textContent = o;
-          if ((col === 0 && o === answer.subtask) || (col === 1 && o === answer.funct) ||
-              (col === 2 && o === answer.force[0]) || (col === 3 && o === answer.force[1])) op.selected = true;
-          sel.appendChild(op);
-        });
-        sel.onchange = function () {
-          if (col === 0) answer.subtask = sel.value;
-          else if (col === 1) answer.funct = sel.value;
-          else if (col === 2) answer.force[0] = sel.value;
-          else answer.force[1] = sel.value;
-          markDirty();
-        };
-        td.appendChild(sel);
-        tr.appendChild(td);
-      });
+      tr.appendChild(buildSelectCell(data.subtask.item, answer.subtask, function (v) { answer.subtask = v; }));
+      tr.appendChild(buildSelectCell(data.funct.item, answer.funct, function (v) { answer.funct = v; }));
+      tr.appendChild(buildSelectCell(elements, getAnswerForce(answer), function (v) { answer.force = v; }));
       var tdDel = document.createElement("td");
       var x = document.createElement("button");
       x.className = "danger"; x.textContent = "×";
@@ -313,11 +359,11 @@
   function render() {
     var data = current();
     if (!data) return;
+    normalizeScenario(data);
     var r = renderStringList;
     r(els.listFunctions, data.funct.item, function (x) { data.funct.item = x; markDirty(); renderAnswersTable(); });
     r(els.listSubtasks, data.subtask.item, function (x) { data.subtask.item = x; markDirty(); renderAnswersTable(); });
-    r(els.listFirst, data.force.first, function (x) { data.force.first = x; markDirty(); renderAnswersTable(); });
-    r(els.listSecond, data.force.second, function (x) { data.force.second = x; markDirty(); renderAnswersTable(); });
+    r(els.listElements, data.force.item, function (x) { data.force.item = x; markDirty(); renderAnswersTable(); });
     renderAnswersTable();
   }
 
@@ -329,43 +375,47 @@
     };
   });
 
+  function addListItem(listKey, container) {
+    var d = current();
+    normalizeScenario(d);
+    if (listKey === "functions") d.funct.item.push("");
+    else if (listKey === "subtasks") {
+      d.subtask.item.push("");
+      d.answers.push({ subtask: "", funct: d.funct.item[0] || "", force: d.force.item[0] || "" });
+    } else if (listKey === "elements") {
+      d.force.item.push("");
+    } else {
+      d.answers.push({ subtask: d.subtask.item[0] || "", funct: d.funct.item[0] || "", force: d.force.item[0] || "" });
+    }
+    markDirty();
+    render();
+    if (container) {
+      var inputs = container.querySelectorAll("input");
+      if (inputs.length) inputs[inputs.length - 1].focus();
+    }
+  }
+
   document.querySelectorAll(".add-btn").forEach(function (btn) {
     btn.onclick = function () {
-      if (!state.loaded) { setStatus("Import handoff first.", "err"); return; }
-      var label = prompt("New item text:");
-      if (!label || !(label = label.trim())) return;
-      var d = current();
-      var k = btn.dataset.list;
-      if (k === "functions") d.funct.item.push(label);
-      else if (k === "subtasks") {
-        d.subtask.item.push(label);
-        d.answers.push({ subtask: label, funct: d.funct.item[0] || "", force: [d.force.first[0] || "", d.force.second[0] || ""] });
-      } else if (k === "elements") { d.force.first.push(label); d.force.second.push(label); }
-      else d.answers.push({ subtask: d.subtask.item[0] || "", funct: d.funct.item[0] || "", force: [d.force.first[0] || "", d.force.second[0] || ""] });
-      markDirty(); render();
+      var panel = btn.closest(".panel");
+      var container = panel ? panel.querySelector(".item-list") : null;
+      addListItem(btn.dataset.list, container);
     };
   });
 
-  document.getElementById("btnSync").onclick = function () {
-    var d = current(), a = d.force.first, b = d.force.second;
-    while (a.length < b.length) a.push("");
-    while (b.length < a.length) b.push("");
-    markDirty(); render();
-  };
-
   document.getElementById("btnRebuild").onclick = function () {
     var d = current();
-    if (d.answers.length && !confirm("Rebuild all answer rows from subtasks?")) return;
+    normalizeScenario(d);
+    if (d.answers.length && !confirm("Rebuild all answer rows from scenario based task list?")) return;
     var old = {};
     d.answers.forEach(function (a) { old[a.subtask] = a; });
     d.answers = d.subtask.item.map(function (st) {
-      return old[st] || { subtask: st, funct: d.funct.item[0] || "", force: [d.force.first[0] || "", d.force.second[0] || ""] };
+      return old[st] || { subtask: st, funct: d.funct.item[0] || "", force: d.force.item[0] || "" };
     });
     markDirty(); render();
   };
 
   els.btnAddScenario.onclick = function () {
-    if (!state.loaded) { setStatus("Import handoff first.", "err"); return; }
     var id = nextScenarioId();
     state.scenarios[id] = emptyScenario();
     if (state.scenarioIds.indexOf(id) === -1) state.scenarioIds.push(id);
@@ -377,7 +427,6 @@
   };
 
   els.btnRemoveScenario.onclick = function () {
-    if (!state.loaded) { setStatus("Import handoff first.", "err"); return; }
     var ids = getOrderedIds();
     if (ids.length <= 1) { setStatus("At least one scenario must remain.", "err"); return; }
     if (!confirm("Remove " + state.currentId + " from this handoff?")) return;
@@ -406,7 +455,10 @@
     if (!file) return;
     var reader = new FileReader();
     reader.onload = function () {
-      try { loadHandoff(JSON.parse(reader.result)); }
+      try {
+        if (state.dirty && !confirm("Import handoff?\n\nThis replaces your current edits.")) return;
+        loadHandoff(JSON.parse(reader.result));
+      }
       catch (e) { setStatus(e.message || "Invalid JSON", "err"); }
     };
     reader.readAsText(file);
@@ -416,7 +468,7 @@
     if (state.dirty) { e.preventDefault(); e.returnValue = ""; }
   };
 
-  setStatus("Click Import handoff and open the .json file you received.", "ok");
+  startBlank();
 })();
   </script>
 </body>

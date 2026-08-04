@@ -1,4 +1,4 @@
-﻿define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
+define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
   function (ko, SPA, _) {
 
       return function () {
@@ -21,21 +21,21 @@
 
           this.submit = function () {
               self.isActive(false);
-              var scorm = window.application.scorm;                            
-              window.setTimeout(function () {
-                  scorm.setScore(100, true, function () {
-                      scorm.setStatus("completed", true, function () {
-                          var closed = self.close();
-                          self.closeActivity();
+              shell.startPlayVideo("JF504_7", function () {
+                  var scorm = window.application.scorm;
+                  window.setTimeout(function () {
+                      scorm.setScore(100, true, function () {
+                          scorm.setStatus("completed", true, function () {
+                              var closed = self.close();
+                              self.closeActivity();
+                          }, function (data) {
+                              alert(data);
+                          });
                       }, function (data) {
                           alert(data);
                       });
-
-                  }, function (data) {
-                      alert(data);
                   });
               });
-
           };        
 
           this.closeActivity = function () {

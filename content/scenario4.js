@@ -3,82 +3,56 @@ define([], function () {
 	return {
 		    "funct": {
 		        "item": [
-		            "Movement and Maneuver",
-		            "Sustainment",
-		            "Command and Control",
-		            "Protection"
+		            "Air Superiority",
+		            "Global Strike",
+		            "Rapid Global Mobility",
+		            "Global Integrated ISR",
+		            "Command and Control"
 		        ]
 		    },
 		    "subtask": {
 		        "item": [
-		            "Execute a proactive and reactive scheme of maneuver from main operating bases to dispersed locations to complicate enemy targeting.",
-		            "Cross-utilize personnel to support aircraft generation and base operations outside their core AFSC.",
-		            "Operate from dispersed, austere locations with limited pre-existing infrastructure, supported by a main base.",
-		            "Maintain control of distributed combat forces during denied, degraded, or destroyed communications environments.",
-		            "Defend dispersed forces against kinetic and non-kinetic threats at austere forward operating locations."
+		            "A high-value E-3 AWACS is orbiting near the forward edge of the battle area. A flight of fighters is assigned to fly a protective combat air patrol (CAP) directly between the AWACS and known enemy airfields. Task: Which Air Force capability is responsible for escorting and defending airborne assets?",
+		            "An MQ-9 Reaper spots a high-value terrorist leader moving in a vehicle convoy. After receiving clearance, the remote pilot fires an AGM-114 Hellfire missile, eliminating the target before they can escape. Task: Which Air Force capability executes this time-sensitive, dynamic targeting?",
+		            "To establish an island outpost, Air Mobility Command lands several aircraft on a short, austere dirt runway to offload Marine HIMARS (rocket artillery) systems and their operating crews. Task: Which Air Force capability provides this tactical airlift and rapid port opening?",
+		            "Before a Tomahawk cruise missile strike is authorized by the Navy, an Air Force drone is tasked to loiter over the target area for 12 hours to establish a \"pattern of life\" and ensure no civilians are present. Task: Which Air Force capability is providing the persistent overwatch required for strike clearance?",
+		            "During a major offensive, the Joint Force Air Component Commander (JFACC) assesses that enemy supply lines are the most critical target. The commander shifts aircraft allocations mid-day, pulling planes off defensive patrols to conduct immediate interdiction strikes. Task: Which Air Force capability allows the commander to assess the battlefield and redirect forces tasked with employment dynamically? (Think What function the JFACC is executing)"
 		        ]
 		    },
 		    "force": {
-		        "first": [
-		            "Contingency Response Group (CRG)",
-		            "Multi-Capable Airmen (MCA)",
-		            "C-130J Ops from a Spoke",
-		            "Mission Commander with delegated authority",
-		            "Base Defense Squadron (BDS)"
-		        ],
-		        "second": [
-		            "Expeditionary Fighter Squadron",
-		            "Cross-Functional Team (XFT)",
-		            "F-35A Ops from a Spoke",
-		            "Wing Operations Center (WOC) in distributed mode",
-		            "Counter-sUAS Team"
+		        "item": [
+		            "Protection",
+		            "Fires",
+		            "Movement & Maneuver",
+		            "Intelligence",
+		            "Fires"
 		        ]
 		    },
 		    "answers": [
 		        {
-		            "subtask": "Execute a proactive and reactive scheme of maneuver from main operating bases to dispersed locations to complicate enemy targeting.",
-		            "force": [
-		                "Contingency Response Group (CRG)",
-		                "Expeditionary Fighter Squadron"
-		            ],
-		            "funct": "Movement and Maneuver",
-		            "concept": "ACE Dispersal/Maneuver"
+		            "subtask": "A high-value E-3 AWACS is orbiting near the forward edge of the battle area. A flight of fighters is assigned to fly a protective combat air patrol (CAP) directly between the AWACS and known enemy airfields. Task: Which Air Force capability is responsible for escorting and defending airborne assets?",
+		            "funct": "Air Superiority",
+		            "force": "Protection"
 		        },
 		        {
-		            "subtask": "Cross-utilize personnel to support aircraft generation and base operations outside their core AFSC.",
-		            "force": [
-		                "Multi-Capable Airmen (MCA)",
-		                "Cross-Functional Team (XFT)"
-		            ],
-		            "funct": "Sustainment",
-		            "concept": "Multi-Capable Airmen"
+		            "subtask": "An MQ-9 Reaper spots a high-value terrorist leader moving in a vehicle convoy. After receiving clearance, the remote pilot fires an AGM-114 Hellfire missile, eliminating the target before they can escape. Task: Which Air Force capability executes this time-sensitive, dynamic targeting?",
+		            "funct": "Global Strike",
+		            "force": "Fires"
 		        },
 		        {
-		            "subtask": "Operate from dispersed, austere locations with limited pre-existing infrastructure, supported by a main base.",
-		            "force": [
-		                "C-130J Ops from a Spoke",
-		                "F-35A Ops from a Spoke"
-		            ],
-		            "funct": "Movement and Maneuver",
-		            "concept": "Hub and Spoke Operations"
+		            "subtask": "To establish an island outpost, Air Mobility Command lands several aircraft on a short, austere dirt runway to offload Marine HIMARS (rocket artillery) systems and their operating crews. Task: Which Air Force capability provides this tactical airlift and rapid port opening?",
+		            "funct": "Rapid Global Mobility",
+		            "force": "Movement & Maneuver"
 		        },
 		        {
-		            "subtask": "Maintain control of distributed combat forces during denied, degraded, or destroyed communications environments.",
-		            "force": [
-		                "Mission Commander with delegated authority",
-		                "Wing Operations Center (WOC) in distributed mode"
-		            ],
+		            "subtask": "Before a Tomahawk cruise missile strike is authorized by the Navy, an Air Force drone is tasked to loiter over the target area for 12 hours to establish a \"pattern of life\" and ensure no civilians are present. Task: Which Air Force capability is providing the persistent overwatch required for strike clearance?",
+		            "funct": "Global Integrated ISR",
+		            "force": "Intelligence"
+		        },
+		        {
+		            "subtask": "During a major offensive, the Joint Force Air Component Commander (JFACC) assesses that enemy supply lines are the most critical target. The commander shifts aircraft allocations mid-day, pulling planes off defensive patrols to conduct immediate interdiction strikes. Task: Which Air Force capability allows the commander to assess the battlefield and redirect forces tasked with employment dynamically? (Think What function the JFACC is executing)",
 		            "funct": "Command and Control",
-		            "concept": "Resilient C2"
-		        },
-		        {
-		            "subtask": "Defend dispersed forces against kinetic and non-kinetic threats at austere forward operating locations.",
-		            "force": [
-		                "Base Defense Squadron (BDS)",
-		                "Counter-sUAS Team"
-		            ],
-		            "funct": "Protection",
-		            "concept": "Force Protection"
+		            "force": "Fires"
 		        }
 		    ]
 		}

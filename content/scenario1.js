@@ -3,83 +3,56 @@ define([], function () {
 	return {
 		    "funct": {
 		        "item": [
-		            "Fires",
-		            "Intelligence",
-		            "Movement and Maneuver",
-		            "Sustainment",
+		            "Air Superiority",
+		            "Global Strike",
+		            "Rapid Global Mobility",
+		            "Global Integrated ISR",
 		            "Command and Control"
 		        ]
 		    },
 		    "subtask": {
 		        "item": [
-		            "Gain and maintain the required degree of control of the air to allow friendly forces to operate without prohibitive interference.",
-		            "Hold targets at risk globally by striking rapidly and persistently with a wide range of munitions.",
-		            "Synchronize and integrate the planning and operation of sensors, assets, and PED systems to support current and future intelligence operations.",
-		            "Provide the rapid movement of personnel and materiel to, from, or within a theater by air.",
-		            "Exercise authority and direction by a properly designated commander over assigned and attached forces to accomplish a mission."
+		            "An adversary launches a salvo of cruise missiles and attack drones at a joint logistics hub. DCA and ground-based interceptors are scrambled to destroy the incoming threats before they reach the base. Task: Which Air Force Global: Function is executing this Defensive Counterair (DCA) mission?",
+		            "A Marine infantry platoon is pinned down by heavy machine-gun fire from a fortified bunker. A B-52 from Minot is called in to launch JASSM rolling back enemy IADS in PACAF. Which Air Force capability is executing this Air Interdiction (AI) mission?",
+		            "A joint task force needs to rapidly insert an Army Ranger battalion deep behind enemy lines to gain a positional advantage on the enemy. A formation of C-17 Globemaster IIIs conducts a low-level, nighttime airdrop of the personnel and their heavy equipment. Task: Which Air Force capability is executing this airborne insertion?",
+		            "Joint commanders suspect an adversary is massing armored vehicles near a disputed border. An RQ-4 Global Hawk is tasked to fly at high altitudes and collect SAR imagery to confirm the buildup. Task: Which Air Force capability is conducting this high-altitude surveillance?",
+		            "Hundreds of joint and coalition aircraft need to fly missions tomorrow without crashing into each other or friendly artillery fire. Planners at the AOC publish the daily Air Tasking Order (ATO) and Airspace Control Order (ACO) to orchestrate the chaos. Task: Which Air Force capability is responsible for this operational-level planning and direction?"
 		        ]
 		    },
 		    "force": {
-		        "first": [
-		            "F-22A Raptor",
-		            "B-2 Spirit",
-		            "Distributed Common Ground System (DCGS)",
-		            "C-17 Globemaster III",
-		            "Air Operations Center (AOC)"
-		        ],
-		        "second": [
-		            "F-35A Lightning II",
-		            "B-1B Lancer",
-		            "AOC ISR Division",
-		            "C-5M Super Galaxy",
-		            "Wing Operations Center (WOC)"
+		        "item": [
+		            "Protection",
+		            "Fires",
+		            "Movement & Maneuver",
+		            "Intelligence",
+		            "Command and Control"
 		        ]
 		    },
 		    "answers": [
 		        {
-		            "subtask": "Gain and maintain the required degree of control of the air to allow friendly forces to operate without prohibitive interference.",
-		            "force": [
-		                "F-22A Raptor",
-		                "F-35A Lightning II"
-		            ],
-		            "funct": "Fires",
-		            "concept": "Air Superiority"
+		            "subtask": "An adversary launches a salvo of cruise missiles and attack drones at a joint logistics hub. DCA and ground-based interceptors are scrambled to destroy the incoming threats before they reach the base. Task: Which Air Force Global: Function is executing this Defensive Counterair (DCA) mission?",
+		            "funct": "Air Superiority",
+		            "force": "Protection"
 		        },
 		        {
-		            "subtask": "Hold targets at risk globally by striking rapidly and persistently with a wide range of munitions.",
-		            "force": [
-		                "B-2 Spirit",
-		                "B-1B Lancer"
-		            ],
-		            "funct": "Fires",
-		            "concept": "Global Precision Attack"
+		            "subtask": "A Marine infantry platoon is pinned down by heavy machine-gun fire from a fortified bunker. A B-52 from Minot is called in to launch JASSM rolling back enemy IADS in PACAF. Which Air Force capability is executing this Air Interdiction (AI) mission?",
+		            "funct": "Global Strike",
+		            "force": "Fires"
 		        },
 		        {
-		            "subtask": "Synchronize and integrate the planning and operation of sensors, assets, and PED systems to support current and future intelligence operations.",
-		            "force": [
-		                "Distributed Common Ground System (DCGS)",
-		                "AOC ISR Division"
-		            ],
-		            "funct": "Intelligence",
-		            "concept": "Global ISR"
+		            "subtask": "A joint task force needs to rapidly insert an Army Ranger battalion deep behind enemy lines to gain a positional advantage on the enemy. A formation of C-17 Globemaster IIIs conducts a low-level, nighttime airdrop of the personnel and their heavy equipment. Task: Which Air Force capability is executing this airborne insertion?",
+		            "funct": "Rapid Global Mobility",
+		            "force": "Movement & Maneuver"
 		        },
 		        {
-		            "subtask": "Provide the rapid movement of personnel and materiel to, from, or within a theater by air.",
-		            "force": [
-		                "C-17 Globemaster III",
-		                "C-5M Super Galaxy"
-		            ],
-		            "funct": "Movement and Maneuver",
-		            "concept": "Rapid Global Mobility"
+		            "subtask": "Joint commanders suspect an adversary is massing armored vehicles near a disputed border. An RQ-4 Global Hawk is tasked to fly at high altitudes and collect SAR imagery to confirm the buildup. Task: Which Air Force capability is conducting this high-altitude surveillance?",
+		            "funct": "Global Integrated ISR",
+		            "force": "Intelligence"
 		        },
 		        {
-		            "subtask": "Exercise authority and direction by a properly designated commander over assigned and attached forces to accomplish a mission.",
-		            "force": [
-		                "Air Operations Center (AOC)",
-		                "Wing Operations Center (WOC)"
-		            ],
+		            "subtask": "Hundreds of joint and coalition aircraft need to fly missions tomorrow without crashing into each other or friendly artillery fire. Planners at the AOC publish the daily Air Tasking Order (ATO) and Airspace Control Order (ACO) to orchestrate the chaos. Task: Which Air Force capability is responsible for this operational-level planning and direction?",
 		            "funct": "Command and Control",
-		            "concept": "Command and Control"
+		            "force": "Command and Control"
 		        }
 		    ]
 		}

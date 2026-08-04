@@ -66,29 +66,26 @@ define(["knockout", "trc/trc.spa", , "scripts/jquery-ui-1.11.4.min.js", "duranda
         shell.content = dataModel.content;
         shell.scenarioPlan = dataModel.content.getScenarioPlan();
         shell.scenarioStepIndex = 0;
+        shell.currentSubtaskOrder = null;
 
-        // Dev: force one scenario with ?scenario=0..N and optional &force=0|1
+        // Dev: force one scenario with ?scenario=0..N
         (function () {
             var match = /[?&]scenario=(\d+)(?:&|$)/i.exec(window.location.search);
             if (match) {
                 var scenarioIndex = parseInt(match[1], 10);
                 var maxIndex = dataModel.content.scenarios.length - 1;
                 if (scenarioIndex >= 0 && scenarioIndex <= maxIndex) {
-                    var forceMatch = /[?&]force=([0-1])(?:&|$)/i.exec(window.location.search);
-                    shell.scenarioPlan = [
-                        [
-                            scenarioIndex,
-                            forceMatch ? parseInt(forceMatch[1], 10) : 0
-                        ]
-                    ];
+                    shell.scenarioPlan = [scenarioIndex];
                     shell.scenarioStepIndex = 0;
+                    shell.currentSubtaskOrder = null;
                 }
             }
         })();
 
-        shell.scenarioIndexes = shell.scenarioPlan[shell.scenarioStepIndex];
-        // first index = scenario number; second index = force list (0 = first, 1 = second)
-        var scenario = dataModel.content.scenarios[shell.scenarioIndexes[0]];
+        shell.currentScenarioIndex = function () {
+            return shell.scenarioPlan[shell.scenarioStepIndex];
+        };
+        var scenario = dataModel.content.scenarios[shell.currentScenarioIndex()];
         shell.scenario = ko.observable(scenario);
 
         shell.getScenarioProgress = function () {
@@ -107,13 +104,13 @@ define(["knockout", "trc/trc.spa", , "scripts/jquery-ui-1.11.4.min.js", "duranda
                 return false;
             }
             shell.scenarioStepIndex++;
-            shell.scenarioIndexes = shell.scenarioPlan[shell.scenarioStepIndex];
-            shell.scenario(dataModel.content.scenarios[shell.scenarioIndexes[0]]);
-            shell.allowedAttempts(3);
+            shell.scenario(dataModel.content.scenarios[shell.currentScenarioIndex()]);
+            shell.currentSubtaskOrder = null;
+            shell.allowedAttempts(dataModel.content.allowedStrikes || 5);
             return true;
         };
 
-        shell.missionText = dataModel.content.mission;
+        shell.missionText = ko.observable(content.mission || dataModel.content.mission);
         shell.showVideo = dataModel.content.playVideo; //turn of video for debugging
         shell.watchedVideo = ko.observable(false);
         shell.videoPlaying = ko.observable(false);
@@ -122,7 +119,7 @@ define(["knockout", "trc/trc.spa", , "scripts/jquery-ui-1.11.4.min.js", "duranda
         shell.mainVideo = ko.observable();
         shell.resources = {};
         shell.resources.isOpen = ko.observable(false);
-        shell.allowedAttempts = ko.observable(3);
+        shell.allowedAttempts = ko.observable(dataModel.content.allowedStrikes || 5);
         
 
         shell.resources.handleClick = function () {

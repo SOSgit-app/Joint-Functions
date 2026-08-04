@@ -1,4 +1,4 @@
-﻿define(["knockout", "trc/trc.spa"],
+define(["knockout", "trc/trc.spa"],
   function (ko, SPA) {
 
       return function () {
@@ -25,6 +25,9 @@
           };
 
           self.backProcess = function (button, evt) {
+              if (params.retryCallBack) {
+                  params.retryCallBack();
+              }
               var closed = self.close();
           };
           self.endProcess = function (button, evt) {

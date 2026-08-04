@@ -168,46 +168,52 @@ function nextScenarioId(ids) {
 
 
 
+function getForceItems(data) {
+  if (!data || !data.force) return [];
+  if (Array.isArray(data.force.item)) return data.force.item.filter(Boolean);
+  if (Array.isArray(data.force.first)) return data.force.first.filter(Boolean);
+  return [];
+}
+
+function getAnswerForce(answer) {
+  if (!answer) return "";
+  if (typeof answer.force === "string") return answer.force;
+  if (Array.isArray(answer.force)) return answer.force[0] || "";
+  return "";
+}
+
+function normalizeScenario(data) {
+  const normalized = JSON.parse(JSON.stringify(data || {}));
+  const items = getForceItems(normalized);
+  normalized.force = { item: items };
+  normalized.answers = (normalized.answers || []).map((a) => ({
+    subtask: a.subtask,
+    funct: a.funct,
+    force: getAnswerForce(a),
+    concept: a.concept,
+  }));
+  return normalized;
+}
+
 function emptyScenarioTemplate() {
-
   return {
-
     funct: {
-
-      item: ["Command and Control"],
-
+      item: [""],
     },
-
     subtask: {
-
-      item: ["New subtask — edit me"],
-
+      item: [""],
     },
-
     force: {
-
-      first: ["Element (first list)"],
-
-      second: ["Element (second list)"],
-
+      item: [""],
     },
-
     answers: [
-
       {
-
-        subtask: "New subtask — edit me",
-
-        funct: "Command and Control",
-
-        force: ["Element (first list)", "Element (second list)"],
-
+        subtask: "",
+        funct: "",
+        force: "",
       },
-
     ],
-
   };
-
 }
 
 
@@ -282,7 +288,7 @@ function readScenario(id) {
 
   const content = fs.readFileSync(filePath, "utf8");
 
-  return parseScenarioFile(content);
+  return normalizeScenario(parseScenarioFile(content));
 
 }
 
@@ -298,7 +304,7 @@ function writeScenario(id, data) {
 
   const filePath = scenarioFilePath(id);
 
-  const content = serializeScenario(data);
+  const content = serializeScenario(normalizeScenario(data));
 
   fs.writeFileSync(filePath, content, "utf8");
 
@@ -485,83 +491,35 @@ function syncScenarios(scenariosById, orderedIds) {
 
 
 function validateScenario(data) {
-
+  const normalized = normalizeScenario(data);
   const issues = [];
+  const functs = normalized.funct?.item || [];
+  const subtasks = normalized.subtask?.item || [];
+  const elements = getForceItems(normalized);
+  const answers = normalized.answers || [];
 
-  const functs = data.funct?.item || [];
-
-  const subtasks = data.subtask?.item || [];
-
-  const first = data.force?.first || [];
-
-  const second = data.force?.second || [];
-
-  const answers = data.answers || [];
-
-
-
-  if (functs.length === 0) issues.push("Function library is empty.");
-
-  if (subtasks.length === 0) issues.push("Subtask list is empty.");
-
-  if (first.length === 0) issues.push("Element library (first) is empty.");
-
-  if (second.length === 0) issues.push("Element library (second) is empty.");
-
-  if (first.length !== second.length) {
-
-    issues.push(
-
-      "Element lists differ in length (" + first.length + " vs " + second.length + "). The course expects paired lists."
-
-    );
-
-  }
-
-
+  if (functs.length === 0) issues.push("Air Force Core Functions library is empty.");
+  if (subtasks.length === 0) issues.push("Scenario Based Task list is empty.");
+  if (elements.length === 0) issues.push("Joint Functions library is empty.");
 
   answers.forEach((a, i) => {
-
     const row = "Answer row " + (i + 1);
-
-    if (!a.subtask) issues.push(row + ": missing subtask.");
-
-    else if (!subtasks.includes(a.subtask)) issues.push(row + ': subtask "' + a.subtask + '" is not in the subtask list.');
-
-    if (!a.funct) issues.push(row + ": missing function.");
-
-    else if (!functs.includes(a.funct)) issues.push(row + ': function "' + a.funct + '" is not in the function library.');
-
-    if (!Array.isArray(a.force) || a.force.length !== 2) {
-
-      issues.push(row + ": force must be an array of two element names.");
-
-    } else {
-
-      if (!first.includes(a.force[0])) issues.push(row + ': force[0] "' + a.force[0] + '" is not in element library (first).');
-
-      if (!second.includes(a.force[1])) issues.push(row + ': force[1] "' + a.force[1] + '" is not in element library (second).');
-
-    }
-
+    if (!a.subtask) issues.push(row + ": missing Scenario Based Task.");
+    else if (!subtasks.includes(a.subtask)) issues.push(row + ': Scenario Based Task "' + a.subtask + '" is not in the list.');
+    if (!a.funct) issues.push(row + ": missing Air Force Core Function.");
+    else if (!functs.includes(a.funct)) issues.push(row + ': Air Force Core Function "' + a.funct + '" is not in the library.');
+    const force = getAnswerForce(a);
+    if (!force) issues.push(row + ": missing joint function.");
+    else if (!elements.includes(force)) issues.push(row + ': joint function "' + force + '" is not in the library.');
   });
-
-
 
   subtasks.forEach((st) => {
-
     if (!answers.some((a) => a.subtask === st)) {
-
-      issues.push('Subtask has no answer row: "' + st + '"');
-
+      issues.push('Scenario Based Task has no answer row: "' + st + '"');
     }
-
   });
 
-
-
   return issues;
-
 }
 
 
@@ -587,6 +545,10 @@ module.exports = {
   listScenarioIds,
 
   nextScenarioId,
+
+  normalizeScenario,
+  getForceItems,
+  getAnswerForce,
 
   emptyScenarioTemplate,
 

@@ -1,7 +1,7 @@
 # Builds a SCORM 1.2 upload package (zip with imsmanifest.xml at the archive root).
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
-$out = Join-Path $root "Joint Functions Activity.zip"
+$out = Join-Path $root "Joint Functions Map.zip"
 $staging = Join-Path $env:TEMP ("joint-functions-activity-scorm-" + [guid]::NewGuid().ToString("n"))
 
 function Copy-Tree {

@@ -10,7 +10,7 @@
   <header class="topbar">
     <div class="brand">
       <h1>Scenario Content Editor</h1>
-      <p>Edit function library, subtasks, element libraries, and answer keys. Add or remove scenarios as needed.</p>
+      <p>Edit scenario based tasks, Air Force core functions, joint functions, and answer keys. Add or remove scenario sets as needed.</p>
     </div>
     <div class="toolbar">
       <div class="scenario-picker">
@@ -18,7 +18,7 @@
           Scenario
           <select id="scenarioSelect"></select>
         </label>
-        <button type="button" id="btnAddScenario" class="secondary" title="Add scenario">+</button>
+        <button type="button" id="btnAddScenario" class="secondary" title="Add scenario">+ Scenario</button>
         <button type="button" id="btnRemoveScenario" class="danger" title="Remove scenario">−</button>
       </div>
       <button type="button" id="btnReload" class="secondary">Reload from disk</button>
@@ -36,69 +36,56 @@
   <div id="validation" class="validation" hidden></div>
 
   <nav class="tabs" role="tablist">
-    <button type="button" class="tab active" data-tab="functions">Function library</button>
-    <button type="button" class="tab" data-tab="subtasks">Subtasks</button>
-    <button type="button" class="tab" data-tab="elements">Element library</button>
+    <button type="button" class="tab active" data-tab="subtasks">Scenario Based Task</button>
+    <button type="button" class="tab" data-tab="functions">Air Force Core Functions</button>
+    <button type="button" class="tab" data-tab="elements">Joint Functions</button>
     <button type="button" class="tab" data-tab="answers">Answer key</button>
   </nav>
 
   <main class="panels">
-    <section id="panel-functions" class="panel active">
+    <section id="panel-subtasks" class="panel active">
       <div class="panel-head">
-        <h2>Function library</h2>
-        <button type="button" class="add-btn" data-list="functions">+ Add function</button>
+        <h2>Scenario Based Task</h2>
+        <button type="button" class="add-btn" data-list="subtasks">+ Add scenario based task</button>
       </div>
-      <p class="hint">Red drag-and-drop items in the course (core functions). Order here is display order in the left column.</p>
-      <div id="list-functions" class="item-list"></div>
+      <p class="hint">Center column descriptions. The course shuffles display order at runtime; answer keys must use exact text from this list.</p>
+      <div id="list-subtasks" class="item-list"></div>
     </section>
 
-    <section id="panel-subtasks" class="panel">
+    <section id="panel-functions" class="panel">
       <div class="panel-head">
-        <h2>Subtasks</h2>
-        <button type="button" class="add-btn" data-list="subtasks">+ Add subtask</button>
+        <h2>Air Force Core Functions</h2>
+        <button type="button" class="add-btn" data-list="functions">+ Add Air Force core function</button>
       </div>
-      <p class="hint">Center column task descriptions. The course shuffles display order at runtime; answer keys must use exact text from this list.</p>
-      <div id="list-subtasks" class="item-list"></div>
+      <p class="hint">Drag-and-drop items in the course (Air Force core functions). Order here is display order in the left column.</p>
+      <div id="list-functions" class="item-list"></div>
     </section>
 
     <section id="panel-elements" class="panel">
       <div class="panel-head">
-        <h2>Element library</h2>
-        <div class="panel-actions">
-          <button type="button" id="btnSyncElementCount" class="secondary">Match list lengths</button>
-          <button type="button" class="add-btn" data-list="elements-first">+ Add to both lists</button>
-        </div>
+        <h2>Joint Functions</h2>
+        <button type="button" class="add-btn" data-list="elements">+ Add joint function</button>
       </div>
-      <p class="hint">Two parallel force lists: the course randomly uses <strong>first</strong> or <strong>second</strong> at startup. Keep the same number of rows in each column.</p>
-      <div class="element-grid">
-        <div>
-          <h3>force.first</h3>
-          <div id="list-elements-first" class="item-list"></div>
-        </div>
-        <div>
-          <h3>force.second</h3>
-          <div id="list-elements-second" class="item-list"></div>
-        </div>
-      </div>
+      <p class="hint">Joint functions shown in the course when a student places an Air Force core function. Each scenario based task row uses the joint function from the answer key.</p>
+      <div id="list-elements" class="item-list"></div>
     </section>
 
     <section id="panel-answers" class="panel">
       <div class="panel-head">
         <h2>Answer key</h2>
         <div class="panel-actions">
-          <button type="button" id="btnRebuildAnswers" class="secondary">Rebuild rows from subtasks</button>
+          <button type="button" id="btnRebuildAnswers" class="secondary">Rebuild rows from scenario based task list</button>
           <button type="button" class="add-btn" data-list="answers">+ Add answer row</button>
         </div>
       </div>
-      <p class="hint">Correct function and element for each subtask. <code>force[0]</code> applies when the first element list is active; <code>force[1]</code> for the second list.</p>
+      <p class="hint">Correct Air Force core function and joint function for each scenario based task. The joint function autofills in the course when a student places any Air Force core function on that row.</p>
       <div class="answers-wrap">
         <table class="answers-table">
           <thead>
             <tr>
-              <th>Subtask</th>
-              <th>Function</th>
-              <th>Element (first list)</th>
-              <th>Element (second list)</th>
+              <th>Scenario Based Task</th>
+              <th>Air Force Core Function</th>
+              <th>Joint Function</th>
               <th></th>
             </tr>
           </thead>

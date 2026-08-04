@@ -177,11 +177,18 @@ body {
 
 .shell.loaded .header .logo {
     background-image: url("../assets/images/UI_TopBar.png");
-    width: 216px;
+    background-repeat: no-repeat;
+    width: 320px;
     height: 53px;
     color: #fff;
-    font-size: 14px;
-    padding: 3px 0 0 64px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 15px;
+    padding: 10px 12px 0 64px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
 }
 
 .shell.loaded .header .bar {
@@ -189,7 +196,7 @@ body {
     top: 0;
     right: 0;
     background-image: url("../assets/images/UI_TopBar_02.png");
-    width: 808px;
+    width: 704px;
     height: 26px;
     z-index: 1;
 }

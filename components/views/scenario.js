@@ -1,4 +1,4 @@
-﻿define(["knockout", "trc/trc.spa"],
+define(["knockout", "trc/trc.spa"],
   function (ko, SPA) {
 
       return function () {
@@ -16,7 +16,6 @@
           self.answers = ko.observableArray();
           self.feedbackInPercents = ko.observable();
           self.incorrectFunc = ko.observable();
-          self.incorrectEl = ko.observable();
           self.hoverTimeout = ko.observable();
           self.staticFeedback = ko.observable();
           self.dynamicFeedback = ko.observableArray();
@@ -25,18 +24,39 @@
           this.buildExplanation = function () {
               var prog = shell.getScenarioProgress();
               var prefix = "Scenario " + prog.current + " of " + prog.total + ". ";
-              return prefix + shell.content.gameInstruction;
+              var attemptsLeft = shell.allowedAttempts();
+              var allowed = shell.content.allowedStrikes || 5;
+              return prefix + shell.content.gameInstruction
+                  .replace("[attemptsRemaining]", attemptsLeft + " of " + allowed);
+          };
+
+          this.isDebugBuild = function () {
+              return (window.TRC && TRC.config && TRC.config.debug) ||
+                  /index-debug\.html/i.test(window.location.pathname || "");
+          };
+
+          this.bindDebugShortcuts = function () {
+              if (!self.isDebugBuild()) {
+                  return;
+              }
+              $(document).off("keydown.scenarioDebug", self.onDebugKeydown);
+              $(document).on("keydown.scenarioDebug", self.onDebugKeydown);
           };
 
           this.activateView = function () {
               var params = self.getParameters();
+              self.functionLibrary.removeAll();
+              self.elementLibrary.removeAll();
+              self.subtasks.removeAll();
               self.populateFunctionLibrary();
               self.populateElementLibrary();
               self.populateSubtasks();
               self.explanation(self.buildExplanation());
+              self.bindDebugShortcuts();
           };
 
           this.reinitializeScenario = function () {
+              self.teardownDragAndDrop();
               self.isContinueClicked(false);
               self.functionLibrary.removeAll();
               self.elementLibrary.removeAll();
@@ -44,33 +64,102 @@
               self.answers.removeAll();
               self.feedbackInPercents(undefined);
               self.incorrectFunc(0);
-              self.incorrectEl(0);
               self.staticFeedback("");
               self.dynamicFeedback.removeAll();
               self.feedbackResult("");
-              $(".functionDrop").find(".functionEl").remove();
-              $(".elementDrop").find(".element").each(function () {
-                  $(".thirdColumn").append($(this));
-              });
               self.populateFunctionLibrary();
               self.populateElementLibrary();
               self.populateSubtasks();
               self.explanation(self.buildExplanation());
-              shell.tutorial.hasPlayed(false);
               shell.tutorial.hide();
-              $(".thirdColumn").scrollTop(0);
               window.setTimeout(function () {
                   self.isActive(true);
-              }, 100);
+                  self.startScenarioBoard();
+              }, 150);
+          };
+
+          this.teardownDragAndDrop = function () {
+              var $root = $(".scenario");
+              $root.find(".functionEl").each(function () {
+                  var $el = $(this);
+                  if ($el.data("ui-draggable")) {
+                      $el.draggable("destroy");
+                  }
+              });
+              $root.find(".functionDrop div, .firstColumn").each(function () {
+                  var $el = $(this);
+                  if ($el.data("ui-droppable")) {
+                      $el.droppable("destroy");
+                  }
+              });
+          };
+
+          this.startScenarioBoard = function () {
+              self.isContinueClicked(true);
+              window.setTimeout(function () {
+                  self.teardownDragAndDrop();
+                  self.allowDragAndDrop();
+                  shell.tutorial.view = "scenario";
+                  if (shell.content.tutorial) {
+                      shell.tutorial.show();
+                  }
+              }, 0);
           };
 
           this.submit = function () {
-              self.isContinueClicked(true);
-              self.allowDragAndDrop();
-              shell.tutorial.view = 'scenario';
-              if (shell.content.tutorial) shell.tutorial.show();
+              self.startScenarioBoard();
           };
 
+          this.getAnswerElement = function (subtask) {
+              var match = ko.utils.arrayFirst(shell.scenario().answers, function (item) {
+                  return item.subtask === subtask;
+              });
+              if (!match) {
+                  return "";
+              }
+              if (typeof match.force === "string") {
+                  return match.force;
+              }
+              if (Array.isArray(match.force)) {
+                  return match.force[0] || "";
+              }
+              return "";
+          };
+
+          this.truncateElementLabel = function (text, maxLen) {
+              maxLen = maxLen || 17;
+              if (!text || text.length <= maxLen) {
+                  return text;
+              }
+              return text.substring(0, maxLen) + "[...]";
+          };
+
+          this.autofillElementForRow = function (rowIndex, subtask) {
+              var force = self.getAnswerElement(subtask);
+              var $elementSlot = $(".scenario .elementDrop .el").eq(rowIndex);
+              $elementSlot.empty();
+              if (force) {
+                  $elementSlot.append(
+                      $('<div class="element autofilled more_info"></div>')
+                          .attr("title", force)
+                          .text(self.truncateElementLabel(force))
+                  );
+              }
+          };
+
+          this.populateElementLibrary = function () {
+              var seen = {};
+              var items = shell.scenario().force && shell.scenario().force.item
+                  ? shell.scenario().force.item
+                  : [];
+              ko.utils.arrayForEach(items, function (val) {
+                  if (!val || seen[val]) {
+                      return;
+                  }
+                  seen[val] = true;
+                  self.elementLibrary.push(val);
+              });
+          };
 
           this.populateFunctionLibrary = function () {
               ko.utils.arrayForEach(shell.scenario().funct.item, function (val) {
@@ -78,70 +167,80 @@
               });
           };
 
-          this.populateElementLibrary = function () {
-              var forceList;
-              if (shell.scenarioIndexes[1] == 0) {
-                  forceList = shell.scenario().force.first;
-              }
-              else {
-                  forceList = shell.scenario().force.second;
-              }
-
-              ko.utils.arrayForEach(forceList, function (val) {
-                  self.elementLibrary.push(val);
-              });
-          };
-
           this.populateSubtasks = function () {
-              var subtasks = self.shuffleArray(shell.scenario().subtask.item);
-              ko.utils.arrayForEach(subtasks, function (val) {
+              // Shuffle row order once per scenario set; keep it fixed across retries.
+              if (!shell.currentSubtaskOrder || !shell.currentSubtaskOrder.length) {
+                  shell.currentSubtaskOrder = self.shuffleArray(shell.scenario().subtask.item.slice());
+              }
+              self.subtasks.removeAll();
+              ko.utils.arrayForEach(shell.currentSubtaskOrder, function (val) {
                   self.subtasks.push(val);
               });
           };
 
-          this.scrollDown = function () {
-              $(".thirdColumn").animate({
-                  scrollTop: "+=" + 70 + "px"
-              });
-          };
-
-          this.scrollUp = function () {
-              $(".thirdColumn").animate({
-                  scrollTop: "-=" + 70 + "px"
-              });
+          this.prepareRetry = function () {
+              self.isActive(true);
+              self.reset();
+              self.explanation(self.buildExplanation());
           };
 
           // #region Drag and drop
           self.allowDragAndDrop = function () {
-              var dropzone1 = $(".functionDrop div");
-              var dropzone2 = $(".elementDrop div");
-              var dropzone3 = $(".thirdColumn");
-              var dropzone4 = $(".firstColumn");
+              var $root = $(".scenario");
+              var dropzone1 = $root.find(".functionDrop div");
+              var dropzone4 = $root.find(".firstColumn");
 
-              self.bindDraggable(".functionEl", '.container');
-              self.bindDraggable(".element", '.container');
-
+              self.bindDraggable($root.find(".functionEl"), ".chart-board");
               self.bindDroppable(dropzone1);
-              self.bindDroppable(dropzone2);
-              self.bindDroppable(dropzone3);
               self.bindDroppable(dropzone4);
           };
 
+          this.resetFunctionDropStyles = function ($el) {
+              if ($el.closest(".functionDrop").length) {
+                  $el.css({
+                      position: "absolute",
+                      top: "30px",
+                      left: "0",
+                      margin: "0"
+                  });
+              }
+          };
+
           this.bindDraggable = function (el, appendTo) {
-              $(el).draggable({
-                  appendTo: appendTo,
-                  helper: 'clone',
-                  stop: self.dragStop,
-                  start: function (ev, ui) {
-                      // $(".title").remove();
-                      self.addTooltip(ev, ui);                     
+              $(el).each(function () {
+                  var $target = $(this);
+                  if ($target.data("ui-draggable")) {
+                      $target.draggable("destroy");
                   }
+                  $target.draggable({
+                      appendTo: appendTo,
+                      helper: "clone",
+                      cursorAt: { left: 57, top: 20 },
+                      stop: function (ev, ui) {
+                          self.resetFunctionDropStyles($(this));
+                          self.dragStop(ev, ui);
+                      },
+                      start: function (ev, ui) {
+                          ui.helper.css({
+                              margin: 0,
+                              top: "auto",
+                              left: "auto"
+                          });
+                          self.addTooltip(ev, ui);
+                      }
+                  });
               });
           };
 
           this.bindDroppable = function (el) {
-              $(el).droppable({
-                  drop: self.drop
+              $(el).each(function () {
+                  var $target = $(this);
+                  if ($target.data("ui-droppable")) {
+                      $target.droppable("destroy");
+                  }
+                  $target.droppable({
+                      drop: self.drop
+                  });
               });
           };
 
@@ -153,45 +252,32 @@
 
                   var el = $(ui.draggable);
 
-                  if (dropElement.parent().attr('class').indexOf("functionDrop") >= 0 && el.attr("class").indexOf("functionEl") >= 0) {
+                  if (dropElement.parent().attr("class").indexOf("functionDrop") >= 0 && el.attr("class").indexOf("functionEl") >= 0) {
                       if (dropElement.find("div").length > 0) {
                           dropElement.find("div").remove();
                       }
                       if (el.parents(".functionDrop").length <= 0) {
                           el = el.clone();
-                          el.css('top', '-5px');
-                          el.css('margin', '0');
+                          el.css("margin", "0");
                       }
                       dropElement.append(el);
-                      self.bindDraggable(el, '.container');
+                      self.resetFunctionDropStyles(el);
+                      self.bindDraggable(el, ".chart-board");
+
+                      var rowIndex = dropElement.parent().children(".el").index(dropElement);
+                      var subtask = self.subtasks()[rowIndex];
+                      if (subtask) {
+                          self.autofillElementForRow(rowIndex, subtask);
+                      }
                   }
-                  if (dropElement.attr('class').indexOf("firstColumn") >= 0 && el.attr("class").indexOf("functionEl") >= 0 && el.parents(".functionDrop").length > 0) {
+                  if (dropElement.attr("class").indexOf("firstColumn") >= 0 && el.attr("class").indexOf("functionEl") >= 0 && el.parents(".functionDrop").length > 0) {
+                      var $row = el.closest(".el");
+                      var fromRow = $row.parent().children(".el").index($row);
                       el.remove();
-                  }
-
-                  if (dropElement.parent().attr('class').indexOf("elementDrop") >= 0 && el.attr("class").indexOf("element") >= 0) {
-                      if (dropElement.find("div").length > 0) {
-                          var item = dropElement.find("div");
-                          $(".thirdColumn").append(item);
+                      if (fromRow >= 0) {
+                          $(".scenario .elementDrop .el").eq(fromRow).empty();
                       }
-                      el.css('top', '-5px');
-                      el.css('margin', '0');
-                      dropElement.append(el);
                   }
-
-                  if (dropElement.attr('class').indexOf("thirdColumn") >= 0 && el.attr("class").indexOf("element") >= 0) {
-                      $(dropElement).append(el);
-                  }
-              };
-          };
-
-          this.dragover = function (ev) {
-              if (ev) {
-                  ev.preventDefault();
-                  if (ev.target.getAttribute("draggable") == "true")
-                      ev.originalEvent.dataTransfer.dropEffect = "none"; // dropping is not allowed
-                  else
-                      ev.originalEvent.dataTransfer.dropEffect = "all"; // drop it like it's hot
               }
           };
 
@@ -203,11 +289,10 @@
           // #endregion
 
           this.reset = function () {
-              $('.functionDrop').find(".functionEl").remove();
-              var droppedElements = $('.elementDrop').find(".element");
-              droppedElements.each(function (index, item) {
-                  $(".thirdColumn").append(item);
-              });
+              self.teardownDragAndDrop();
+              $(".scenario .functionDrop").find(".functionEl").remove();
+              $(".scenario .elementDrop .el").empty();
+              self.allowDragAndDrop();
           };
 
           this.evaluate = function (isTest) {
@@ -229,36 +314,40 @@
               if (self.feedbackInPercents() >= 80 && self.feedbackInPercents() < 100) {
                   self.staticFeedback(shell.content.feedbacks[1].text);
                   feedback = shell.content.feedbacks[1].text
-                      .replace("[functIC]", self.incorrectFunc())
-                      .replace("[eleIC]", self.incorrectEl());
+                      .replace("[functIC]", self.incorrectFunc());
 
                   self.dynamicFeedback.push(self.incorrectFunc());
-                  self.dynamicFeedback.push(self.incorrectEl());
               }
               if (self.feedbackInPercents() < 80) {
-                  //if (shell.allowedAttempts() != 1) {
-                      var attempts = shell.allowedAttempts() - 1;
-                      shell.allowedAttempts(attempts);
-                      var subtasks = "</br>";
-                      ko.utils.arrayForEach(self.answers(), function (item) {
-                          if (!item.isCorrectFunc || !item.isCorrectEl) {
-                              self.dynamicFeedback.push(item.subtask);
-                              subtasks += "<li>" + item.subtask + "</li>"
-                          }
-                      });
+                  var attempts = shell.allowedAttempts() - 1;
+                  shell.allowedAttempts(attempts);
+                  var allowedStrikes = shell.content.allowedStrikes || 5;
+                  var subtasks = "</br>";
+                  ko.utils.arrayForEach(self.answers(), function (item) {
+                      if (!item.isCorrectFunc) {
+                          self.dynamicFeedback.push(item.subtask);
+                          subtasks += "<li>" + item.subtask + "</li>";
+                      }
+                  });
+                  if (attempts > 0) {
                       self.staticFeedback(shell.content.feedbacks[2].text);
                       feedback = shell.content.feedbacks[2].text
                           .replace("[subtasks]", subtasks)
                           .replace("[currentStrikesLeft]", attempts)
-                          .replace("[allowedStrikes]", 3);
+                          .replace("[allowedStrikes]", allowedStrikes);
                       back = true;
                       title = "TRY AGAIN";
-                  //}
-                  //else {
-                  //    self.staticFeedback(shell.content.feedbacks[3].text);
-                  //    feedback = shell.content.feedbacks[3].text;
-                  //    end = true;
-                  //}
+                  } else {
+                      self.staticFeedback(shell.content.feedbacks[3].text);
+                      feedback = shell.content.feedbacks[3].text
+                          .replace("[allowedStrikes]", allowedStrikes);
+                      back = false;
+                      end = true;
+                      title = "ATTEMPTS EXHAUSTED";
+                      if (shell && window.application && window.application.scorm) {
+                          window.application.scorm.setStatus("failed", true);
+                      }
+                  }
               }
 
               var passed = self.feedbackInPercents() >= 80;
@@ -268,18 +357,19 @@
 
               self.feedbackResult(feedback);
               if ($.isFunction(window.openModalView)) {
-                  window.openModalView('feedback', {
+                  window.openModalView("feedback", {
                       feedback: self.feedbackResult(),
                       back: back,
                       end: end,
                       title: title,
+                      retryCallBack: back ? function () { self.prepareRetry(); } : null,
                       callBack: function () {
                           if (passed && shell.advanceToNextScenario()) {
                               self.reinitializeScenario();
                               return;
                           }
                           self.close();
-                          shell.startPlayVideo('JF504_7', function () { window.openView("endActivity"); });
+                          window.openView("endActivity");
                       }
                   });
               }
@@ -288,63 +378,32 @@
           this.getAnswers = function () {
               self.answers.removeAll();
               var counter = 0;
-              var rigthAnswers = 0;
               var incorrectFunc = 0;
-              var incorrectEl = 0;
-              var functionsContainer = $('.functionDrop .el');
-              var elementsContainer = $('.elementDrop .el');
+              var functionsContainer = $(".functionDrop .el");
               ko.utils.arrayForEach(self.subtasks(), function (task) {
-                  var answer = { choosedFunction: "", subtask: task, element: "" };
-                  if ($(functionsContainer[counter]).has('.functionEl').length > 0) {
-                      answer.choosedFunction = $(functionsContainer[counter]).find('.functionEl').text();
-                  }
-                  if ($(elementsContainer[counter]).has('.element').length > 0) {
-                      answer.element = $(elementsContainer[counter]).find('.element').attr('title');
+                  var answer = { choosedFunction: "", subtask: task, element: self.getAnswerElement(task) };
+                  if ($(functionsContainer[counter]).has(".functionEl").length > 0) {
+                      answer.choosedFunction = $(functionsContainer[counter]).find(".functionEl").text();
                   }
                   answer.isCorrectFunc = self.isItRightFunction(answer);
-                  answer.isCorrectEl = self.isItRightElement(answer);
-                  if (answer.isCorrectFunc && answer.isCorrectEl) {
-                      rigthAnswers++;
-                  }
                   if (!answer.isCorrectFunc) {
                       incorrectFunc++;
                   }
-                  if (!answer.isCorrectEl) {
-                      incorrectEl++;
-                  }
                   self.answers.push(answer);
-                  counter++
+                  counter++;
               });
-              self.countPercentage(incorrectFunc, incorrectEl);
-
+              self.countPercentage(incorrectFunc);
           };
 
-          this.countPercentage = function (incorrectFunc, incorrectEl) {
+          this.countPercentage = function (incorrectFunc) {
               var total = self.subtasks().length || 1;
-              self.feedbackInPercents(
-                  (((total - incorrectFunc) + (total - incorrectEl)) * 100) / (total * 2)
-              );
+              self.feedbackInPercents(((total - incorrectFunc) * 100) / total);
               self.incorrectFunc(incorrectFunc);
-              self.incorrectEl(incorrectEl);
           };
 
           this.isItRightFunction = function (answer) {
               var match = ko.utils.arrayFirst(shell.scenario().answers, function (item) {
                   return answer.subtask === item.subtask && answer.choosedFunction == item.funct;
-              });
-
-              if (match) {
-                  return true;
-              }
-              else {
-                  return false;
-              }
-          };
-
-
-          this.isItRightElement = function (answer) {
-              var match = ko.utils.arrayFirst(shell.scenario().answers, function (item) {
-                  return answer.subtask === item.subtask && jQuery.inArray(answer.element, item.force) >= 0;
               });
 
               if (match) {
@@ -363,7 +422,7 @@
                   array[j] = temp;
               }
               return array;
-          }
+          };
 
           this.showTootips = function () {
               $(".more_info").click(function (e) {
@@ -376,32 +435,56 @@
                   clearTimeout(self.hoverTimeout());
                   var cuurentEl = $(ev.target);
 
-                  //var offset = $(this).offset();
-
                   $(".element").css("z-index", "initial");
                   $(".title").remove();
                   var $title = cuurentEl.find(".title");
                   if (!$title.length && cuurentEl.hasClass("element")) {
                       cuurentEl.append('<div class="title">' + cuurentEl.attr("title") + '</div>');
-                      //$(".title").css("left", offset.left - $(window).scrollLeft() - 50);
-                      //$(".title").css("top", offset.top - $(window).scrollTop() + 20);
-
                   } else {
                       $title.remove();
                   }
                   var timer = setTimeout(function () { $(".title").remove(); $(".element").css("z-index", 1); }, 1500);
                   self.hoverTimeout(timer);
              }
-              
           };
 
           function is_touch_device() {
-              return 'ontouchstart' in window        // works on most browsers 
-                  || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+              return "ontouchstart" in window
+                  || navigator.maxTouchPoints;
+          }
+
+          this.debugSkipToNextScenario = function () {
+              if (!self.isDebugBuild()) {
+                  return;
+              }
+              shell.tutorial.hide();
+              if (shell.hasMoreScenariosAfterCurrent()) {
+                  shell.advanceToNextScenario();
+                  self.reinitializeScenario();
+                  return;
+              }
+              self.close();
+              window.openView("endActivity");
+          };
+
+          this.onDebugKeydown = function (event) {
+              if (!self.isDebugBuild()) {
+                  return;
+              }
+              if (!event.ctrlKey || !event.shiftKey) {
+                  return;
+              }
+              var isF = event.key === "f" || event.key === "F" || event.keyCode === 70 || event.code === "KeyF";
+              if (!isF) {
+                  return;
+              }
+              event.preventDefault();
+              self.debugSkipToNextScenario();
           };
 
           this.compositionComplete = function (view) {
-              window.setTimeout(function () { self.isActive(true); }, 500); //find another call after view is loaded
+              window.setTimeout(function () { self.isActive(true); }, 500);
+              self.bindDebugShortcuts();
           };
 
           this.bindingComplete = function () {

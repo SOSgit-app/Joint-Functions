@@ -1,4 +1,4 @@
-﻿define(['QUnit', 'jquery', 'knockout', 'scenarioView', 'content/scenario1', 'content/scenario2', 'content/scenario3', 'content/scenario4', 'content/jf504'],
+define(['QUnit', 'jquery', 'knockout', 'scenarioView', 'content/scenario1', 'content/scenario2', 'content/scenario3', 'content/scenario4', 'content/jf504'],
 function (QUnit, jquery, ko, scenarioView, scenario1, scenario2, scenario3, scenario4, content) {
 
     QUnit.module("Feedback tests");
@@ -226,7 +226,7 @@ function (QUnit, jquery, ko, scenarioView, scenario1, scenario2, scenario3, scen
         window.application = {};
         window.application.shell = {
             content: content,
-            allowedAttempts: ko.observable(3)
+            allowedAttempts: ko.observable(5)
         };
         var scenario = new scenarioView();
 
