@@ -11,11 +11,21 @@ define(["knockout", "trc/trc.spa"],
           self.showError = ko.observable(false);
           self.passwordFocused = ko.observable(true);
 
+          self.enterActivity = function () {
+              self.close();
+              shell.loaded(true);
+              window.openView("mission");
+          };
+
           self.submitPassword = function () {
               var entered = String(self.password() || "").trim();
               if (entered === ACCESS_CODE) {
                   self.showError(false);
                   self.unlocked(true);
+                  // Continue immediately after a correct code so learners aren't stuck on splash.
+                  window.setTimeout(function () {
+                      self.enterActivity();
+                  }, 150);
                   return;
               }
               self.showError(true);
@@ -38,9 +48,7 @@ define(["knockout", "trc/trc.spa"],
               if (!self.unlocked()) {
                   return;
               }
-              self.close();
-              shell.loaded(true);
-              window.openView("mission");
+              self.enterActivity();
           };
       };
   });

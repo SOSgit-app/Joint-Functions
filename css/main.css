@@ -483,46 +483,33 @@ body {
   height: 768px;
   width: 1024px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .splash .splash-proceed {
   width: 350px;
-  padding: 10px 50px;
-  height: 75px;
+  padding: 18px 40px;
+  min-height: 75px;
   text-align: center;
-  overflow: hidden;
   box-sizing: border-box;
-  margin: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
   cursor: pointer;
   z-index: 3;
   color: #fff;
-  font-size: 24px;
+  font-size: 22px;
+  line-height: 1.3;
   border: 2px solid #fff;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.55);
 }
 .splash .splash-lock {
   width: 420px;
   max-width: 90%;
-  margin: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  height: fit-content;
-  align-self: center;
-  top: 50%;
-  transform: translateY(-50%);
   z-index: 4;
   padding: 24px 28px 22px;
   box-sizing: border-box;
   text-align: left;
   color: #e8eef4;
-  background: rgba(15, 20, 25, 0.92);
+  background: rgba(15, 20, 25, 0.94);
   border: 2px solid #7eb6d4;
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.55);
   cursor: default;
@@ -530,6 +517,7 @@ body {
 .splash .splash-lock-title {
   margin: 0 0 10px;
   font-size: 20px;
+  line-height: 1.3;
   color: #b2c8f6;
   font-weight: 700;
 }
@@ -542,12 +530,14 @@ body {
 .splash .splash-lock-label {
   display: block;
   font-size: 12px;
+  line-height: 1.2;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #9aabb9;
   margin-bottom: 6px;
 }
 .splash .splash-lock-input {
+  display: block;
   width: 100%;
   box-sizing: border-box;
   background: #0f1419;
@@ -556,9 +546,10 @@ body {
   border-radius: 4px;
   padding: 10px 12px;
   font-size: 18px;
+  line-height: 1.2;
   letter-spacing: 0.2em;
   font-family: inherit;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 }
 .splash .splash-lock-input:focus {
   outline: none;
@@ -567,6 +558,7 @@ body {
 .splash .splash-lock-error {
   margin: 0 0 12px;
   font-size: 12px;
+  line-height: 1.3;
   color: #f59e0b;
 }
 .splash .splash-lock-submit {
@@ -575,6 +567,7 @@ body {
   border-radius: 20px;
   padding: 8px 18px;
   font-size: 13px;
+  line-height: 1.2;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
