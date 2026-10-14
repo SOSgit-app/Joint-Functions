@@ -1167,14 +1167,25 @@ body {
   cursor: pointer;
   font-family: inherit;
 }
+.endActivity .completion-downloaded {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: #22c55e;
+}
 .endActivity .completion-cancel {
   background: transparent;
   color: #b4d5e5;
+}
+.endActivity .completion-download {
+  background: #243044;
+  color: #e8eef4;
 }
 .endActivity .completion-confirm {
   background: #1f4c7f;
   color: #fff;
 }
+.endActivity .completion-download.disabled,
+.endActivity .completion-download:disabled,
 .endActivity .completion-confirm.disabled,
 .endActivity .completion-confirm:disabled {
   opacity: 0.45;
