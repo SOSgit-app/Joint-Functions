@@ -15,9 +15,9 @@
         <div class="completion-modal" data-bind="click: function(){}, clickBubble: false">
             <h2 class="completion-title">Joint Functions Activity — Completion Confirmation</h2>
             <p class="completion-copy">
-                Confirm that you have completed the Joint Functions activity. Enter your name below,
-                then choose <strong>Download Certificate</strong> to open a printable certificate
-                (use Print → Save as PDF). When ready, select <strong>Confirm Completion</strong> to continue.
+                Confirm that you have completed the Joint Functions activity. Enter your name,
+                then <strong>Download Certificate</strong> (Print → Save as PDF). You must download
+                the certificate before <strong>Confirm Completion</strong> becomes available.
             </p>
 
             <div class="completion-field">
@@ -32,13 +32,14 @@
                 <div class="completion-stamp" data-bind="text: completionDateTime"></div>
             </div>
 
-            <p class="completion-hint" data-bind="visible: !canConfirm()">Enter your name to download the certificate and confirm completion.</p>
+            <p class="completion-hint" data-bind="visible: !canDownload()">Enter your name to enable certificate download.</p>
+            <p class="completion-hint" data-bind="visible: canDownload() && !certificateDownloaded()">Download your certificate before confirming completion.</p>
             <p class="completion-downloaded" data-bind="visible: certificateDownloaded()">Certificate opened in a new window. Use <strong>Print / Save as PDF</strong> there, then return here to confirm completion.</p>
 
             <div class="completion-actions">
                 <button type="button" class="completion-cancel" data-bind="click: cancelCompletionConfirm">Cancel</button>
                 <button type="button" class="completion-download"
-                        data-bind="click: downloadCertificate, enable: canConfirm, css: { disabled: !canConfirm() }">
+                        data-bind="click: downloadCertificate, enable: canDownload, css: { disabled: !canDownload() }">
                     Download Certificate
                 </button>
                 <button type="button" class="completion-confirm"

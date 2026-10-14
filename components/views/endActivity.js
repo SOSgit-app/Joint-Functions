@@ -16,8 +16,12 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
           self.nameFieldFocused = ko.observable(false);
           self.certificateDownloaded = ko.observable(false);
 
-          self.canConfirm = ko.computed(function () {
+          self.canDownload = ko.computed(function () {
               return String(self.learnerName() || "").trim().length > 0;
+          });
+
+          self.canConfirm = ko.computed(function () {
+              return self.canDownload() && !!self.certificateDownloaded();
           });
 
           this.formatCompletionStamp = function (date) {
@@ -116,7 +120,7 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
           };
 
           this.downloadCertificate = function () {
-              if (!self.canConfirm()) {
+              if (!self.canDownload()) {
                   return;
               }
               var name = String(self.learnerName() || "").trim();
