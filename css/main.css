@@ -484,7 +484,7 @@ body {
   width: 1024px;
   position: relative;
 }
-.splash div {
+.splash .splash-proceed {
   width: 350px;
   padding: 10px 50px;
   height: 75px;
@@ -503,6 +503,83 @@ body {
   font-size: 24px;
   border: 2px solid #fff;
   background: rgba(0, 0, 0, 0.5);
+}
+.splash .splash-lock {
+  width: 420px;
+  max-width: 90%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: fit-content;
+  align-self: center;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  padding: 24px 28px 22px;
+  box-sizing: border-box;
+  text-align: left;
+  color: #e8eef4;
+  background: rgba(15, 20, 25, 0.92);
+  border: 2px solid #7eb6d4;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.55);
+  cursor: default;
+}
+.splash .splash-lock-title {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #b2c8f6;
+  font-weight: 700;
+}
+.splash .splash-lock-copy {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #d7e3ee;
+}
+.splash .splash-lock-label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9aabb9;
+  margin-bottom: 6px;
+}
+.splash .splash-lock-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #0f1419;
+  border: 1px solid #3d4f66;
+  color: #fff;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 18px;
+  letter-spacing: 0.2em;
+  font-family: inherit;
+  margin-bottom: 10px;
+}
+.splash .splash-lock-input:focus {
+  outline: none;
+  border-color: #7eb6d4;
+}
+.splash .splash-lock-error {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: #f59e0b;
+}
+.splash .splash-lock-submit {
+  display: inline-block;
+  border: 1px solid #7eb6d4;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  background: #1f4c7f;
+  color: #fff;
 }
 .video-modal {
   background: url("../assets/images/videoplayer.png") no-repeat;
@@ -750,11 +827,11 @@ body {
   margin: 0;
   margin-left: 10px;
   text-align: center;
+  line-height: 15px;
   padding: 0;
   position: absolute;
   left: 0;
   overflow: hidden;
-  line-height: 15px;
   color: white;
   font-size: 14px;
 }
@@ -809,46 +886,6 @@ body {
   padding: 0;
   overflow: hidden;
 }
-.scenario .elementDrop .el .element {
-  position: absolute !important;
-  top: 30px !important;
-  left: 0 !important;
-  margin: 0 !important;
-  cursor: default;
-  z-index: 1;
-}
-.scenario .elementDrop .el .element:hover {
-  background: url("../assets/images/btn_element_idle.png") no-repeat;
-}
-.scenario .functionEl.ui-draggable-helper {
-  margin: 0 !important;
-  z-index: 1000;
-}
-.scenario .functionDrop .el:nth-child(1),
-.scenario .elementDrop .el:nth-child(1),
-.scenario .secondColumn > div:nth-child(1) {
-  top: 0;
-}
-.scenario .functionDrop .el:nth-child(2),
-.scenario .elementDrop .el:nth-child(2),
-.scenario .secondColumn > div:nth-child(2) {
-  top: 118px;
-}
-.scenario .functionDrop .el:nth-child(3),
-.scenario .elementDrop .el:nth-child(3),
-.scenario .secondColumn > div:nth-child(3) {
-  top: 236px;
-}
-.scenario .functionDrop .el:nth-child(4),
-.scenario .elementDrop .el:nth-child(4),
-.scenario .secondColumn > div:nth-child(4) {
-  top: 354px;
-}
-.scenario .functionDrop .el:nth-child(5),
-.scenario .elementDrop .el:nth-child(5),
-.scenario .secondColumn > div:nth-child(5) {
-  top: 472px;
-}
 .scenario .thirdColumn {
   position: relative;
   width: 150px;
@@ -885,8 +922,45 @@ body {
   font-size: 14px;
   z-index: 1;
 }
-.scenario .element:hover {
-  background: url("../assets/images/btn_element_hover.png") no-repeat;
+.scenario .elementDrop .el .element {
+  position: absolute !important;
+  top: 30px !important;
+  left: 0 !important;
+  margin: 0 !important;
+  cursor: default;
+  z-index: 1;
+}
+.scenario .elementDrop .el .element:hover {
+  background: url("../assets/images/btn_element_idle.png") no-repeat;
+}
+.scenario .functionEl.ui-draggable-helper {
+  margin: 0 !important;
+  z-index: 1000;
+}
+.scenario .functionDrop .el:nth-child(1),
+.scenario .elementDrop .el:nth-child(1),
+.scenario .secondColumn > div:nth-child(1) {
+  top: 0px;
+}
+.scenario .functionDrop .el:nth-child(2),
+.scenario .elementDrop .el:nth-child(2),
+.scenario .secondColumn > div:nth-child(2) {
+  top: 118px;
+}
+.scenario .functionDrop .el:nth-child(3),
+.scenario .elementDrop .el:nth-child(3),
+.scenario .secondColumn > div:nth-child(3) {
+  top: 236px;
+}
+.scenario .functionDrop .el:nth-child(4),
+.scenario .elementDrop .el:nth-child(4),
+.scenario .secondColumn > div:nth-child(4) {
+  top: 354px;
+}
+.scenario .functionDrop .el:nth-child(5),
+.scenario .elementDrop .el:nth-child(5),
+.scenario .secondColumn > div:nth-child(5) {
+  top: 472px;
 }
 .scenario .reset {
   background: url("../assets/images/BTN_Reset_Idle.png") no-repeat;
