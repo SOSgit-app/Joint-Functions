@@ -7,6 +7,40 @@
             Col Sandoval
         </div>
         <div class="text" data-bind="html: feedback"></div>
-        <div class="endactivity_btn" data-bind="click: submit"></div>
+        <div class="endactivity_btn" data-bind="click: openCompletionConfirm" title="Complete activity"></div>
     </div>
+
+    <!-- ko if: showCompletionConfirm -->
+    <div class="completion-overlay" data-bind="click: cancelCompletionConfirm">
+        <div class="completion-modal" data-bind="click: function(){}, clickBubble: false">
+            <h2 class="completion-title">Joint Functions Activity — Completion Confirmation</h2>
+            <p class="completion-copy">
+                Confirm that you have completed the Joint Functions activity. Enter your name below, then select
+                <strong>Confirm Completion</strong> to continue.
+            </p>
+
+            <div class="completion-field">
+                <label for="completionName">Name</label>
+                <input id="completionName" type="text" maxlength="80"
+                       data-bind="value: learnerName, valueUpdate: 'input', hasFocus: nameFieldFocused"
+                       placeholder="Enter your full name" autocomplete="name" />
+            </div>
+
+            <div class="completion-field readonly">
+                <span class="label">Date &amp; time of completion</span>
+                <div class="completion-stamp" data-bind="text: completionDateTime"></div>
+            </div>
+
+            <p class="completion-hint" data-bind="visible: !canConfirm()">Enter your name to enable confirmation.</p>
+
+            <div class="completion-actions">
+                <button type="button" class="completion-cancel" data-bind="click: cancelCompletionConfirm">Cancel</button>
+                <button type="button" class="completion-confirm"
+                        data-bind="click: confirmCompletion, enable: canConfirm, css: { disabled: !canConfirm() }">
+                    Confirm Completion
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
 </div>

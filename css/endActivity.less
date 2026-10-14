@@ -35,7 +35,7 @@
 
 .endActivity .text {
     position: relative;
-   width: 639px;
+    width: 639px;
     height: 410px;
     float: left;
     left: 45px;
@@ -53,6 +53,7 @@
     float: right;
     right: 70px;
     top: 75px;
+    cursor: pointer;
 }
 
 .endActivity .congratulations {
@@ -63,3 +64,118 @@
     height: 26px;
 }
 
+.endActivity .completion-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1024px;
+    height: 625px;
+    background: rgba(0, 0, 0, 0.72);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.endActivity .completion-modal {
+    width: 520px;
+    max-width: 90%;
+    background: #132033;
+    border: 2px solid #7eb6d4;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.55);
+    padding: 22px 26px 20px;
+    color: #e8eef4;
+    text-align: left;
+}
+
+.endActivity .completion-title {
+    margin: 0 0 12px;
+    font-size: 18px;
+    color: #b2c8f6;
+    font-weight: 700;
+}
+
+.endActivity .completion-copy {
+    margin: 0 0 18px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #d7e3ee;
+}
+
+.endActivity .completion-field {
+    margin: 0 0 14px;
+}
+
+.endActivity .completion-field label,
+.endActivity .completion-field .label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #9aabb9;
+    margin-bottom: 6px;
+}
+
+.endActivity .completion-field input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #0f1419;
+    border: 1px solid #3d4f66;
+    color: #fff;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.endActivity .completion-field input:focus {
+    outline: none;
+    border-color: #7eb6d4;
+}
+
+.endActivity .completion-stamp {
+    background: rgba(126, 182, 212, 0.12);
+    border: 1px solid rgba(126, 182, 212, 0.35);
+    padding: 10px 12px;
+    font-size: 15px;
+    color: #fff;
+}
+
+.endActivity .completion-hint {
+    margin: 0 0 12px;
+    font-size: 12px;
+    color: #f59e0b;
+}
+
+.endActivity .completion-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.endActivity .completion-actions button {
+    border: 1px solid #7eb6d4;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.endActivity .completion-cancel {
+    background: transparent;
+    color: #b4d5e5;
+}
+
+.endActivity .completion-confirm {
+    background: #1f4c7f;
+    color: #fff;
+}
+
+.endActivity .completion-confirm.disabled,
+.endActivity .completion-confirm:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
