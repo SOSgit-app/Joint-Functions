@@ -51,6 +51,7 @@
       <button type="button" id="btnRemoveScenario" class="secondary" title="Remove scenario">−</button>
       <button type="button" id="btnImport" class="primary">Import handoff (.json)</button>
       <button type="button" id="btnExport" class="primary">Export handoff (.json)</button>
+      <button type="button" id="btnPaperTest" class="secondary" title="Download a printable student test and instructor answer key">Download paper test</button>
       <input type="file" id="fileInput" accept=".json,application/json" hidden />
     </div>
   </header>
@@ -93,6 +94,8 @@
     </section>
   </main>
 
+  <script src="paper-test.js"></script>
+  <script src="current-course-seed.js"></script>
   <script>
 (function () {
   "use strict";
@@ -103,6 +106,7 @@
     btnRemoveScenario: document.getElementById("btnRemoveScenario"),
     btnImport: document.getElementById("btnImport"),
     btnExport: document.getElementById("btnExport"),
+    btnPaperTest: document.getElementById("btnPaperTest"),
     fileInput: document.getElementById("fileInput"),
     status: document.getElementById("status"),
     validation: document.getElementById("validation"),
@@ -233,6 +237,12 @@
   }
 
   function startBlank() {
+    var seed = window.JNT601B_COURSE_SEED;
+    if (seed && seed.scenarios) {
+      loadHandoff(seed);
+      setStatus("Loaded current course scenario sets (" + getOrderedIds().length + "). Export handoff when you edit.", "ok");
+      return;
+    }
     state.scenarios = { scenario1: emptyScenario() };
     state.scenarioIds = ["scenario1"];
     state.currentId = "scenario1";
@@ -271,6 +281,17 @@
       scenarios: state.scenarios,
       validation: validation
     };
+  }
+
+  function downloadPaperTest() {
+    var ids = getOrderedIds();
+    if (!ids.length) { setStatus("No scenarios to print.", "err"); return; }
+    if (!window.Jnt601bPaperTest || !window.Jnt601bPaperTest.downloadPaperTest) {
+      setStatus("Paper test generator is missing. Keep this file next to paper-test.js.", "err");
+      return;
+    }
+    window.Jnt601bPaperTest.downloadPaperTest(state.scenarios, ids);
+    setStatus("Downloaded student paper test and instructor answer key (HTML). Print → Save as PDF if needed.", "ok");
   }
 
   function downloadJson() {
@@ -449,6 +470,7 @@
 
   els.btnImport.onclick = function () { els.fileInput.click(); };
   els.btnExport.onclick = downloadJson;
+  els.btnPaperTest.onclick = downloadPaperTest;
   els.fileInput.onchange = function () {
     var file = els.fileInput.files[0];
     els.fileInput.value = "";

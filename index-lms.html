@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta charset="utf-8" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <title>Joint Functions Map</title>
+    <link type="text/css" rel="stylesheet" href="css/main.min.css" />
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div id="applicationHost" class="page"></div>
+    <!-- LMS / SCORM package entry. Expects a real SCORM API from the host LMS.
+         For GitHub Pages / local browser play, use index.html or index-debug.html. -->
+
+    <script type="text/javascript" src="scripts/trc/trc.min.js" data-config="
+            scripts: [
+            'scripts/json2.min.js' ,
+            'scripts/jquery-2.0.2.min.js' ,
+            { 'src':
+            'scripts/trc/trc.scorm.js' }
+            ],
+            path: {
+            'lodash':
+            '../../client/lodash.min'
+            },
+            requirejs: 'scripts/require.js' ,
+            main: 'scripts/trc/trc.main.min' ,
+            app: '../../components/app'
+            "></script>
+</body>
+</html>

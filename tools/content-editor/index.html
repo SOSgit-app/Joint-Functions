@@ -26,9 +26,10 @@
       <button type="button" id="btnSaveAll" class="primary">Save all to project</button>
       <button type="button" id="btnDownload" class="secondary">Download .js file</button>
       <button type="button" id="btnExportHandoff" class="secondary">Export handoff (.json)</button>
+      <button type="button" id="btnPaperTest" class="secondary" title="Download a printable student test and instructor answer key">Download paper test</button>
       <button type="button" id="btnImportHandoff" class="secondary">Import handoff</button>
       <input type="file" id="handoffFile" accept=".json,application/json" hidden />
-      <a id="linkCourse" href="/index-debug.html" class="link-course" target="_blank">Open course ↗</a>
+      <a id="linkCourse" href="../../index.html" class="link-course" target="_blank">Open course ↗</a>
     </div>
   </header>
 
@@ -95,6 +96,8 @@
     </section>
   </main>
 
+  <script src="../paper-test.js"></script>
+  <script src="../current-course-seed.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

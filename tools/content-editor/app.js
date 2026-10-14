@@ -17,6 +17,7 @@
     btnSaveAll: document.getElementById("btnSaveAll"),
     btnDownload: document.getElementById("btnDownload"),
     btnExportHandoff: document.getElementById("btnExportHandoff"),
+    btnPaperTest: document.getElementById("btnPaperTest"),
     btnImportHandoff: document.getElementById("btnImportHandoff"),
     handoffFile: document.getElementById("handoffFile"),
     status: document.getElementById("status"),
@@ -205,6 +206,24 @@
   }
 
   function startBlankEditor() {
+    var seed = window.JNT601B_COURSE_SEED;
+    if (seed && seed.scenarios) {
+      state.scenarios = seed.scenarios;
+      state.scenarioIds = seed.scenarioIds
+        ? sortScenarioIds(seed.scenarioIds)
+        : sortScenarioIds(Object.keys(seed.scenarios));
+      Object.keys(state.scenarios).forEach(function (id) {
+        state.scenarios[id] = normalizeScenario(state.scenarios[id]);
+      });
+      state.currentId = state.scenarioIds[0] || "scenario1";
+      state.dirty = false;
+      renderScenarioSelect();
+      updateCourseLink();
+      render();
+      showValidationIssues(validateAllScenarios());
+      setStatus("Loaded current course scenario sets (" + state.scenarioIds.length + ").", "ok");
+      return;
+    }
     state.scenarios = { scenario1: emptyScenarioTemplate() };
     state.scenarioIds = ["scenario1"];
     state.currentId = "scenario1";
@@ -353,6 +372,23 @@
           setStatus("Removed " + body.id, "ok");
         });
       });
+  }
+
+  function downloadPaperTest() {
+    var ids = getOrderedScenarioIds();
+    if (!ids.length) {
+      setStatus("Nothing loaded to print. Reload from disk or import a handoff file first.", "err");
+      return;
+    }
+    if (!window.Jnt601bPaperTest || !window.Jnt601bPaperTest.downloadPaperTest) {
+      setStatus("Paper test generator is missing (tools/paper-test.js).", "err");
+      return;
+    }
+    window.Jnt601bPaperTest.downloadPaperTest(state.scenarios, ids);
+    setStatus(
+      "Downloaded student paper test and instructor answer key (HTML). Open each file and Print → Save as PDF if needed.",
+      "ok"
+    );
   }
 
   function exportHandoff() {
@@ -688,7 +724,7 @@
       idx = 0;
     }
     document.getElementById("linkCourse").href =
-      "/index-debug.html?scenario=" + idx;
+      "../../index.html?scenario=" + idx;
   }
 
   els.scenarioSelect.addEventListener("change", function () {
@@ -736,6 +772,7 @@
 
   els.btnDownload.addEventListener("click", downloadCurrent);
   els.btnExportHandoff.addEventListener("click", exportHandoff);
+  els.btnPaperTest.addEventListener("click", downloadPaperTest);
   els.btnImportHandoff.addEventListener("click", function () {
     els.handoffFile.click();
   });

@@ -24,15 +24,21 @@ try {
     New-Item -ItemType Directory -Path $staging -Force | Out-Null
 
   # SCORM entry + schema files
+  # Repo index.html is the GitHub Pages / browser demo (fake SCORM).
+  # Package the LMS entry as index.html so Canvas still finds the SCO launch file.
     foreach ($file in @(
             "imsmanifest.xml",
-            "index.html",
             "imscp_rootv1p1p2.xsd",
             "imsmd_rootv1p2p1.xsd",
             "adlcp_rootv1p2.xsd"
         )) {
         Copy-Item (Join-Path $root $file) (Join-Path $staging $file) -Force
     }
+    $lmsIndex = Join-Path $root "index-lms.html"
+    if (-not (Test-Path $lmsIndex)) {
+        throw "Missing index-lms.html (LMS/SCORM entry point)."
+    }
+    Copy-Item $lmsIndex (Join-Path $staging "index.html") -Force
 
   # Course runtime (no dev server, editor, tests, or node_modules)
     foreach ($dir in @("content", "components", "scripts", "css", "client", "assets")) {
