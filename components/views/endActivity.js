@@ -12,12 +12,16 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
           self.feedback = ko.observable(dataModel.content.endActivityText);
           self.showCompletionConfirm = ko.observable(false);
           self.learnerName = ko.observable("");
+          self.classNumber = ko.observable("");
+          self.flightNumber = ko.observable("");
           self.completionDateTime = ko.observable("");
           self.nameFieldFocused = ko.observable(false);
           self.certificateDownloaded = ko.observable(false);
 
           self.canDownload = ko.computed(function () {
-              return String(self.learnerName() || "").trim().length > 0;
+              return String(self.learnerName() || "").trim().length > 0 &&
+                  String(self.classNumber() || "").trim().length > 0 &&
+                  String(self.flightNumber() || "").trim().length > 0;
           });
 
           self.canConfirm = ko.computed(function () {
@@ -56,7 +60,7 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
                   .slice(0, 40) || "learner";
           };
 
-          this.buildCertificateHtml = function (name, stamp) {
+          this.buildCertificateHtml = function (name, classNumber, flightNumber, stamp) {
               var activityTitle = (dataModel.content && (dataModel.content.mission || dataModel.content.title)) ||
                   "Joint Functions Map";
               return (
@@ -65,13 +69,9 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
                   "<style>" +
                   "@page{size:landscape;margin:0.4in}" +
                   "*{box-sizing:border-box}" +
-                  "body{margin:0;background:#1b2430;font-family:Georgia,'Times New Roman',serif;color:#1a2332;}" +
-                  ".toolbar{position:sticky;top:0;z-index:5;display:flex;gap:10px;justify-content:center;padding:12px;background:#0f1419;font-family:'Segoe UI',Arial,sans-serif;}" +
-                  ".toolbar button{border:0;border-radius:6px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer}" +
-                  ".toolbar .print{background:#1f4c7f;color:#fff}" +
-                  ".toolbar .close{background:#3d4f66;color:#fff}" +
-                  ".page{min-height:calc(100vh - 56px);display:flex;align-items:center;justify-content:center;padding:24px;}" +
-                  ".cert{width:1050px;max-width:100%;aspect-ratio:11 / 8.5;background:linear-gradient(180deg,#fffdf8 0%,#f7f1e4 100%);border:14px solid #1f4c7f;outline:3px solid #c9a227;outline-offset:-22px;padding:42px 56px;text-align:center;position:relative;box-shadow:0 16px 40px rgba(0,0,0,.45);}" +
+                  "body{margin:0;background:#fff;font-family:Georgia,'Times New Roman',serif;color:#1a2332;}" +
+                  ".page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}" +
+                  ".cert{width:1050px;max-width:100%;aspect-ratio:11 / 8.5;background:linear-gradient(180deg,#fffdf8 0%,#f7f1e4 100%);border:14px solid #1f4c7f;outline:3px solid #c9a227;outline-offset:-22px;padding:42px 56px;text-align:center;position:relative;}" +
                   ".corner{position:absolute;width:54px;height:54px;border:3px solid #c9a227}" +
                   ".corner.tl{top:18px;left:18px;border-right:0;border-bottom:0}" +
                   ".corner.tr{top:18px;right:18px;border-left:0;border-bottom:0}" +
@@ -86,18 +86,11 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
                   ".ornament:before{left:0}.ornament:after{right:0}" +
                   ".presented{margin:0 0 8px;font-size:16px;color:#5a6575;}" +
                   ".name{margin:0 0 6px;font-size:40px;font-weight:700;color:#132033;border-bottom:2px solid #c9a227;display:inline-block;padding:0 18px 6px;min-width:42%;}" +
+                  ".unit{margin:0 0 8px;font-family:'Segoe UI',Arial,sans-serif;font-size:16px;color:#445060;}" +
                   ".statement{margin:18px auto 24px;max-width:720px;font-size:18px;line-height:1.55;color:#243044;}" +
                   ".meta{font-family:'Segoe UI',Arial,sans-serif;font-size:15px;color:#445060;margin-top:8px}" +
-                  ".footer{margin-top:34px;display:flex;justify-content:space-between;gap:24px;font-family:'Segoe UI',Arial,sans-serif;}" +
-                  ".sig{flex:1;text-align:center}" +
-                  ".sig .line{border-top:1px solid #6b7785;margin:28px 18px 8px;height:0}" +
-                  ".sig .label{font-size:12px;color:#5a6575;text-transform:uppercase;letter-spacing:.06em}" +
-                  "@media print{body{background:#fff}.toolbar{display:none}.page{padding:0;min-height:auto}.cert{box-shadow:none;width:100%;max-width:none}}" +
+                  "@media print{.page{padding:0;min-height:auto}.cert{width:100%;max-width:none}}" +
                   "</style></head><body>" +
-                  "<div class=\"toolbar\">" +
-                  "<button class=\"print\" type=\"button\" onclick=\"window.print()\">Print / Save as PDF</button>" +
-                  "<button class=\"close\" type=\"button\" onclick=\"window.close()\">Close</button>" +
-                  "</div>" +
                   "<div class=\"page\"><div class=\"cert\">" +
                   "<div class=\"corner tl\"></div><div class=\"corner tr\"></div><div class=\"corner bl\"></div><div class=\"corner br\"></div>" +
                   "<div class=\"seal\">SOS</div>" +
@@ -107,14 +100,12 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
                   "<div class=\"ornament\"></div>" +
                   "<p class=\"presented\">This certifies that</p>" +
                   "<p class=\"name\">" + self.escapeHtml(name) + "</p>" +
+                  "<p class=\"unit\">Class " + self.escapeHtml(classNumber) +
+                  " &nbsp;|&nbsp; Flight " + self.escapeHtml(flightNumber) + "</p>" +
                   "<p class=\"statement\">has successfully completed the Joint Functions activity and demonstrated the ability to apply Air Force core functions to scenario-based operational tasks.</p>" +
                   "<p class=\"meta\"><strong>Date &amp; time of completion</strong><br />" +
                   self.escapeHtml(stamp) +
                   "</p>" +
-                  "<div class=\"footer\">" +
-                  "<div class=\"sig\"><div class=\"line\"></div><div class=\"label\">Learner</div></div>" +
-                  "<div class=\"sig\"><div class=\"line\"></div><div class=\"label\">Instructor / Proctor</div></div>" +
-                  "</div>" +
                   "</div></div></body></html>"
               );
           };
@@ -124,11 +115,13 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
                   return;
               }
               var name = String(self.learnerName() || "").trim();
+              var classNumber = String(self.classNumber() || "").trim();
+              var flightNumber = String(self.flightNumber() || "").trim();
               var stamp = self.completionDateTime() || self.formatCompletionStamp(new Date());
               if (!self.completionDateTime()) {
                   self.completionDateTime(stamp);
               }
-              var html = self.buildCertificateHtml(name, stamp);
+              var html = self.buildCertificateHtml(name, classNumber, flightNumber, stamp);
               var filename =
                   "Joint_Functions_Certificate_" +
                   self.safeFilePart(name) +
@@ -136,19 +129,6 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
                   new Date().toISOString().slice(0, 10) +
                   ".html";
 
-              // Open a real certificate window (avoids replacing the activity page with a blank/dark view).
-              var certWindow = window.open("", "_blank", "noopener,noreferrer,width=1200,height=850");
-              if (certWindow) {
-                  certWindow.document.open();
-                  certWindow.document.write(html);
-                  certWindow.document.close();
-                  try {
-                      certWindow.document.title = "Certificate of Completion — " + name;
-                      certWindow.focus();
-                  } catch (e) { }
-              }
-
-              // Also offer a file download for saving/emailing.
               try {
                   var blob = new Blob([html], { type: "text/html;charset=utf-8" });
                   var a = document.createElement("a");
@@ -161,11 +141,15 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
                   window.setTimeout(function () {
                       URL.revokeObjectURL(a.href);
                   }, 1000);
-              } catch (e2) { }
+              } catch (e2) {
+                  return;
+              }
 
               self.certificateDownloaded(true);
               shell.completionRecord = {
                   name: name,
+                  classNumber: classNumber,
+                  flightNumber: flightNumber,
                   completedAt: stamp,
                   completedAtIso: new Date().toISOString(),
                   certificateDownloaded: true
@@ -179,6 +163,8 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
               }
               self.showCompletionConfirm(false);
               self.learnerName("");
+              self.classNumber("");
+              self.flightNumber("");
               self.completionDateTime("");
               self.certificateDownloaded(false);
           };
@@ -201,9 +187,13 @@ define(["knockout", "trc/trc.spa", "client/lodash.min.js"],
                   return;
               }
               var name = String(self.learnerName() || "").trim();
+              var classNumber = String(self.classNumber() || "").trim();
+              var flightNumber = String(self.flightNumber() || "").trim();
               var stamp = self.completionDateTime() || self.formatCompletionStamp(new Date());
               shell.completionRecord = {
                   name: name,
+                  classNumber: classNumber,
+                  flightNumber: flightNumber,
                   completedAt: stamp,
                   completedAtIso: new Date().toISOString(),
                   certificateDownloaded: !!self.certificateDownloaded()

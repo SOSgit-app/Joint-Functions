@@ -1107,6 +1107,15 @@ body {
   line-height: 1.45;
   color: #d7e3ee;
 }
+.endActivity .completion-field-row {
+  display: flex;
+  gap: 12px;
+  margin: 0 0 14px;
+}
+.endActivity .completion-field-row .completion-field {
+  flex: 1;
+  margin-bottom: 0;
+}
 .endActivity .completion-field {
   margin: 0 0 14px;
 }

@@ -15,9 +15,8 @@
         <div class="completion-modal" data-bind="click: function(){}, clickBubble: false">
             <h2 class="completion-title">Joint Functions Activity — Completion Confirmation</h2>
             <p class="completion-copy">
-                Confirm that you have completed the Joint Functions activity. Enter your name,
-                then <strong>Download Certificate</strong> (Print → Save as PDF). You must download
-                the certificate before <strong>Confirm Completion</strong> becomes available.
+                Enter your name, class, and flight number, then <strong>Download Certificate</strong>.
+                You must download the certificate before <strong>Confirm Completion</strong> becomes available.
             </p>
 
             <div class="completion-field">
@@ -27,14 +26,29 @@
                        placeholder="Enter your full name" autocomplete="name" />
             </div>
 
+            <div class="completion-field-row">
+                <div class="completion-field">
+                    <label for="completionClass">Class</label>
+                    <input id="completionClass" type="text" maxlength="40"
+                           data-bind="value: classNumber, valueUpdate: 'input'"
+                           placeholder="e.g. 26A" autocomplete="off" />
+                </div>
+                <div class="completion-field">
+                    <label for="completionFlight">Flight Number</label>
+                    <input id="completionFlight" type="text" maxlength="40"
+                           data-bind="value: flightNumber, valueUpdate: 'input'"
+                           placeholder="e.g. 12" autocomplete="off" />
+                </div>
+            </div>
+
             <div class="completion-field readonly">
                 <span class="label">Date &amp; time of completion</span>
                 <div class="completion-stamp" data-bind="text: completionDateTime"></div>
             </div>
 
-            <p class="completion-hint" data-bind="visible: !canDownload()">Enter your name to enable certificate download.</p>
+            <p class="completion-hint" data-bind="visible: !canDownload()">Enter your name, class, and flight number to enable certificate download.</p>
             <p class="completion-hint" data-bind="visible: canDownload() && !certificateDownloaded()">Download your certificate before confirming completion.</p>
-            <p class="completion-downloaded" data-bind="visible: certificateDownloaded()">Certificate opened in a new window. Use <strong>Print / Save as PDF</strong> there, then return here to confirm completion.</p>
+            <p class="completion-downloaded" data-bind="visible: certificateDownloaded()">Certificate downloaded. You can now confirm completion.</p>
 
             <div class="completion-actions">
                 <button type="button" class="completion-cancel" data-bind="click: cancelCompletionConfirm">Cancel</button>
