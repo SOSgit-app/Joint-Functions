@@ -1,16 +1,3 @@
-<div class="splash">
-    <div class="splash-lock" data-bind="visible: !unlocked(), click: function(){}, clickBubble: false">
-        <div class="splash-lock-title">Access Required</div>
-        <div class="splash-lock-copy">Enter the access code to begin the Joint Functions activity.</div>
-        <label class="splash-lock-label" for="activityAccessCode">Access code</label>
-        <input id="activityAccessCode" class="splash-lock-input" type="password" maxlength="12"
-               data-bind="value: password, valueUpdate: 'input', hasFocus: passwordFocused, event: { keyup: onPasswordKeyup }"
-               autocomplete="off" inputmode="numeric" placeholder="Enter code" />
-        <div class="splash-lock-error" data-bind="visible: showError()">Incorrect access code. Try again.</div>
-        <button type="button" class="splash-lock-submit" data-bind="click: submitPassword">Unlock</button>
-    </div>
-
-    <div class="splash-proceed" data-bind="visible: unlocked(), click: onButtonClick">
-        CLICK ANYWHERE TO PROCEED
-    </div>
+<div data-bind="click : $root.onButtonClick" class="splash">
+    <div class="splash-proceed">CLICK ANYWHERE TO PROCEED</div>
 </div>

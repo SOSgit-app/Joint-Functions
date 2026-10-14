@@ -1,6 +1,133 @@
 ﻿define(["knockout", "client/lodash.min.js", "trc/trc.spa", "components/playbook/models/roundlib", "content/jf504"],
   function (ko, _, SPA, RoundLib, content) {
 
+      var ACCESS_CODE = "8476";
+
+      function showAccessGate(onUnlocked) {
+          if (document.getElementById("jf-access-gate")) {
+              onUnlocked();
+              return;
+          }
+
+          var gate = document.createElement("div");
+          gate.id = "jf-access-gate";
+          gate.setAttribute("role", "dialog");
+          gate.setAttribute("aria-modal", "true");
+          gate.setAttribute("aria-label", "Access code required");
+          gate.style.cssText = [
+              "position:fixed",
+              "inset:0",
+              "z-index:2147483646",
+              "display:flex",
+              "align-items:center",
+              "justify-content:center",
+              "background:rgba(0,0,0,0.82)",
+              "font-family:Lato,Arial,sans-serif"
+          ].join(";");
+
+          var panel = document.createElement("div");
+          panel.style.cssText = [
+              "width:420px",
+              "max-width:92vw",
+              "box-sizing:border-box",
+              "padding:28px 30px 24px",
+              "background:#132033",
+              "border:2px solid #7eb6d4",
+              "box-shadow:0 16px 40px rgba(0,0,0,0.55)",
+              "color:#e8eef4",
+              "text-align:left"
+          ].join(";");
+
+          var title = document.createElement("div");
+          title.textContent = "Access Required";
+          title.style.cssText = "font-size:22px;font-weight:700;color:#b2c8f6;margin:0 0 10px;line-height:1.3;";
+
+          var copy = document.createElement("div");
+          copy.textContent = "Enter the access code to begin the Joint Functions activity.";
+          copy.style.cssText = "font-size:15px;line-height:1.45;color:#d7e3ee;margin:0 0 18px;";
+
+          var label = document.createElement("label");
+          label.htmlFor = "jf-access-code";
+          label.textContent = "Access code";
+          label.style.cssText = "display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.04em;color:#9aabb9;margin:0 0 6px;";
+
+          var input = document.createElement("input");
+          input.id = "jf-access-code";
+          input.type = "password";
+          input.maxLength = 12;
+          input.autocomplete = "off";
+          input.inputMode = "numeric";
+          input.placeholder = "Enter code";
+          input.style.cssText = [
+              "display:block",
+              "width:100%",
+              "box-sizing:border-box",
+              "padding:12px 14px",
+              "margin:0 0 12px",
+              "font-size:20px",
+              "letter-spacing:0.18em",
+              "border:1px solid #3d4f66",
+              "border-radius:4px",
+              "background:#0f1419",
+              "color:#fff",
+              "font-family:inherit"
+          ].join(";");
+
+          var error = document.createElement("div");
+          error.textContent = "Incorrect access code. Try again.";
+          error.style.cssText = "display:none;font-size:13px;color:#f59e0b;margin:0 0 12px;";
+
+          var button = document.createElement("button");
+          button.type = "button";
+          button.textContent = "Unlock";
+          button.style.cssText = [
+              "border:1px solid #7eb6d4",
+              "border-radius:20px",
+              "padding:10px 20px",
+              "font-size:14px",
+              "font-weight:700",
+              "cursor:pointer",
+              "background:#1f4c7f",
+              "color:#fff",
+              "font-family:inherit"
+          ].join(";");
+
+          function unlock() {
+              var entered = String(input.value || "").trim();
+              if (entered === ACCESS_CODE) {
+                  if (gate.parentNode) {
+                      gate.parentNode.removeChild(gate);
+                  }
+                  onUnlocked();
+                  return;
+              }
+              error.style.display = "block";
+              input.value = "";
+              input.focus();
+          }
+
+          button.addEventListener("click", unlock);
+          input.addEventListener("keydown", function (evt) {
+              if (evt.key === "Enter" || evt.keyCode === 13) {
+                  evt.preventDefault();
+                  unlock();
+              }
+          });
+
+          panel.appendChild(title);
+          panel.appendChild(copy);
+          panel.appendChild(label);
+          panel.appendChild(input);
+          panel.appendChild(error);
+          panel.appendChild(button);
+          gate.appendChild(panel);
+          document.body.appendChild(gate);
+
+          window.setTimeout(function () {
+              try { input.focus(); } catch (e) { }
+          }, 50);
+      }
+
       var isScormReady = false,
         scormError = null,
         isDataReady = false,
@@ -31,7 +158,9 @@
                 throw new Error(err);
             },
             launch: function () {
-                window.openModalView("splash");
+                showAccessGate(function () {
+                    window.openModalView("splash");
+                });
             }
         });
 
